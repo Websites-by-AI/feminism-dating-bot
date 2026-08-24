@@ -1,0 +1,86 @@
+# Sensitive files
+.env
+*.key
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+bot.log
+
+# Node modules
+node_modules/
+
+# Wrangler
+.wrangler/
+
+# Temporary files
+*.tmp
+*.bak
+
+# Cache and package directories
+.cache/
+.npm/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+
+# Process files
+*.pid
+*.seed
+*.pid.lock
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# Node
+node_modules/
+package-lock.json
+yarn.lock
+
+# Wrangler
+.wrangler/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

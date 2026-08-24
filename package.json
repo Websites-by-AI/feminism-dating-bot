@@ -1,0 +1,12 @@
+{
+  "name": "feminism-dating-website",
+  "version": "1.0.0",
+  "description": "Feminism AI Dating Bot - Landing Page",
+  "main": "index.html",
+  "scripts": {
+    "deploy": "wrangler pages deploy cloudflare-site --project-name feminism-dating"
+  },
+  "keywords": ["dating", "safety", "feminism", "ai", "telegram"],
+  "author": "Feminism AI Dating Team",
+  "license": "MIT"
+}

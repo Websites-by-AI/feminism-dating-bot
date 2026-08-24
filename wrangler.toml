@@ -1,0 +1,3 @@
+[build]
+  publish = "cloudflare-site"
+  command = "echo 'No build needed - static site'"
