@@ -57,6 +57,9 @@ from handlers.relationship_modes import (
     show_relationship_modes, select_relationship_mode,
     start_connection_test, run_connection_test
 )
+from handlers.mode_coaching import (
+    start_mode_coaching, handle_coaching_topic
+)
 
 # Configure logging
 logging.basicConfig(
@@ -128,6 +131,13 @@ async def handle_callback(update: Update, context):
     
     elif data.startswith('connection_test_'):
         return await run_connection_test(update, context)
+    
+    # Mode-Specific Coaching
+    elif data == 'mode_coaching':
+        return await start_mode_coaching(update, context)
+    
+    elif data.startswith('coach_topic_'):
+        return await handle_coaching_topic(update, context)
     
     # Settings
     elif data == 'settings':
@@ -239,6 +249,7 @@ def _get_main_menu_buttons(lang: str) -> InlineKeyboardMarkup:
         [InlineKeyboardButton('🧠 ' + get_text(lang, 'personality_test') if 'personality_test' in locals() else '🧠 Personality Test', callback_data='personality_test')],
         [InlineKeyboardButton('📅 ' + get_text(lang, 'date_history') if 'date_history' in locals() else '📅 Date History', callback_data='date_history')],
         [InlineKeyboardButton('🎯 ' + get_text(lang, 'relationship_modes') if 'relationship_modes' in locals() else '🎯 Relationship Modes', callback_data='relationship_modes')],
+        [InlineKeyboardButton('🎓 Mode Coaching', callback_data='mode_coaching')],
         [InlineKeyboardButton(get_text(lang, 'browse_profiles'), callback_data='browse')],
         [InlineKeyboardButton(get_text(lang, 'my_matches'), callback_data='matches')],
         [InlineKeyboardButton(get_text(lang, 'ai_chat'), callback_data='ai_chat')],
@@ -392,6 +403,22 @@ def main():
         per_user=True,
     )
     
+    # Mode Coaching conversation handler
+    mode_coaching_conv = ConversationHandler(
+        entry_points=[
+            CallbackQueryHandler(start_mode_coaching, pattern='^mode_coaching$'),
+        ],
+        states={
+            0: [  # Topic selection
+                CallbackQueryHandler(handle_coaching_topic, pattern='^coach_topic_'),
+            ],
+        },
+        fallbacks=[
+            CallbackQueryHandler(start_mode_coaching, pattern='^mode_coaching$'),
+        ],
+        per_user=True,
+    )
+    
     # Add handlers
     app.add_handler(CommandHandler('start', start))
     app.add_handler(CommandHandler('menu', show_main_menu))
@@ -409,6 +436,7 @@ def main():
     app.add_handler(personality_conv)
     app.add_handler(date_history_conv)
     app.add_handler(relationship_modes_conv)
+    app.add_handler(mode_coaching_conv)
     
     # Central callback handler (for non-conversation callbacks)
     app.add_handler(CallbackQueryHandler(handle_callback))
