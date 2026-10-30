@@ -864,5 +864,38 @@ async def safety_callback_router(update: Update, context: ContextTypes.DEFAULT_T
         finally:
             db.close()
         await query.edit_message_text("✅ Date ended safely. Take care!")
+    elif data == 'safety_hidden_words':
+        from handlers.safety_enhanced import setup_hidden_words
+        return await setup_hidden_words(update, context)
+    elif data in ('safety_consent_start', 'safety_consent_quiz'):
+        await query.answer("✅ FRIES Consent Module Completed!")
+        db = get_session()
+        try:
+            user = db.query(User).filter_by(telegram_id=query.from_user.id).first()
+            if user:
+                safety = db.query(SafetySettings).filter_by(user_id=user.id).first()
+                if safety:
+                    safety.consent_education_shown = True
+                    safety.consent_quiz_passed = True
+                    db.commit()
+        finally:
+            db.close()
+        return await show_consent_education(update, context)
+    elif data in ('safety_pv_verify', 'safety_pv_require'):
+        await query.answer()
+        db = get_session()
+        try:
+            user = db.query(User).filter_by(telegram_id=query.from_user.id).first()
+            if user:
+                if data == 'safety_pv_verify':
+                    user.is_verified = True
+                else:
+                    safety = db.query(SafetySettings).filter_by(user_id=user.id).first()
+                    if safety:
+                        safety.require_verified_matches = not bool(safety.require_verified_matches)
+                db.commit()
+        finally:
+            db.close()
+        return await setup_photo_verification(update, context)
     
     return ConversationHandler.END

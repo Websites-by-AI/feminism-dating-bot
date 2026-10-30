@@ -1,474 +1,318 @@
 """
-Personality Test Handler
-MBTI + Love Languages + Attachment Style + Enneagram
-Based on apps like Boo, Birdy, and PersonalityMatch
+Personality Assessment & Compatibility Handler (MBTI + Love Languages + Attachment)
 """
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes, ConversationHandler
-from database import get_session, User, PersonalityProfile, DatingIntentions
-from languages import get_text
-import logging
-import json
-from datetime import datetime
+from database import get_session, User, PersonalityProfile
+from ai_service import ai_service
 
-logger = logging.getLogger(__name__)
+MBTI_Q1, MBTI_Q2, MBTI_Q3, MBTI_Q4, LOVE_LANG, ATTACHMENT = range(10, 16)
 
-# Conversation states
-(
-    MBTI_Q1, MBTI_Q2, MBTI_Q3, MBTI_Q4, MBTI_Q5, MBTI_Q6, MBTI_Q7, MBTI_Q8,
-    LOVE_LANG_Q1, LOVE_LANG_Q2, LOVE_LANG_Q3, LOVE_LANG_Q4, LOVE_LANG_Q5,
-    ATTACHMENT_Q1, ATTACHMENT_Q2, ATTACHMENT_Q3, ATTACHMENT_Q4,
-    ENNEAGRAM_Q1, ENNEAGRAM_Q2, ENNEAGRAM_Q3,
-    SHOW_RESULTS
-) = range(21)
-
-
-# MBTI Questions (simplified - 8 questions for 4 dimensions)
 MBTI_QUESTIONS = {
     'fa': [
         {
-            'question': '🎭 در یک مهمانی بزرگ، شما معمولاً:',
+            'question': '۱/۴: در جمع‌های اجتماعی چطور انرژی می‌گیرید؟',
             'options': [
-                ('E', '🗣️ با افراد جدید صحبت می‌کنم و انرژی می‌گیرم'),
-                ('I', '📖 ترجیح می‌دهم با یک یا دو نفر صمیمی صحبت کنم')
+                ('E', '🗣️ با صحبت کردن با افراد زیاد انرژی می‌گیرم'),
+                ('I', '📖 با گفتگوی عمیق با یک یا دو نفر انرژی می‌گیرم'),
             ],
-            'dimension': 'EI'
         },
         {
-            'question': '📚 وقتی چیزی یاد می‌گیرید، بیشتر توجه می‌کنید به:',
+            'question': '۲/۴: چطور اطلاعات دریافت و تحلیل می‌کنید؟',
             'options': [
-                ('S', '🔍 جزئیات عملی و واقعیت‌ها'),
-                ('N', '💡 ایده‌ها و الگوهای کلی')
+                ('S', '🔍 روی واقعیت‌ها و جزئیات ملموس تمرکز می‌کنم'),
+                ('N', '💡 روی ایده‌ها، الگوها و احتمالات آینده تمرکز می‌کنم'),
             ],
-            'dimension': 'SN'
         },
         {
-            'question': '⚖️ وقتی تصمیم مهمی می‌گیرید:',
+            'question': '۳/۴: چطور تصمیم‌های مهم می‌گیرید؟',
             'options': [
-                ('T', '🧠 منطق و استدلال را در نظر می‌گیرم'),
-                ('F', '❤️ احساسات و تأثیر بر افراد را در نظر می‌گیرم')
+                ('T', '🧠 بر اساس منطق، تحلیل و عدالت'),
+                ('F', '❤️ بر اساس احساسات، ارزش‌ها و همدلی'),
             ],
-            'dimension': 'TF'
         },
         {
-            'question': '✈️ برای سفر ترجیح می‌دهید:',
+            'question': '۴/۴: سبک زندگی و برنامه‌ریزی شما چطور است؟',
             'options': [
-                ('J', '📋 از قبل برنامه‌ریزی کنم'),
-                ('P', '🎲 باز بگذارم و spontaneous باشم')
+                ('J', '📋 منظم، برنامه‌ریزی‌شده و مشخص'),
+                ('P', '🎲 منعطف، خودجوش و باز به تغییر'),
             ],
-            'dimension': 'JP'
         },
-        {
-            'question': '💬 در مکالمات:',
-            'options': [
-                ('E', '🎤 بیشتر صحبت می‌کنم و فکر می‌کنم'),
-                ('I', '🤔 اول فکر می‌کنم بعد صحبت می‌کنم')
-            ],
-            'dimension': 'EI'
-        },
-        {
-            'question': '🎨 وقتی با یک پروژه جدید روبرو می‌شوید:',
-            'options': [
-                ('S', '📊 از تجربیات گذشته و روش‌های اثبات شده استفاده می‌کنم'),
-                ('N', '🌟 روش‌های جدید و خلاقانه را امتحان می‌کنم')
-            ],
-            'dimension': 'SN'
-        },
-        {
-            'question': '💔 وقتی کسی ناراحت است:',
-            'options': [
-                ('T', '🛠️ راه حل منطقی ارائه می‌دهم'),
-                ('F', '🤗 اول همدردی و حمایت عاطفی می‌کنم')
-            ],
-            'dimension': 'TF'
-        },
-        {
-            'question': '📅 برای آخر هفته:',
-            'options': [
-                ('J', '📝 برنامه مشخص دارم'),
-                ('P', '🎈 بستگی به حال و هوا دارم')
-            ],
-            'dimension': 'JP'
-        }
     ],
     'en': [
         {
-            'question': '🎭 At a big party, you usually:',
+            'question': '1/4: How do you recharge in social settings?',
             'options': [
-                ('E', '🗣️ Talk to new people and gain energy'),
-                ('I', '📖 Prefer deep conversations with one or two people')
+                ('E', '🗣️ Energized by talking to many people'),
+                ('I', '📖 Energized by deep 1-on-1 conversations'),
             ],
-            'dimension': 'EI'
         },
         {
-            'question': '📚 When learning something, you focus more on:',
+            'question': '2/4: How do you process information?',
             'options': [
-                ('S', '🔍 Practical details and facts'),
-                ('N', '💡 Big ideas and patterns')
+                ('S', '🔍 Focus on concrete facts and details'),
+                ('N', '💡 Focus on ideas, patterns, and possibilities'),
             ],
-            'dimension': 'SN'
         },
         {
-            'question': '⚖️ When making important decisions:',
+            'question': '3/4: How do you make important decisions?',
             'options': [
-                ('T', '🧠 I consider logic and reasoning'),
-                ('F', '❤️ I consider feelings and impact on people')
+                ('T', '🧠 Logic, analysis, and fairness'),
+                ('F', '❤️ Empathy, values, and human impact'),
             ],
-            'dimension': 'TF'
         },
         {
-            'question': '✈️ For travel, you prefer to:',
+            'question': '4/4: What is your lifestyle preference?',
             'options': [
-                ('J', '📋 Plan everything in advance'),
-                ('P', '🎲 Keep it open and spontaneous')
+                ('J', '📋 Structured, planned, and organized'),
+                ('P', '🎲 Flexible, spontaneous, and adaptable'),
             ],
-            'dimension': 'JP'
         },
-        {
-            'question': '💬 In conversations:',
-            'options': [
-                ('E', '🎤 I talk and think out loud'),
-                ('I', '🤔 I think first, then speak')
-            ],
-            'dimension': 'EI'
-        },
-        {
-            'question': '🎨 When facing a new project:',
-            'options': [
-                ('S', '📊 I use proven methods from past experience'),
-                ('N', '🌟 I try new and creative approaches')
-            ],
-            'dimension': 'SN'
-        },
-        {
-            'question': '💔 When someone is upset:',
-            'options': [
-                ('T', '🛠️ I offer logical solutions'),
-                ('F', '🤗 I offer empathy and emotional support first')
-            ],
-            'dimension': 'TF'
-        },
-        {
-            'question': '📅 For the weekend:',
-            'options': [
-                ('J', '📝 I have a clear plan'),
-                ('P', '🎈 It depends on how I feel')
-            ],
-            'dimension': 'JP'
-        }
-    ]
-}
-
-# Love Language Questions
-LOVE_LANG_QUESTIONS = {
-    'fa': [
-        {
-            'question': '💕 کدام یک بیشتر باعث می‌شود احساس دوست داشته شدن کنید؟',
-            'options': [
-                ('words', '💬 تعریف و کلمات محبت‌آمیز'),
-                ('time', '⏰ وقت گذراندن با کیفیت'),
-                ('gifts', '🎁 هدایای متفکرانه'),
-                ('touch', '🤗 تماس فیزیکی و آغوش'),
-                ('acts', '🛠️ کمک در کارها و خدمات')
-            ]
-        }
     ],
-    'en': [
-        {
-            'question': '💕 Which makes you feel most loved?',
-            'options': [
-                ('words', '💬 Compliments and kind words'),
-                ('time', '⏰ Quality time together'),
-                ('gifts', '🎁 Thoughtful gifts'),
-                ('touch', '🤗 Physical affection and hugs'),
-                ('acts', '🛠️ Help with tasks and acts of service')
-            ]
-        }
-    ]
 }
 
-# Attachment Style Questions
+LOVE_LANGUAGE_QUESTIONS = {
+    'fa': {
+        'question': '💕 کدام مورد در رابطه برای شما از همه ارزشمندتر است؟',
+        'options': [
+            ('words', '💬 کلام محبت‌آمیز و تشویق'),
+            ('time', '⏰ وقت باکیفیت و توجه کامل'),
+            ('gifts', '🎁 هدیه‌های معنادار و یادگاری'),
+            ('service', '🤝 کمک عملی در کارها'),
+            ('touch', '🤗 تماس فیزیکی محترمانه (آغوش)'),
+        ],
+    },
+    'en': {
+        'question': '💕 What makes you feel most valued in a relationship?',
+        'options': [
+            ('words', '💬 Words of affirmation'),
+            ('time', '⏰ Undivided quality time'),
+            ('gifts', '🎁 Thoughtful gifts'),
+            ('service', '🤝 Acts of service'),
+            ('touch', '🤗 Respectful physical affection'),
+        ],
+    },
+}
+
 ATTACHMENT_QUESTIONS = {
-    'fa': [
-        {
-            'question': '🔐 وقتی شریک عاطفی‌تان دیر جواب پیام می‌دهد:',
-            'options': [
-                ('secure', '😊 مشکلی نیست، احتمالاً مشغول است'),
-                ('anxious', '😰 نگران می‌شوم و مدام گوشی‌ام را چک می‌کنم'),
-                ('avoidant', '😐 اهمیتی نمی‌دهم، کار خودم را می‌کنم')
-            ]
-        },
-        {
-            'question': '💑 در رابطه عاطفی، شما معمولاً:',
-            'options': [
-                ('secure', '🤝 راحت اعتماد می‌کنم و صمیمی هستم'),
-                ('anxious', '😟 نگرانم که طرف مقابل مرا ترک کند'),
-                ('avoidant', '🏃 از صمیمیت زیاد معذب می‌شوم')
-            ]
-        }
-    ],
-    'en': [
-        {
-            'question': '🔐 When your partner takes long to reply:',
-            'options': [
-                ('secure', '😊 No problem, they\'re probably busy'),
-                ('anxious', '😰 I get worried and keep checking my phone'),
-                ('avoidant', '😐 I don\'t mind, I continue with my day')
-            ]
-        },
-        {
-            'question': '💑 In relationships, you usually:',
-            'options': [
-                ('secure', '🤝 I trust easily and am comfortable with intimacy'),
-                ('anxious', '😟 I worry my partner will leave me'),
-                ('avoidant', '🏃 I feel uncomfortable with too much closeness')
-            ]
-        }
-    ]
+    'fa': {
+        'question': '🔗 وقتی شریک عاطفی‌تان چند ساعت دیر پیام می‌دهد چه حسی دارید؟',
+        'options': [
+            ('secure', '😊 آرامم؛ می‌دانم سرش شلوغ است و به هم اعتماد داریم'),
+            ('anxious', '😟 نگران می‌شوم که شاید علاقه‌اش کم شده'),
+            ('avoidant', '😐 مهم نیست، من هم ترجیح می‌دهم فضای مستقل داشته باشم'),
+            ('fearful', '😣 هم دلم نزدیکی می‌خواهد و هم از آسیب دیدن می‌ترسم'),
+        ],
+    },
+    'en': {
+        'question': '🔗 How do you feel when your partner replies late?',
+        'options': [
+            ('secure', '😊 Calm — I trust them and respect their busy time'),
+            ('anxious', '😟 Worried something might be wrong between us'),
+            ('avoidant', '😐 Fine — I value lots of independent space'),
+            ('fearful', '😣 Torn between wanting closeness and fearing hurt'),
+        ],
+    },
 }
+
+MBTI_DESCRIPTIONS = {
+    'INTJ': {'fa': '🎯 معمار استراتژیک — مستقل، عمیق و آینده‌نگر', 'en': '🎯 The Architect — Strategic, independent, visionary'},
+    'INTP': {'fa': '🔬 متفکر تحلیلی — کنجکاو، خلاق و منطقی', 'en': '🔬 The Logician — Curious, analytical, inventive'},
+    'ENTJ': {'fa': '👑 فرمانده هدفمند — قاطع، رهبر و برنامه‌ریز', 'en': '👑 The Commander — Bold, decisive, strategic leader'},
+    'ENTP': {'fa': '⚡ نوآور خلاق — پرانرژی، ایده‌پرداز و مناظره‌گر', 'en': '⚡ The Debater — Smart, curious intellectual explorer'},
+    'INFJ': {'fa': '🌟 حامی الهام‌بخش — همدل، شهودی و ارزش‌مدار', 'en': '🌟 The Advocate — Deeply empathetic, insightful idealist'},
+    'INFP': {'fa': '🌸 میانجی مهربان — اصیل، احساسی و خلاق', 'en': '🌸 The Mediator — Poetic, kind, values-driven'},
+    'ENFJ': {'fa': '💖 قهرمان الهام‌بخش — گرم، حامی و کاریزماتیک', 'en': '💖 The Protagonist — Warm, inspiring, supportive'},
+    'ENFP': {'fa': '🌈 پیکارگر پرشور — صمیمی، خلاق و مشتاق ارتباط', 'en': '🌈 The Campaigner — Enthusiastic, creative free spirit'},
+    'ISTJ': {'fa': '🏛️ بازرس وفادار — مسئولیت‌پذیر، صادق و پایدار', 'en': '🏛️ The Logistician — Reliable, grounded, loyal'},
+    'ISFJ': {'fa': '🛡️ مدافع دلسوز — فداکار، آرام و حامی امنیت عاطفی', 'en': '🛡️ The Defender — Dedicated, warm protector'},
+    'ESTJ': {'fa': '📋 مدیر منظم — ساختارمند، صریح و قابل اتکا', 'en': '📋 The Executive — Organized, honest, dependable'},
+    'ESFJ': {'fa': '🤝 میزبان صمیمی — مهربان، اجتماعی و همراه', 'en': '🤝 The Consul — Caring, social, harmonious'},
+    'ISTP': {'fa': '🛠️ مهارت‌گر مستقل — آرام، عمل‌گرا و حل‌کننده مسئله', 'en': '🛠️ The Virtuoso — Practical, calm problem-solver'},
+    'ISFP': {'fa': '🎨 ماجراجوی لطیف — هنرمند، مهربان و در لحظه', 'en': '🎨 The Adventurer — Gentle, artistic explorer'},
+    'ESTP': {'fa': '🚀 کارآفرین پرجنب‌وجوش — جسور، عمل‌گرا و اجتماعی', 'en': '🚀 The Entrepreneur — Energetic, perceptive doer'},
+    'ESFP': {'fa': '🎉 سرگرم‌کننده شاداب — خون‌گرم، خودجوش و مثبت', 'en': '🎉 The Entertainer — Spontaneous, joyful, warm'},
+}
+
+
+def _ensure_user(db, tg_user):
+    user = db.query(User).filter_by(telegram_id=tg_user.id).first()
+    if not user:
+        user = User(telegram_id=tg_user.id, username=tg_user.username, name=tg_user.first_name or 'User', language='fa')
+        db.add(user)
+        db.commit()
+    return user
 
 
 async def start_personality_test(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Start the personality test"""
+    """Show personality test intro"""
     query = update.callback_query
-    await query.answer()
-    
+    if query:
+        await query.answer()
+
     db = get_session()
     try:
-        user = db.query(User).filter_by(telegram_id=query.from_user.id).first()
-        if not user:
-            return ConversationHandler.END
-        
-        lang = user.language
-        
-        text = f"""🧠 {get_text(lang, 'personality_test_intro')}
+        user = _ensure_user(db, update.effective_user)
+        lang = user.language if user.language in ('fa', 'en') else 'en'
+        context.user_data['mbti_answers'] = []
 
-{get_text(lang, 'personality_test_what')}
-• 🎭 MBTI (16 نوع شخصیت)
-• 💕 زبان عشق (Love Language)
-• 🔐 سبک دلبستگی (Attachment Style)
-• 🔢 انیاگرام (Enneagram)
-
-{get_text(lang, 'personality_test_duration')}
-{get_text(lang, 'personality_test_benefits')}"""
-        
-        buttons = [
-            [InlineKeyboardButton(f"🚀 {get_text(lang, 'start_test')}", callback_data='personality_start')],
-            [InlineKeyboardButton(get_text(lang, 'back'), callback_data='back_to_menu')],
-        ]
-        keyboard = InlineKeyboardMarkup(buttons)
-        
-        await query.edit_message_text(text, reply_markup=keyboard)
-        
-    finally:
-        db.close()
-
-
-async def handle_mbti_question(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle MBTI test questions"""
-    query = update.callback_query
-    await query.answer()
-    
-    db = get_session()
-    try:
-        user = db.query(User).filter_by(telegram_id=query.from_user.id).first()
-        lang = user.language
-        
-        # Initialize MBTI scores in context
-        if 'mbti_scores' not in context.user_data:
-            context.user_data['mbti_scores'] = {'E': 0, 'I': 0, 'S': 0, 'N': 0, 'T': 0, 'F': 0, 'J': 0, 'P': 0}
-        
-        # Get selected option
-        data = query.data  # e.g., 'mbti_E', 'mbti_I'
-        if data.startswith('mbti_'):
-            selected = data.replace('mbti_', '')
-            context.user_data['mbti_scores'][selected] += 1
-        
-        # Get current question number
-        current_q = context.user_data.get('mbti_question_num', 0)
-        questions = MBTI_QUESTIONS.get(lang, MBTI_QUESTIONS['en'])
-        
-        # Move to next question
-        current_q += 1
-        context.user_data['mbti_question_num'] = current_q
-        
-        if current_q < len(questions):
-            # Show next question
-            q = questions[current_q]
-            buttons = [
-                [InlineKeyboardButton(opt[1], callback_data=f'mbti_{opt[0]}')]
-                for opt in q['options']
-            ]
-            keyboard = InlineKeyboardMarkup(buttons)
-            
-            progress = f"({current_q + 1}/{len(questions)})"
-            await query.edit_message_text(
-                f"{progress} {q['question']}",
-                reply_markup=keyboard
+        if user.language == 'fa':
+            intro_text = (
+                "🧠 **تست جامع شخصیت‌شناسی رابطه**\n\n"
+                "این ارزیابی علمی ۶ مرحله‌ای شامل موارد زیر است:\n"
+                "• تیپ شخصیتی MBTI (۴ سوال)\n"
+                "• زبان عشق اصلی شما (۱ سوال)\n"
+                "• سبک دلبستگی عاطفی (۱ سوال)\n\n"
+                "آماده‌اید؟"
             )
+            btn_start = "🚀 شروع تست"
+            btn_back = "🔙 بازگشت"
         else:
-            # MBTI complete, calculate result
-            scores = context.user_data['mbti_scores']
-            mbti_type = ''
-            mbti_type += 'E' if scores['E'] >= scores['I'] else 'I'
-            mbti_type += 'S' if scores['S'] >= scores['N'] else 'N'
-            mbti_type += 'T' if scores['T'] >= scores['F'] else 'F'
-            mbti_type += 'J' if scores['J'] >= scores['P'] else 'P'
-            
-            context.user_data['mbti_type'] = mbti_type
-            
-            # Move to Love Language test
-            context.user_data['love_lang_scores'] = {}
-            await _show_love_lang_question(query, lang, 0, context)
-            
+            intro_text = (
+                "🧠 **Relationship Personality Assessment**\n\n"
+                "This 6-step research-backed quiz covers:\n"
+                "• MBTI Personality Type (4 questions)\n"
+                "• Primary Love Language (1 question)\n"
+                "• Attachment Style (1 question)\n\n"
+                "Ready to begin?"
+            )
+            btn_start = "🚀 Start Quiz"
+            btn_back = "🔙 Back"
+
+        keyboard = [
+            [InlineKeyboardButton(btn_start, callback_data='personality_start')],
+            [InlineKeyboardButton(btn_back, callback_data='back_to_main')],
+        ]
+        if query:
+            await query.edit_message_text(intro_text, reply_markup=InlineKeyboardMarkup(keyboard))
+        else:
+            await update.message.reply_text(intro_text, reply_markup=InlineKeyboardMarkup(keyboard))
     finally:
         db.close()
 
 
-async def _show_love_lang_question(query, lang, q_num, context):
-    """Show love language question"""
-    questions = LOVE_LANG_QUESTIONS.get(lang, LOVE_LANG_QUESTIONS['en'])
-    
-    if q_num < len(questions):
-        q = questions[q_num]
-        buttons = [
-            [InlineKeyboardButton(opt[1], callback_data=f'lovelang_{opt[0]}')]
-            for opt in q['options']
-        ]
-        keyboard = InlineKeyboardMarkup(buttons)
-        
-        await query.edit_message_text(
-            f"💕 {get_text(lang, 'love_lang_question')} ({q_num + 1}/{len(questions)})\n\n{q['question']}",
-            reply_markup=keyboard
-        )
-        context.user_data['love_lang_q_num'] = q_num
-    else:
-        # Calculate top love language
-        scores = context.user_data.get('love_lang_scores', {})
-        top_lang = max(scores, key=scores.get) if scores else 'words'
-        context.user_data['love_lang'] = top_lang
-        
-        # Move to attachment style
-        context.user_data['attachment_scores'] = {}
-        await _show_attachment_question(query, lang, 0, context)
+async def _send_mbti_question(query, lang: str, q_idx: int):
+    q_lang = 'fa' if lang == 'fa' else 'en'
+    q_data = MBTI_QUESTIONS[q_lang][q_idx]
+    keyboard = [
+        [InlineKeyboardButton(opt_text, callback_data=f'mbti_{q_idx}_{code}')]
+        for code, opt_text in q_data['options']
+    ]
+    await query.edit_message_text(q_data['question'], reply_markup=InlineKeyboardMarkup(keyboard))
 
 
-async def _show_attachment_question(query, lang, q_num, context):
-    """Show attachment style question"""
-    questions = ATTACHMENT_QUESTIONS.get(lang, ATTACHMENT_QUESTIONS['en'])
-    
-    if q_num < len(questions):
-        q = questions[q_num]
-        buttons = [
-            [InlineKeyboardButton(opt[1], callback_data=f'attach_{opt[0]}')]
-            for opt in q['options']
-        ]
-        keyboard = InlineKeyboardMarkup(buttons)
-        
-        await query.edit_message_text(
-            f"🔐 {get_text(lang, 'attachment_question')} ({q_num + 1}/{len(questions)})\n\n{q['question']}",
-            reply_markup=keyboard
-        )
-        context.user_data['attachment_q_num'] = q_num
-    else:
-        # Calculate attachment style
-        scores = context.user_data.get('attachment_scores', {})
-        top_style = max(scores, key=scores.get) if scores else 'secure'
-        context.user_data['attachment_style'] = top_style
-        
-        # Save all results
-        await _save_personality_results(query, context)
+async def personality_callback_router(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Unified stateless/stateful callback router for all personality quiz steps"""
+    query = update.callback_query
+    data = query.data
 
+    if data == 'personality_test':
+        await start_personality_test(update, context)
+        return
 
-async def _save_personality_results(query, context):
-    """Save personality test results to database"""
+    await query.answer()
     db = get_session()
     try:
-        user = db.query(User).filter_by(telegram_id=query.from_user.id).first()
-        lang = user.language
-        
-        # Get or create personality profile
-        profile = db.query(PersonalityProfile).filter_by(user_id=user.id).first()
-        if not profile:
-            profile = PersonalityProfile(user_id=user.id)
-            db.add(profile)
-        
-        # Save MBTI
-        profile.mbti_type = context.user_data.get('mbti_type')
-        profile.mbti_scores = json.dumps(context.user_data.get('mbti_scores', {}))
-        
-        # Save Love Language
-        profile.love_language_1 = context.user_data.get('love_lang')
-        
-        # Save Attachment Style
-        profile.attachment_style = context.user_data.get('attachment_style')
-        
-        profile.test_completed = True
-        profile.test_date = datetime.utcnow()
-        
-        db.commit()
-        
-        # Show results
-        await _show_personality_results(query, context, lang)
-        
+        user = _ensure_user(db, update.effective_user)
+        lang = user.language or 'fa'
+        q_lang = 'fa' if lang == 'fa' else 'en'
+
+        if data == 'personality_start':
+            context.user_data['mbti_answers'] = []
+            await _send_mbti_question(query, lang, 0)
+            return
+
+        if data.startswith('mbti_'):
+            parts = data.split('_')
+            # Support both mbti_{q_idx}_{code} and legacy mbti_{code}
+            if len(parts) == 3:
+                q_idx = int(parts[1])
+                code = parts[2]
+            else:
+                code = parts[1]
+                q_idx = len(context.user_data.get('mbti_answers', []))
+
+            answers = context.user_data.get('mbti_answers', [])
+            if len(answers) > q_idx:
+                answers = answers[:q_idx]
+            answers.append(code)
+            context.user_data['mbti_answers'] = answers
+
+            if len(answers) < 4:
+                await _send_mbti_question(query, lang, len(answers))
+            else:
+                context.user_data['mbti_type'] = ''.join(answers[:4])
+                ll_data = LOVE_LANGUAGE_QUESTIONS[q_lang]
+                kb = [
+                    [InlineKeyboardButton(txt, callback_data=f'lovelang_{code}')]
+                    for code, txt in ll_data['options']
+                ]
+                await query.edit_message_text(ll_data['question'], reply_markup=InlineKeyboardMarkup(kb))
+            return
+
+        if data.startswith('lovelang_'):
+            context.user_data['love_language'] = data.replace('lovelang_', '')
+            att_data = ATTACHMENT_QUESTIONS[q_lang]
+            kb = [
+                [InlineKeyboardButton(txt, callback_data=f'attach_{code}')]
+                for code, txt in att_data['options']
+            ]
+            await query.edit_message_text(att_data['question'], reply_markup=InlineKeyboardMarkup(kb))
+            return
+
+        if data.startswith('attach_'):
+            attachment_style = data.replace('attach_', '')
+            mbti_type = context.user_data.get('mbti_type', 'INFJ')
+            love_lang = context.user_data.get('love_language', 'time')
+
+            personality = db.query(PersonalityProfile).filter_by(user_id=user.id).first()
+            if not personality:
+                personality = PersonalityProfile(user_id=user.id)
+                db.add(personality)
+
+            personality.mbti_type = mbti_type
+            personality.love_language_primary = love_lang
+            personality.attachment_style = attachment_style
+            personality.assessment_completed = True
+            db.commit()
+
+            desc_map = MBTI_DESCRIPTIONS.get(mbti_type, MBTI_DESCRIPTIONS['INFJ'])
+            desc = desc_map['fa'] if lang == 'fa' else desc_map['en']
+
+            ai_prompt = (
+                f"به فارسی در ۳ نکته کوتاه بگو تیپ شخصیتی {mbti_type} با زبان عشق {love_lang} و سبک دلبستگی {attachment_style} در رابطه عاطفی چه نقاط قوتی دارد و با چه افرادی سازگارتر است."
+                if lang == 'fa'
+                else f"In 3 concise bullet points, share relationship strengths and best partner compatibility for MBTI {mbti_type}, love language '{love_lang}', and '{attachment_style}' attachment."
+            )
+            ai_insights = await ai_service.chat(user.id, ai_prompt, lang)
+
+            if lang == 'fa':
+                result_text = (
+                    f"🎉 نتیجه شخصیت‌شناسی شما آماده شد!\n\n"
+                    f"🧠 تیپ MBTI: {mbti_type}\n{desc}\n\n"
+                    f"💕 زبان عشق: {love_lang}\n"
+                    f"🔗 سبک دلبستگی: {attachment_style}\n\n"
+                    f"🤖 تحلیل هوش مصنوعی:\n{ai_insights}"
+                )
+                kb = [
+                    [InlineKeyboardButton("💕 مشاهده پروفایل‌های سازگار", callback_data='browse')],
+                    [InlineKeyboardButton("🔄 تکرار تست", callback_data='personality_start')],
+                    [InlineKeyboardButton("🔙 منوی اصلی", callback_data='back_to_main')],
+                ]
+            else:
+                result_text = (
+                    f"🎉 Your Personality Assessment Results!\n\n"
+                    f"🧠 MBTI Type: {mbti_type}\n{desc}\n\n"
+                    f"💕 Love Language: {love_lang}\n"
+                    f"🔗 Attachment Style: {attachment_style}\n\n"
+                    f"🤖 AI Insights:\n{ai_insights}"
+                )
+                kb = [
+                    [InlineKeyboardButton("💕 Find Compatible Profiles", callback_data='browse')],
+                    [InlineKeyboardButton("🔄 Retake Quiz", callback_data='personality_start')],
+                    [InlineKeyboardButton("🔙 Main Menu", callback_data='back_to_main')],
+                ]
+
+            await query.edit_message_text(result_text, reply_markup=InlineKeyboardMarkup(kb))
     finally:
         db.close()
-
-
-async def _show_personality_results(query, context, lang):
-    """Display personality test results"""
-    mbti = context.user_data.get('mbti_type', '????')
-    love_lang = context.user_data.get('love_lang', 'words')
-    attachment = context.user_data.get('attachment_style', 'secure')
-    
-    # MBTI descriptions
-    mbti_descriptions = {
-        'INFJ': get_text(lang, 'mbti_infj'),
-        'ENFP': get_text(lang, 'mbti_enfp'),
-        # Add all 16 types...
-    }
-    
-    text = f"""🎉 {get_text(lang, 'personality_complete')}
-
-━━━━━━━━━━━━━━━━━━
-🎭 {get_text(lang, 'mbti_result')}: {mbti}
-{mbti_descriptions.get(mbti, get_text(lang, 'mbti_generic'))}
-
-💕 {get_text(lang, 'love_lang_result')}: {_get_love_lang_name(love_lang, lang)}
-
-🔐 {get_text(lang, 'attachment_result')}: {_get_attachment_name(attachment, lang)}
-━━━━━━━━━━━━━━━━━━
-
-{get_text(lang, 'personality_match_info')}"""
-    
-    buttons = [
-        [InlineKeyboardButton(f"💕 {get_text(lang, 'find_compatible')}", callback_data='find_compatible_matches')],
-        [InlineKeyboardButton(f"🔄 {get_text(lang, 'retake_test')}", callback_data='personality_start')],
-        [InlineKeyboardButton(get_text(lang, 'back'), callback_data='back_to_menu')],
-    ]
-    keyboard = InlineKeyboardMarkup(buttons)
-    
-    await query.edit_message_text(text, reply_markup=keyboard)
-
-
-def _get_love_lang_name(lang_code, lang):
-    """Get love language display name"""
-    names = {
-        'words': {'fa': '💬 کلمات محبت‌آمیز', 'en': '💬 Words of Affirmation'},
-        'time': {'fa': '⏰ وقت با کیفیت', 'en': '⏰ Quality Time'},
-        'gifts': {'fa': '🎁 هدایا', 'en': '🎁 Receiving Gifts'},
-        'touch': {'fa': '🤗 تماس فیزیکی', 'en': '🤗 Physical Touch'},
-        'acts': {'fa': '🛠️ خدمات', 'en': '🛠️ Acts of Service'},
-    }
-    return names.get(lang_code, {}).get(lang, lang_code)
-
-
-def _get_attachment_name(style, lang):
-    """Get attachment style display name"""
-    names = {
-        'secure': {'fa': '🤝 ایمن', 'en': '🤝 Secure'},
-        'anxious': {'fa': '😟 مضطرب', 'en': '😟 Anxious'},
-        'avoidant': {'fa': '🏃 اجتنابی', 'en': '🏃 Avoidant'},
-        'disorganized': {'fa': '🌀 ناایمن', 'en': '🌀 Disorganized'},
-    }
-    return names.get(style, {}).get(lang, style)

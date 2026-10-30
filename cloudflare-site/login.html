@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود - فمینیسم دوستیابی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #5B197B 0%, #FF6B6B 100%);
+            padding: 20px;
+        }
+        .top-links {
+            margin-bottom: 18px;
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .top-links a {
+            color: #fff;
+            text-decoration: none;
+            background: rgba(255,255,255,0.16);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 600;
+            backdrop-filter: blur(8px);
+            transition: all 0.25s;
+        }
+        .top-links a:hover { background: rgba(255,255,255,0.3); }
+        .login-box {
+            background: var(--bg-card);
+            padding: 38px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 460px;
+        }
+        .login-header { text-align: center; margin-bottom: 26px; }
+        .login-header i {
+            font-size: 54px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 14px;
+        }
+        .login-header h1 { color: var(--text-primary); font-size: 28px; margin-bottom: 6px; }
+        .login-header p { color: var(--text-secondary); font-size: 15px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; color: var(--text-primary); margin-bottom: 8px; font-weight: 600; }
+        .form-group input {
+            width: 100%; padding: 14px; border: 2px solid var(--border); border-radius: 10px;
+            font-size: 15px; background: var(--bg-input); color: var(--text-primary);
+        }
+        .btn-login {
+            width: 100%; padding: 14px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white; border: none; border-radius: 10px; font-size: 17px; font-weight: bold;
+            cursor: pointer; transition: all 0.3s;
+        }
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255, 107, 107, 0.35); }
+        .login-footer { text-align: center; margin-top: 18px; color: var(--text-secondary); }
+        .login-footer a { color: var(--primary); text-decoration: none; font-weight: 600; }
+        .demo-info {
+            background: rgba(255, 107, 107, 0.08);
+            padding: 15px; border-radius: 12px; margin-top: 20px;
+            border-right: 4px solid var(--primary);
+        }
+        .demo-info h4 { color: var(--primary); margin-bottom: 8px; font-size: 15px; }
+        .demo-row {
+            cursor: pointer; padding: 8px 10px; border-radius: 8px; font-size: 14px;
+            color: var(--text-secondary); transition: background 0.2s; margin: 4px 0;
+        }
+        .demo-row:hover { background: rgba(255, 107, 107, 0.14); color: var(--text-primary); }
+        .error-message {
+            background: rgba(244, 67, 54, 0.12); color: #e53935;
+            padding: 12px; border-radius: 8px; margin-bottom: 18px; display: none; font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="top-links">
+            <a href="index.html"><i class="fas fa-home"></i> صفحه اصلی</a>
+            <a href="app.html"><i class="fas fa-robot"></i> وب‌اپ هوش مصنوعی و تست‌ها</a>
+            <a href="safety.html"><i class="fas fa-shield-alt"></i> ۱۳ ابزار ایمنی</a>
+            <a href="education.html"><i class="fas fa-graduation-cap"></i> مرکز آموزش</a>
+        </div>
+
+        <div class="login-box">
+            <div class="login-header">
+                <i class="fas fa-heart"></i>
+                <h1>ورود به سیستم</h1>
+                <p>پلتفرم امن و هوشمند فمینیسم دوستیابی</p>
+            </div>
+
+            <div class="error-message" id="error-message"></div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username"><i class="fas fa-user"></i> نام کاربری یا ایمیل</label>
+                    <input type="text" id="username" name="username" required placeholder="مثال: sara123">
+                </div>
+
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-lock"></i> رمز عبور</label>
+                    <input type="password" id="password" name="password" required placeholder="رمز عبور خود را وارد کنید">
+                </div>
+
+                <button type="submit" class="btn-login" id="submit-btn">
+                    <i class="fas fa-sign-in-alt"></i> ورود به حساب
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <p>حساب کاربری ندارید؟ <a href="register.html">ثبت‌نام رایگان</a></p>
+            </div>
+
+            <div class="demo-info">
+                <h4><i class="fas fa-bolt"></i> ورود سریع دمو (با یک کلیک):</h4>
+                <div class="demo-row" onclick="fillDemo('sara123', 'demo123')">
+                    <strong>👤 کاربر ۱ (حالت جدی):</strong> sara123 / demo123
+                </div>
+                <div class="demo-row" onclick="fillDemo('maryam123', 'demo123')">
+                    <strong>🚀 کاربر ۲ (شریک استارتاپی):</strong> maryam123 / demo123
+                </div>
+                <div class="demo-row" onclick="fillDemo('admin', 'admin123')">
+                    <strong>👑 پنل مدیریت (Admin):</strong> admin / admin123
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        if (window.authService && window.authService.getCurrentUser()) {
+            const cur = window.authService.getCurrentUser();
+            window.location.href = cur.role === 'admin' ? 'admin.html' : 'dashboard.html';
+        }
+
+        function fillDemo(username, password) {
+            document.getElementById('username').value = username;
+            document.getElementById('password').value = password;
+            document.getElementById('login-form').requestSubmit();
+        }
+
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال بررسی...';
+            errorMessage.style.display = 'none';
+
+            const result = await window.authService.loginAsync(username, password);
+            if (result.success) {
+                window.location.href = result.user.role === 'admin' ? 'admin.html' : 'dashboard.html';
+            } else {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> ورود به حساب';
+                errorMessage.textContent = result.message || 'نام کاربری یا رمز عبور اشتباه است';
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

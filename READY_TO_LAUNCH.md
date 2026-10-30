@@ -3,7 +3,7 @@
 ## ✅ وضعیت فعلی - Current Status
 
 ### 🤖 ربات تلگرام - Telegram Bot
-- ✅ **Bot Token**: `8944962741:AAHJXca_OjSCdciyfW4bfNsQUn_iHmsxKeo`
+- ✅ **Bot Token**: `<YOUR_TELEGRAM_BOT_TOKEN>`
 - ✅ **Bot Username**: `@femenism_ai_dating_bot`
 - ✅ **Database**: Initialized with all tables
 - ✅ **Languages**: 9 languages supported (Farsi default)

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد یکپارچه - فمینیسم دوستیابی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .unified-dashboard { max-width: 1400px; margin: 0 auto; padding: 30px 20px; }
+        .dashboard-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 26px; padding: 24px; background: var(--bg-card);
+            border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .user-info { display: flex; align-items: center; gap: 15px; }
+        .user-avatar {
+            width: 56px; height: 56px; border-radius: 50%;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 22px; font-weight: bold;
+        }
+        .bot-integration {
+            background: linear-gradient(135deg, #5B197B 0%, #2563EB 100%);
+            color: white; padding: 28px; border-radius: 16px; text-align: center; margin-bottom: 28px;
+        }
+        .bot-btn {
+            display: inline-block; padding: 13px 28px; background: #FFC629; color: #1a1a1a;
+            border-radius: 50px; text-decoration: none; font-weight: 800; margin: 8px 6px 0;
+        }
+        .dashboard-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 22px; margin-bottom: 28px;
+        }
+        .dashboard-card {
+            background: var(--bg-card); padding: 24px; border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .dashboard-card h3 { color: var(--primary); font-size: 19px; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+        .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        .stat-box { background: var(--bg-input); padding: 18px; border-radius: 10px; text-align: center; }
+        .stat-box .number { font-size: 28px; font-weight: bold; color: var(--primary); }
+        .stat-box .label { color: var(--text-secondary); font-size: 13px; }
+        .action-buttons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .action-btn {
+            padding: 12px; background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            color: white; border: none; border-radius: 8px; font-weight: 600;
+            display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;
+        }
+        .feature-list { list-style: none; padding: 0; }
+        .feature-list li { padding: 10px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+        .feature-list li i { color: #2e7d32; }
+    </style>
+</head>
+<body>
+    <header class="menu-bar">
+        <div class="menu-container">
+            <a href="index.html" class="menu-logo">
+                <i class="fas fa-heart"></i>
+                <span>فمینیسم دوستیابی</span>
+            </a>
+            <nav class="menu-nav">
+                <ul class="menu-links">
+                    <li><a href="index.html"><i class="fas fa-home"></i> خانه</a></li>
+                    <li><a href="app.html"><i class="fas fa-robot"></i> وب‌اپ AI</a></li>
+                    <li><a href="safety.html"><i class="fas fa-shield-alt"></i> ایمنی</a></li>
+                    <li><a href="education.html"><i class="fas fa-book"></i> آموزش</a></li>
+                    <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> داشبورد</a></li>
+                </ul>
+                <div class="menu-actions">
+                    <button onclick="window.themeManager.toggleTheme()" class="theme-toggle" title="تغییر تم">
+                        <i class="fas fa-moon" id="theme-toggle"></i>
+                    </button>
+                    <a href="#" onclick="window.authService.logout(); window.location.href='login.html';" class="menu-btn menu-btn-secondary">
+                        <i class="fas fa-sign-out-alt"></i><span>خروج</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="unified-dashboard">
+        <div class="dashboard-header">
+            <h1><i class="fas fa-layer-group"></i> داشبورد یکپارچه وب و تلگرام</h1>
+            <div class="user-info">
+                <div class="user-avatar" id="u-avatar">س</div>
+                <div>
+                    <h3 id="user-name">کاربر</h3>
+                    <p id="user-role" style="color:var(--text-secondary);font-size:13px;">کاربر فعال</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bot-integration">
+            <h2><i class="fas fa-robot"></i> دسترسی هم‌زمان در وب‌اپ و تلگرام</h2>
+            <p style="margin:8px 0 14px;opacity:0.92;">تمامی امکانات مشاور هوش مصنوعی RAG، تست شخصیت و ۱۰ حالت رابطه هم در مرورگر و هم در تلگرام فعال هستند.</p>
+            <a href="app.html" class="bot-btn"><i class="fas fa-sparkles"></i> باز کردن وب‌اپ هوش مصنوعی</a>
+            <a href="https://t.me/femenism_ai_dating_bot" target="_blank" class="bot-btn" style="background:#fff;color:#5B197B;">
+                <i class="fab fa-telegram"></i> باز کردن ربات تلگرام
+            </a>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <h3><i class="fas fa-chart-line"></i> آمار زنده پلتفرم</h3>
+                <div class="stat-grid">
+                    <div class="stat-box"><div class="number" id="st-matches">128</div><div class="label">تطابق‌های موفق</div></div>
+                    <div class="stat-box"><div class="number" id="st-users">7</div><div class="label">کاربران تاییدشده</div></div>
+                    <div class="stat-box"><div class="number" id="st-tests">3</div><div class="label">تست‌های ثبت‌شده</div></div>
+                    <div class="stat-box"><div class="number">100%</div><div class="label">امتیاز ایمنی شما</div></div>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <h3><i class="fas fa-bolt"></i> ابزارهای کاربردی</h3>
+                <div class="action-buttons">
+                    <a href="app.html?tab=discover" class="action-btn"><i class="fas fa-search"></i> کاوش پروفایل‌ها</a>
+                    <a href="dashboard.html" class="action-btn"><i class="fas fa-user-edit"></i> پروفایل من</a>
+                    <a href="safety.html" class="action-btn"><i class="fas fa-shield-alt"></i> ۱۳ ابزار ایمنی</a>
+                    <a href="education.html" class="action-btn"><i class="fas fa-graduation-cap"></i> ۱۰ ماژول آموزشی</a>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <h3><i class="fas fa-check-double"></i> ماژول‌های فعال سیستم</h3>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check-circle"></i> مشاور هوش مصنوعی RAG مبتنی بر مقالات علمی</li>
+                    <li><i class="fas fa-check-circle"></i> ۱۰ حالت رابطه (شامل 🚀 استارتاپی و 🌍 بین‌المللی)</li>
+                    <li><i class="fas fa-check-circle"></i> تست شخصیت MBTI + سبک دلبستگی + زبان عشق</li>
+                    <li><i class="fas fa-check-circle"></i> ۱۳ ویژگی ایمنی فمینیستی + دکمه SOS زنده</li>
+                    <li><i class="fas fa-check-circle"></i> پشتیبانی ۹ زبان زنده دنیا</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        const currentUser = window.authService.getCurrentUser();
+        if (!currentUser) {
+            window.location.href = 'login.html';
+        } else {
+            const name = currentUser.name || `${currentUser.firstName || ''} ${currentUser.lastName || ''}`.trim();
+            document.getElementById('user-name').textContent = name;
+            document.getElementById('user-role').textContent = currentUser.role === 'admin' ? '👑 مدیر سیستم' : `📍 ${currentUser.city || 'کاربر تاییدشده'}`;
+            document.getElementById('u-avatar').textContent = name.charAt(0) || 'ک';
+        }
+
+        fetch(`${window.FEMINISM_API_BASE}/api/admin/stats`)
+            .then(r => r.json())
+            .then(d => {
+                if (d.total_matches !== undefined) document.getElementById('st-matches').textContent = d.total_matches;
+                if (d.total_users !== undefined) document.getElementById('st-users').textContent = d.total_users;
+                if (d.total_tests !== undefined) document.getElementById('st-tests').textContent = d.total_tests;
+            })
+            .catch(() => {});
+    </script>
+</body>
+</html>

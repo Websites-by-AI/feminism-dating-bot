@@ -320,8 +320,14 @@ async def handle_outcome(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     
-    outcome = query.data.replace('outcome_', '')
-    context.user_data['new_date']['outcome'] = outcome
+    raw_outcome = query.data.replace('outcome_', '')
+    outcome_map = {
+        'second': 'want_second_date',
+        'friend': 'friendzoned',
+        'deciding': 'still_deciding',
+    }
+    outcome = outcome_map.get(raw_outcome, raw_outcome)
+    context.user_data.setdefault('new_date', {})['outcome'] = outcome
     
     # Save date record
     db = get_session()

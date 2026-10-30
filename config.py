@@ -1,4 +1,4 @@
-"""Configuration file for the dating bot"""
+"""Configuration file for the Feminism AI Dating Bot"""
 import os
 from dotenv import load_dotenv
 
@@ -7,7 +7,15 @@ load_dotenv()
 # Telegram Bot Token
 BOT_TOKEN = os.getenv('BOT_TOKEN', 'YOUR_BOT_TOKEN_HERE')
 
-# AI API Keys (all optional, bot will use fallback chain)
+# Cloud Edge RAG API (Cloudflare Workers AI + KV)
+CLOUDFLARE_API_URL = os.getenv(
+    'CLOUDFLARE_API_URL',
+    'https://feminism-dating-api.elasa2next.workers.dev'
+)
+CLOUDFLARE_ACCOUNT_ID = os.getenv('CLOUDFLARE_ACCOUNT_ID', '')
+CLOUDFLARE_API_TOKEN = os.getenv('CLOUDFLARE_API_TOKEN', '')
+
+# AI API Keys (optional — fallback chain: Cloudflare Workers AI -> HuggingFace Router -> OpenRouter -> Gemini)
 HUGGINGFACE_API_KEY = os.getenv('HUGGINGFACE_API_KEY', '')
 HUGGINGFACE_API_KEY_2 = os.getenv('HUGGINGFACE_API_KEY_2', '')
 OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY', '')
@@ -24,15 +32,15 @@ PHOTO_REQUIRED = False
 
 # Supported Languages
 SUPPORTED_LANGUAGES = {
-    'fa': 'فارسی',  # Farsi
+    'fa': 'فارسی',
     'en': 'English',
-    'sv': 'Svenska',  # Swedish
-    'de': 'Deutsch',  # German
-    'tr': 'Türkçe',  # Turkish
-    'ar': 'العربية',  # Arabic
-    'fr': 'Français',  # French
-    'es': 'Español',  # Spanish
-    'ku': 'کوردی',  # Kurdish
+    'sv': 'Svenska',
+    'de': 'Deutsch',
+    'tr': 'Türkçe',
+    'ar': 'العربية',
+    'fr': 'Français',
+    'es': 'Español',
+    'ku': 'کوردی',
 }
 
-DEFAULT_LANGUAGE = 'fa'  # Farsi as default
+DEFAULT_LANGUAGE = 'fa'

@@ -1,258 +1,158 @@
 """
-Mode-Specific AI Dating Coach
-Provides tailored advice based on relationship mode
+Mode-Specific Relationship Coaching (Supports All 10 Modes incl. Startup & International)
 """
-
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import ContextTypes, ConversationHandler
+from telegram.ext import ContextTypes
 from database import get_session, User, RelationshipPreferences
-from languages import get_text
 from ai_service import ai_service
-import logging
+from handlers.relationship_modes import get_mode_info
 
-logger = logging.getLogger(__name__)
-
-# Conversation states
-SELECT_COACHING_TOPIC, COACHING_RESPONSE = range(2)
-
-# Mode-specific coaching topics
 MODE_COACHING_TOPICS = {
+    'startup': {
+        'fa': [
+            ('📝 قرارداد هم‌بنیان‌گذاری و سهام', 'equity_vesting'),
+            ('⚖️ مرز رابطه عاطفی و کاری', 'work_love_boundary'),
+            ('🚩 نشانه‌های خطر سوءاستفاده کاری', 'startup_red_flags'),
+            ('🤝 حل تعارض استارتاپی بدون آسیب به رابطه', 'founder_conflict'),
+        ],
+        'en': [
+            ('📝 Co-founder Equity & Vesting', 'equity_vesting'),
+            ('⚖️ Work vs. Relationship Boundaries', 'work_love_boundary'),
+            ('🚩 Sweat-Equity Red Flags', 'startup_red_flags'),
+            ('🤝 Healthy Founder Conflict Resolution', 'founder_conflict'),
+        ],
+    },
+    'abroad': {
+        'fa': [
+            ('🌍 ریتم ارتباط سالم از راه دور', 'ldr_rhythm'),
+            ('🛂 واقع‌بینی درباره ویزا و مهاجرت مستقل', 'visa_autonomy'),
+            ('🛡️ پیشگیری از کلاهبرداری عاطفی بین‌المللی', 'intl_scam_safety'),
+            ('✈️ پروتکل ایمنی اولین ملاقات حضوری در سفر', 'travel_meet_safety'),
+        ],
+        'en': [
+            ('🌍 Healthy Long-Distance Rhythm', 'ldr_rhythm'),
+            ('🛂 Visa & Legal Autonomy Abroad', 'visa_autonomy'),
+            ('🛡️ Cross-Border Scam Protection', 'intl_scam_safety'),
+            ('✈️ Safe First In-Person Travel Protocol', 'travel_meet_safety'),
+        ],
+    },
     'serious': {
-        'name': '💍 Serious Relationship',
-        'topics': [
-            '🗣️ How to build deep conversation',
-            '💑 Signs of long-term compatibility',
-            '🏡 Discussing future plans',
-            '💕 Building trust and intimacy',
-            '🎯 How to show commitment'
-        ]
+        'fa': [
+            ('🎯 ارزیابی سازگاری ارزش‌ها', 'compatibility'),
+            ('💬 سوالات عمیق شناخت متقابل', 'deep_questions'),
+            ('🚩 تشخیص نشانه‌های خطر اولیه', 'red_flags'),
+            ('💍 زمان‌بندی سالم پیشرفت رابطه', 'timeline'),
+        ],
+        'en': [
+            ('🎯 Assessing Core Values', 'compatibility'),
+            ('💬 Deep Compatibility Questions', 'deep_questions'),
+            ('🚩 Spotting Early Red Flags', 'red_flags'),
+            ('💍 Healthy Relationship Pacing', 'timeline'),
+        ],
     },
-    'casual': {
-        'name': '🌸 Casual Dating',
-        'topics': [
-            '😊 Keeping things light and fun',
-            '🎬 Creative date ideas',
-            '💬 How to flirt without pressure',
-            '🚩 Setting casual boundaries',
-            '😄 Reading casual interest signals'
-        ]
-    },
-    'one_night': {
-        'name': '🔥 One Night',
-        'topics': [
-            '💬 How to chat confidently',
-            '📍 How to find the right location',
-            '🎯 Reading interest signals',
-            '🔥 Building attraction quickly',
-            '✅ Safety and consent tips'
-        ]
-    },
-    'friendship': {
-        'name': '👥 Friendship',
-        'topics': [
-            '🤝 Building platonic connection',
-            '🎮 Fun friend activities',
-            '💬 Deep friendship conversations',
-            '🚫 Setting friendship boundaries',
-            '🎉 Group social tips'
-        ]
-    },
-    'marriage': {
-        'name': '💒 Marriage',
-        'topics': [
-            '💍 Discussing marriage early',
-            '🏠 Alignment on life goals',
-            '💰 Financial compatibility talk',
-            '👨‍👩‍👧 Family planning discussions',
-            '🎯 Showing marriage readiness'
-        ]
-    },
-    'open': {
-        'name': '🌈 Open Relationship',
-        'topics': [
-            '💬 How to discuss ENM',
-            '📋 Setting relationship rules',
-            '🔒 Managing jealousy',
-            '✅ Consent and boundaries',
-            '🤝 Communication with multiple partners'
-        ]
-    },
-    'emotional': {
-        'name': '💝 Emotional Connection',
-        'topics': [
-            '💕 Deep emotional conversations',
-            '🧠 Understanding attachment styles',
-            '❤️ Building vulnerability',
-            '🤗 Showing emotional availability',
-            '🎯 Recognizing emotional compatibility'
-        ]
-    },
-    'intellectual': {
-        'name': '🧠 Intellectual Connection',
-        'topics': [
-            '💭 Stimulating conversations',
-            '📚 Sharing intellectual interests',
-            '🎭 Cultural discussion topics',
-            '🧪 Debate and discussion tips',
-            '🎯 Finding intellectual matches'
-        ]
-    }
+}
+
+DEFAULT_TOPICS = {
+    'fa': [
+        ('🛡️ چک‌لیست ایمنی و حریم شخصی', 'safety_first'),
+        ('💬 بیان محترمانه مرزها و رضایت FRIES', 'fries_boundaries'),
+        ('🚩 تشخیص نشانه‌های کنترل‌گری', 'red_flags'),
+        ('✨ شروع گفتگوی جذاب و محترمانه', 'opening_moves'),
+    ],
+    'en': [
+        ('🛡️ Personal Safety & Privacy Checklist', 'safety_first'),
+        ('💬 Communicating FRIES Consent & Boundaries', 'fries_boundaries'),
+        ('🚩 Spotting Controlling Red Flags', 'red_flags'),
+        ('✨ Respectful Opening Moves', 'opening_moves'),
+    ],
 }
 
 
-async def start_mode_coaching(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Start mode-specific coaching"""
+async def show_mode_coaching(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Show AI coaching topics tailored to the user's active relationship mode"""
     query = update.callback_query
-    await query.answer()
-    
+    if query:
+        await query.answer()
+
     db = get_session()
     try:
-        user = db.query(User).filter_by(telegram_id=query.from_user.id).first()
+        tg_user = update.effective_user
+        user = db.query(User).filter_by(telegram_id=tg_user.id).first()
         if not user:
-            return ConversationHandler.END
-        
-        # Get user's relationship mode
-        rel_pref = db.query(RelationshipPreferences).filter_by(user_id=user.id).first()
-        
-        if not rel_pref:
-            await query.edit_message_text(
-                "❌ Please select a relationship mode first!",
-                reply_markup=InlineKeyboardMarkup([[
-                    InlineKeyboardButton("🎯 Select Mode", callback_data='relationship_modes')
-                ]])
+            user = User(telegram_id=tg_user.id, username=tg_user.username, name=tg_user.first_name or 'User', language='fa')
+            db.add(user)
+            db.commit()
+
+        lang = user.language or 'fa'
+        t_lang = 'fa' if lang == 'fa' else 'en'
+        rel_prefs = db.query(RelationshipPreferences).filter_by(user_id=user.id).first()
+        mode = (rel_prefs.relationship_mode if rel_prefs and rel_prefs.relationship_mode else 'startup')
+
+        mi = get_mode_info(mode, lang)
+        topics = MODE_COACHING_TOPICS.get(mode, DEFAULT_TOPICS)[t_lang]
+
+        if lang == 'fa':
+            text = (
+                f"🎓 مربی هوشمند رابطه — حالت {mi['emoji']} {mi['name']}\n\n"
+                f"یکی از موضوعات تخصصی زیر را انتخاب کنید تا راهنمای مبتنی بر پژوهش دریافت کنید:"
             )
-            return ConversationHandler.END
-        
-        mode = rel_pref.relationship_mode
-        mode_data = MODE_COACHING_TOPICS.get(mode)
-        
-        if not mode_data:
-            await query.edit_message_text(
-                "❌ Mode not found!",
-                reply_markup=InlineKeyboardMarkup([[
-                    InlineKeyboardButton("🔙 Back", callback_data='back_to_menu')
-                ]])
+        else:
+            text = (
+                f"🎓 AI Relationship Coach — {mi['emoji']} {mi['name']}\n\n"
+                f"Choose a specialized topic for research-backed guidance:"
             )
-            return ConversationHandler.END
-        
-        # Show coaching topics
-        buttons = []
-        for i, topic in enumerate(mode_data['topics']):
-            buttons.append([InlineKeyboardButton(topic, callback_data=f'coach_topic_{i}')])
-        
-        buttons.append([InlineKeyboardButton("🔙 Back to Menu", callback_data='back_to_menu')])
-        
-        text = f"🎓 **{mode_data['name']} Coaching**\n\n"
-        text += "What would you like to learn about?\n\n"
-        text += "💡 I'll provide personalized advice based on your mode!"
-        
-        await query.edit_message_text(
-            text,
-            reply_markup=InlineKeyboardMarkup(buttons)
-        )
-        
-        context.user_data['coaching_mode'] = mode
-        return SELECT_COACHING_TOPIC
-        
+
+        keyboard = [
+            [InlineKeyboardButton(label, callback_data=f"coaching_{mode}_{topic_key}")]
+            for label, topic_key in topics
+        ]
+        keyboard.append([
+            InlineKeyboardButton("🎯 تغییر حالت رابطه" if lang == 'fa' else "🎯 Change Mode", callback_data='relationship_modes')
+        ])
+        keyboard.append([
+            InlineKeyboardButton("🔙 بازگشت" if lang == 'fa' else "🔙 Back", callback_data='back_to_main')
+        ])
+
+        if query:
+            await query.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
+        else:
+            await update.message.reply_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
     finally:
         db.close()
 
 
-async def handle_coaching_topic(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle selected coaching topic"""
+async def provide_coaching_advice(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Generate tailored AI coaching advice for coaching_{mode}_{topic}"""
     query = update.callback_query
     await query.answer()
-    
-    topic_index = int(query.data.replace('coach_topic_', ''))
-    mode = context.user_data.get('coaching_mode')
-    
-    if not mode:
-        await query.edit_message_text("❌ Mode not found!")
-        return ConversationHandler.END
-    
-    mode_data = MODE_COACHING_TOPICS.get(mode)
-    if not mode_data or topic_index >= len(mode_data['topics']):
-        await query.edit_message_text("❌ Topic not found!")
-        return ConversationHandler.END
-    
-    topic = mode_data['topics'][topic_index]
-    
-    # Generate AI coaching response
-    coaching_prompt = f"""You are a professional dating coach specializing in {mode_data['name']} relationships.
 
-The user wants to learn about: {topic}
+    parts = query.data.split('_', 2)
+    mode = parts[1] if len(parts) > 1 else 'serious'
+    topic = parts[2] if len(parts) > 2 else 'compatibility'
 
-Provide practical, actionable advice in 3-5 bullet points:
-- Be specific and concrete
-- Include real examples
-- Focus on what TO DO (not just what not to do)
-- Consider safety and consent
-- Be encouraging and positive
-
-Keep the response concise but valuable."""
-    
-    # Show loading message
-    await query.edit_message_text(
-        "🤖 Generating personalized coaching advice...\n\n"
-        "💡 This may take a moment..."
-    )
-    
+    db = get_session()
     try:
-        # Get AI response using RAG
-        db = get_session()
-        user = db.query(User).filter_by(telegram_id=query.from_user.id).first()
-        lang = user.language if user else 'en'
-        
-        response = await ai_service.chat(
-            user_id=user.id,
-            message=coaching_prompt,
-            language=lang,
-            user_profile={'name': user.name if user else 'User'}
+        user = db.query(User).filter_by(telegram_id=update.effective_user.id).first()
+        lang = user.language if user else 'fa'
+        mi = get_mode_info(mode, lang)
+
+        await query.edit_message_text("🤔 در حال آماده‌سازی راهنمای تخصصی..." if lang == 'fa' else "🤔 Generating research-backed coaching...")
+
+        prompt = (
+            f"به عنوان مشاور فمینیستی دوستیابی، درباره موضوع '{topic}' در حالت رابطه '{mi['name']}' به فارسی ۴ نکته عملی، کوتاه و علمی بنویس."
+            if lang == 'fa'
+            else f"As a research-backed feminist relationship coach, give 4 concise practical tips on '{topic}' for someone in '{mi['name']}' mode."
         )
-        
+        advice = await ai_service.chat(user.id if user else 0, prompt, lang)
+
+        keyboard = [
+            [InlineKeyboardButton("📚 موضوعات دیگر" if lang == 'fa' else "📚 More Topics", callback_data='mode_coaching')],
+            [InlineKeyboardButton("💬 پرسش آزاد از هوش مصنوعی" if lang == 'fa' else "💬 Ask AI Coach", callback_data='ai_chat')],
+            [InlineKeyboardButton("🔙 منوی اصلی" if lang == 'fa' else "🔙 Main Menu", callback_data='back_to_main')],
+        ]
+        await query.edit_message_text(
+            f"🎓 {mi['emoji']} {mi['name']}\n\n{advice}",
+            reply_markup=InlineKeyboardMarkup(keyboard),
+        )
+    finally:
         db.close()
-        
-        # Format response
-        formatted_response = f"🎓 **Coaching: {topic}**\n\n{response}\n\n"
-        formatted_response += "💡 Want to learn more? Select another topic below!"
-        
-        # Show response with back to topics button
-        buttons = []
-        for i, t in enumerate(mode_data['topics']):
-            if i != topic_index:  # Don't show current topic
-                buttons.append([InlineKeyboardButton(t, callback_data=f'coach_topic_{i}')])
-        
-        buttons.append([InlineKeyboardButton("🔙 Back to Menu", callback_data='back_to_menu')])
-        
-        await query.edit_message_text(
-            formatted_response,
-            reply_markup=InlineKeyboardMarkup(buttons),
-            parse_mode='Markdown'
-        )
-        
-    except Exception as e:
-        logger.error(f"Coaching error: {e}")
-        await query.edit_message_text(
-            "❌ Sorry, I couldn't generate coaching advice right now.\n\n"
-            "Please try again later!",
-            reply_markup=InlineKeyboardMarkup([[
-                InlineKeyboardButton("🔙 Back to Menu", callback_data='back_to_menu')
-            ]])
-        )
-    
-    return SELECT_COACHING_TOPIC
-
-
-# Add translations
-COACHING_TRANSLATIONS = {
-    'fa': {
-        'coaching_menu': '🎓 مربیگری هوش مصنوعی',
-        'select_topic': 'چه موضوعی را می‌خواهید یاد بگیرید؟',
-        'generating': '🤖 در حال تولید مشاوره شخصی‌سازی شده...',
-    },
-    'en': {
-        'coaching_menu': '🎓 AI Dating Coach',
-        'select_topic': 'What would you like to learn about?',
-        'generating': '🤖 Generating personalized coaching advice...',
-    }
-}

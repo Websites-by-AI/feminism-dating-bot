@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حل تعارض - فمینیسم دوستیابی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #FF6B6B; --secondary: #FF8E53; --dark: #1a1a1a; --light: #ffffff; --gray: #666; --light-gray: #f8f9fa; --gradient: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%); }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--light-gray); color: var(--dark); direction: rtl; line-height: 1.8; }
+        .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+        .hamburger span { width: 25px; height: 3px; background: var(--dark); transition: all 0.3s; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+        header { background: white; padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+        .logo { font-size: 24px; font-weight: bold; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 10px; }
+        nav ul { display: flex; list-style: none; gap: 20px; }
+        nav a { text-decoration: none; color: var(--dark); font-weight: 500; transition: all 0.3s; }
+        nav a:hover { color: var(--primary); }
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            nav { position: fixed; top: 70px; right: -100%; width: 100%; height: calc(100vh - 70px); background: white; transition: right 0.3s; box-shadow: -2px 0 10px rgba(0,0,0,0.1); overflow-y: auto; }
+            nav.active { right: 0; }
+            nav ul { flex-direction: column; padding: 20px; gap: 15px; }
+        }
+        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+        .article-header { background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%); color: white; padding: 50px 30px; border-radius: 15px; margin-bottom: 30px; text-align: center; }
+        .article-header h1 { font-size: 36px; margin-bottom: 15px; }
+        .article-meta { display: flex; justify-content: center; gap: 20px; font-size: 14px; opacity: 0.9; }
+        .article-content { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 30px; }
+        .step-card { background: #fce4ec; border-right: 4px solid #e91e63; padding: 25px; border-radius: 12px; margin-bottom: 20px; }
+        .step-card h3 { color: #880e4f; font-size: 20px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .step-card p { color: #880e4f; line-height: 1.8; }
+        .example-box { background: #f8bbd9; border-right: 4px solid #e91e63; padding: 15px; border-radius: 8px; margin-top: 10px; font-size: 14px; }
+        .nav-buttons { display: flex; justify-content: space-between; gap: 15px; }
+        .nav-btn { flex: 1; padding: 15px; background: white; border: 2px solid var(--primary); border-radius: 10px; text-align: center; text-decoration: none; color: var(--primary); font-weight: 600; transition: all 0.3s; }
+        .nav-btn:hover { background: var(--primary); color: white; }
+        @media (max-width: 768px) { .article-header h1 { font-size: 28px; } .article-content { padding: 20px; } .nav-buttons { flex-direction: column; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo"><i class="fas fa-heart"></i><span>آموزش</span></div>
+            <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+            <nav id="navMenu">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> صفحه اصلی</a></li>
+                    <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> داشبورد</a></li>
+                    <li><a href="admin.html"><i class="fas fa-user-shield"></i> ادمین</a></li>
+                    <li><a href="education.html"><i class="fas fa-graduation-cap"></i> آموزش</a></li>
+                    <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> خروج</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="article-header">
+            <h1><i class="fas fa-handshake"></i> حل تعارض</h1>
+            <div class="article-meta">
+                <span><i class="fas fa-clock"></i> ۱۳ دقیقه مطالعه</span>
+                <span><i class="fas fa-signal"></i> سطح: متوسط</span>
+            </div>
+        </div>
+
+        <div class="article-content">
+            <p style="font-size: 18px; margin-bottom: 30px; color: var(--gray);">
+                تعارض در هر رابطه‌ای طبیعی است. مهم نحوه حل آن است.
+            </p>
+
+            <div class="step-card">
+                <h3><i class="fas fa-pause"></i> ۱. مکث کنید</h3>
+                <p>قبل از واکنش نشان دادن، مکث کنید. اگر عصبانی هستید، زمان بخواهید تا آرام شوید. تصمیمات احساسی معمولاً بدترین تصمیمات هستند.</p>
+                <div class="example-box">
+                    <strong>مثال:</strong> "الان خیلی ناراحتم. می‌توانیم بعداً صحبت کنیم؟"
+                </div>
+            </div>
+
+            <div class="step-card">
+                <h3><i class="fas fa-listening"></i> ۲. گوش دهید</h3>
+                <p>قبل از اینکه دفاع کنید، به طرف مقابل گوش دهید. سعی کنید بفهمید چرا او ناراحت است. اهداف او را درک کنید.</p>
+            </div>
+
+            <div class="step-card">
+                <h3><i class="fas fa-bullhorn"></i> ۳. بیان احساسات</h3>
+                <p>احساسات خود را با "من" بیان کنید. سرزنش نکنید. روی رفتار تأثیرگذار تمرکز کنید، نه شخصیت طرف مقابل.</p>
+                <div class="example-box">
+                    <strong>بد:</strong> "تو همیشه بی‌مسئولیتی!"<br>
+                    <strong>خوب:</strong> "من احساس ناراحتی می‌کنم وقتی قرارهایمان لغو می‌شود."
+                </div>
+            </div>
+
+            <div class="step-card">
+                <h3><i class="fas fa-bullseye"></i> ۴. شناسایی مشکل</h3>
+                <p>مشکل واقعی را شناسایی کنید. اغلب تعارضات سطحی ریشه در مشکلات عمیق‌تر دارند. آیا مشکل اصلی چیست؟</p>
+            </div>
+
+            <div class="step-card">
+                <h3><i class="fas fa-lightbulb"></i> ۵. پیدا کردن راه‌حل</h3>
+                <p>با هم راه‌حل‌های مختلف را بررسی کنید. به دنبال راه‌حلی باشید که هر دو طرف راضی باشند. مصالحه کلید موفقیت است.</p>
+            </div>
+
+            <div class="step-card">
+                <h3><i class="fas fa-handshake"></i> ۶. توافق و عمل</h3>
+                <p>به یک توافق برسید و به آن پایبند بمانید. اگر لازم است، توافق را بنویسید تا فراموش نکنید.</p>
+            </div>
+
+            <div class="step-card">
+                <h3><i class="fas fa-heart"></i> ۷. بخشش و فراموشی</h3>
+                <p>بعد از حل تعارض، کینه به دل نگیرید. از اشتباهات گذشته برای سرزنش استفاده نکنید. رابطه را تازه نگه دارید.</p>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="edu-healthy-relationship.html" class="nav-btn"><i class="fas fa-arrow-right"></i> مقاله قبلی</a>
+            <a href="education.html" class="nav-btn">بازگشت به آموزش‌ها <i class="fas fa-arrow-left"></i></a>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() { document.getElementById('navMenu').classList.toggle('active'); document.querySelector('.hamburger').classList.toggle('active'); }
+        function logout() { localStorage.removeItem('user'); window.location.href = 'login.html'; }
+    </script>
+</body>
+</html>

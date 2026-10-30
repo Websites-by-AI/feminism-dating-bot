@@ -1,0 +1,10 @@
+name = "feminism-dating-api"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+
+[ai]
+binding = "AI"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "505433931b70401a85f9e438d880c1ff"

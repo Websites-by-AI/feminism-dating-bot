@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وب‌اپ هوشمند فمینیسم دوستیابی | AI RAG Coach, MBTI & 10 Modes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --purple: #5B197B;
+            --yellow: #FFC629;
+            --blue: #2563EB;
+            --teal: #059669;
+            --dark: #141414;
+            --bg: #f6f4fb;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg); color: var(--dark); direction: rtl; line-height: 1.65;
+        }
+        header {
+            background: #141414; color: #fff; padding: 14px 20px; position: sticky; top: 0; z-index: 1000;
+        }
+        .header-inner {
+            max-width: 1320px; margin: 0 auto; display: flex; justify-content: space-between;
+            align-items: center; flex-wrap: wrap; gap: 12px;
+        }
+        .logo { color: var(--yellow); text-decoration: none; font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        nav { display: flex; gap: 15px; flex-wrap: wrap; align-items: center; }
+        nav a { color: #fff; text-decoration: none; font-size: 14px; font-weight: 600; }
+        nav a:hover { color: var(--yellow); }
+        .container { max-width: 1320px; margin: 24px auto; padding: 0 20px; }
+        .tabs {
+            display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 22px;
+            background: #fff; padding: 10px; border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+        }
+        .tab-btn {
+            flex: 1; min-width: 180px; padding: 13px 16px; border: none; border-radius: 12px;
+            background: transparent; font-family: inherit; font-size: 15px; font-weight: 800;
+            cursor: pointer; color: #444; transition: all 0.2s;
+        }
+        .tab-btn.active { background: var(--purple); color: #fff; box-shadow: 0 6px 18px rgba(91,25,123,0.28); }
+        .panel { display: none; }
+        .panel.active { display: block; }
+
+        /* AI Chat Panel */
+        .chat-shell {
+            background: #fff; border-radius: 20px; box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+            overflow: hidden; display: flex; flex-direction: column; min-height: 560px;
+        }
+        .chat-top {
+            background: linear-gradient(135deg, #5B197B 0%, #2563EB 100%);
+            color: #fff; padding: 18px 22px; display: flex; justify-content: space-between;
+            align-items: center; flex-wrap: wrap; gap: 12px;
+        }
+        .chat-top select {
+            padding: 8px 12px; border-radius: 8px; border: none; font-weight: 700; font-family: inherit;
+        }
+        .chips {
+            padding: 12px 18px; background: #faf8ff; border-bottom: 1px solid #eee;
+            display: flex; gap: 8px; flex-wrap: wrap;
+        }
+        .chip {
+            background: #ede9fe; color: var(--purple); border: none; padding: 7px 13px;
+            border-radius: 999px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit;
+        }
+        .chip:hover { background: var(--purple); color: #fff; }
+        .chat-messages {
+            flex: 1; padding: 20px; overflow-y: auto; max-height: 420px;
+            display: flex; flex-direction: column; gap: 14px;
+        }
+        .msg { max-width: 82%; padding: 14px 18px; border-radius: 16px; font-size: 14.5px; white-space: pre-line; }
+        .msg.bot { background: #f3effb; color: #1f1f1f; align-self: flex-start; border-top-right-radius: 4px; }
+        .msg.user { background: var(--purple); color: #fff; align-self: flex-end; border-top-left-radius: 4px; }
+        .msg .src { font-size: 11.5px; color: #6b21a8; margin-top: 8px; border-top: 1px dashed #d8b4fe; padding-top: 6px; }
+        .chat-input-bar {
+            padding: 14px 18px; border-top: 1px solid #eee; display: flex; gap: 10px;
+        }
+        .chat-input-bar input {
+            flex: 1; padding: 13px 16px; border: 2px solid #e2ddf0; border-radius: 12px;
+            font-size: 15px; font-family: inherit;
+        }
+        .send-btn {
+            background: var(--purple); color: #fff; border: none; padding: 0 24px;
+            border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 15px;
+        }
+
+        /* Modes Grid */
+        .modes-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 24px;
+        }
+        .mode-box {
+            background: #fff; padding: 20px; border-radius: 16px; cursor: pointer;
+            border: 2px solid transparent; box-shadow: 0 4px 14px rgba(0,0,0,0.05); transition: all 0.2s;
+        }
+        .mode-box:hover, .mode-box.selected { border-color: var(--purple); transform: translateY(-3px); }
+        .mode-box.startup { background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%); border-color: #93c5fd; }
+        .mode-box.abroad { background: linear-gradient(135deg, #ecfdf5 0%, #f0fdfa 100%); border-color: #6ee7b7; }
+        .quiz-card {
+            background: #fff; padding: 26px; border-radius: 18px; box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+        }
+        .q-block { margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #f0eef6; }
+        .q-opts { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+        .q-opt {
+            padding: 9px 15px; border-radius: 10px; border: 1.5px solid #d8d2e7;
+            background: #faf9fd; cursor: pointer; font-family: inherit; font-weight: 600;
+        }
+        .q-opt.picked { background: var(--purple); color: #fff; border-color: var(--purple); }
+        .result-banner {
+            margin-top: 20px; padding: 22px; border-radius: 16px;
+            background: linear-gradient(135deg, #5B197B 0%, #1e40af 100%); color: #fff; display: none;
+        }
+
+        /* Profiles Grid */
+        .profiles-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;
+        }
+        .prof-card {
+            background: #fff; border-radius: 18px; padding: 22px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .prof-head { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+        .prof-avatar {
+            width: 56px; height: 56px; border-radius: 50%;
+            background: linear-gradient(135deg, #5B197B, #FF6B6B); color: #fff;
+            display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800;
+        }
+        .pill {
+            display: inline-block; padding: 3px 10px; border-radius: 999px;
+            font-size: 12px; font-weight: 700; background: #f3e8ff; color: var(--purple); margin-left: 6px;
+        }
+        .opening-box {
+            background: #fffbeb; border-right: 3px solid var(--yellow); padding: 10px 12px;
+            border-radius: 8px; font-size: 13px; margin: 12px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="logo"><i class="fas fa-heart"></i> استودیو هوشمند فمینیسم دوستیابی</a>
+            <nav>
+                <a href="index.html">🇮🇷 خانه</a>
+                <a href="en.html">🇬🇧 EN</a>
+                <a href="tr.html">🇹🇷 TR</a>
+                <a href="safety.html"><i class="fas fa-shield-alt"></i> ۱۳ ابزار ایمنی</a>
+                <a href="education.html"><i class="fas fa-graduation-cap"></i> آموزش</a>
+                <a href="dashboard.html"><i class="fas fa-user"></i> داشبورد</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-btn active" id="btn-chat" onclick="switchTab('chat')">🤖 مشاور هوش مصنوعی (RAG)</button>
+            <button class="tab-btn" id="btn-modes" onclick="switchTab('modes')">🎯 ۱۰ حالت رابطه و تست سازگاری</button>
+            <button class="tab-btn" id="btn-mbti" onclick="switchTab('mbti')">🧠 تست شخصیت MBTI و دلبستگی</button>
+            <button class="tab-btn" id="btn-discover" onclick="switchTab('discover')">💕 کاوش پروفایل‌های تاییدشده</button>
+        </div>
+
+        <!-- TAB 1: RAG AI COACH -->
+        <div class="panel active" id="panel-chat">
+            <div class="chat-shell">
+                <div class="chat-top">
+                    <div>
+                        <h2 style="font-size:20px;">🤖 دستیار هوشمند دوستیابی و ایمنی (مبتنی بر مقالات علمی RAG)</h2>
+                        <p style="font-size:13px;opacity:0.9;">پشتیبانی زنده با هوش مصنوعی ابری Cloudflare + دانشنامه آکادمیک فمینیستی</p>
+                    </div>
+                    <select id="chatLang">
+                        <option value="fa">🇮🇷 فارسی (Farsi)</option>
+                        <option value="en">🇬🇧 English</option>
+                        <option value="tr">🇹🇷 Türkçe</option>
+                        <option value="sv">🇸🇪 Svenska</option>
+                        <option value="de">🇩🇪 Deutsch</option>
+                        <option value="ar">🇸🇦 العربية</option>
+                        <option value="fr">🇫🇷 Français</option>
+                        <option value="es">🇪🇸 Español</option>
+                        <option value="ku">☀️ کوردی</option>
+                    </select>
+                </div>
+                <div class="chips">
+                    <button class="chip" onclick="quickAsk('چک‌لیست ایمنی برای قرار اول در کافه چیست؟')">🛡️ ایمنی قرار اول</button>
+                    <button class="chip" onclick="quickAsk('در حالت شریک استارتاپی چطور درباره تقسیم سهام و مرزهای عاطفی صحبت کنم؟')">🚀 شریک استارتاپی و سهام</button>
+                    <button class="chip" onclick="quickAsk('نشانه‌های کلاهبرداری عاطفی و ویزا در آشنایی بین‌المللی چیست؟')">🌍 امنیت آشنایی بین‌المللی</button>
+                    <button class="chip" onclick="quickAsk('چطور مرزهای شخصی و رضایت آگاهانه (FRIES) را محترمانه بیان کنم؟')">💬 مرزبندی و رضایت</button>
+                    <button class="chip" onclick="quickAsk('What are 3 great Bumble-style opening moves to start a deep conversation?')">🇬🇧 Opening Moves</button>
+                    <button class="chip" onclick="quickAsk('İlk buluşmada güvenlik için nelere dikkat etmeliyim?')">🇹🇷 İlk Buluşma Güvenliği</button>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="msg bot">
+                        🌹 سلام! من مشاور هوشمند فمینیسم دوستیابی هستم.
+                        درباره ایده‌های گفتگو، نشانه‌های خطر (Red Flags)، ایمنی قرار اول، هم‌بنیان‌گذاری استارتاپی 🚀 یا روابط بین‌المللی 🌍 هر سؤالی دارید بپرسید!
+                        <div class="src">📚 متصل به پایگاه دانش علمی: Gillett (2023), Amirkhani et al. (2024), Thompson (2018)</div>
+                    </div>
+                </div>
+                <form class="chat-input-bar" onsubmit="sendChat(event)">
+                    <input type="text" id="chatInput" placeholder="سؤال خود را به هر زبانی بنویسید..." required>
+                    <button type="submit" class="send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i> ارسال</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- TAB 2: 10 RELATIONSHIP MODES & COMPATIBILITY QUIZ -->
+        <div class="panel" id="panel-modes">
+            <div class="modes-grid" id="modesGrid"></div>
+            <div class="quiz-card" id="modeQuizCard">
+                <h3 id="modeQuizTitle" style="color:var(--purple);margin-bottom:14px;">🧪 تست آمادگی و سازگاری حالت انتخاب‌شده</h3>
+                <div id="modeQuestions"></div>
+                <button class="send-btn" style="padding:12px 28px;margin-top:10px;" onclick="submitModeQuiz()" id="modeSubmitBtn">
+                    دریافت امتیاز و تحلیل هوش مصنوعی
+                </button>
+                <div class="result-banner" id="modeResultBanner"></div>
+            </div>
+        </div>
+
+        <!-- TAB 3: MBTI + LOVE LANGUAGE + ATTACHMENT -->
+        <div class="panel" id="panel-mbti">
+            <div class="quiz-card">
+                <h2 style="color:var(--purple);margin-bottom:8px;">🧠 تست جامع شخصیت‌شناسی رابطه (MBTI + زبان عشق + سبک دلبستگی)</h2>
+                <p style="color:#666;margin-bottom:20px;font-size:14px;">به ۶ سؤال کلیدی پاسخ دهید تا پروفایل روان‌شناختی و تحلیل اختصاصی هوش مصنوعی شما ثبت شود.</p>
+                <div id="mbtiQuestions"></div>
+                <button class="send-btn" style="padding:13px 30px;margin-top:12px;" onclick="submitMbtiQuiz()" id="mbtiSubmitBtn">
+                    محاسبه تیپ شخصیتی و تحلیل RAG
+                </button>
+                <div class="result-banner" id="mbtiResultBanner"></div>
+            </div>
+        </div>
+
+        <!-- TAB 4: SAFE DISCOVERY -->
+        <div class="panel" id="panel-discover">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:12px;">
+                <h3>💕 پروفایل‌های تاییدشده (الهام از Bumble: آغاز گفتگو با زنان)</h3>
+                <select id="discoverFilter" onchange="loadProfiles()" style="padding:9px 14px;border-radius:10px;border:1px solid #ccc;font-family:inherit;font-weight:700;">
+                    <option value="all">همه حالت‌ها</option>
+                    <option value="startup">🚀 شریک استارتاپی</option>
+                    <option value="abroad">🌍 آشنایی بین‌المللی</option>
+                    <option value="serious">💍 رابطه جدی</option>
+                    <option value="intellectual">🧠 اتصال فکری</option>
+                    <option value="emotional">💝 اتصال عاطفی</option>
+                </select>
+            </div>
+            <div class="profiles-grid" id="profilesGrid"></div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        const API_BASE = window.FEMINISM_API_BASE;
+        const MODES = [
+            { key: 'startup', emoji: '🚀', title: 'شریک استارتاپی (NEW)', desc: 'هم‌بنیان‌گذار و شریک زندگی با ارزش‌ها و اهداف مشترک', cls: 'startup',
+              qs: [
+                  ['شفافیت در مکتوب کردن سهام و نقش‌ها چقدر برایتان مهم است؟', ['💯 کاملاً ضروری (Vesting مکتوب)', '👍 مهم است', '🤔 هنوز فکر نکرده‌ام']],
+                  ['در زمان فشار کاری استارتاپ چطور مرز رابطه عاطفی را حفظ می‌کنید؟', ['✅ گفتگوی شفاف و زمان اختصاصی', '⚖️ تفکیک ساعت کاری', '🤷 چالش‌برانگیز است']],
+                  ['واکنش شما به «کار بدون سهام یا قرارداد شفاف» چیست؟', ['🚩 خط قرمز قطعی (Red Flag)', '⚠️ نیازمند مذاکره فوری', '🤔 بستگی دارد']]
+              ]
+            },
+            { key: 'abroad', emoji: '🌍', title: 'آشنایی بین‌المللی (NEW)', desc: 'ارتباط بین‌فرهنگی، راه دور و مهاجرت آگاهانه و ایمن', cls: 'abroad',
+              qs: [
+                  ['آیا پیش از هر تصمیم سفری، تماس تصویری زنده و منظم برقرار می‌کنید؟', ['✅ همیشه و مستمر', '👍 بله', '❌ کم']],
+                  ['در برابر درخواست پول یا هزینه ویزا/بلیط چه واکنشی دارید؟', ['🛡️ رد قاطع و مسدودسازی (کلاهبرداری)', '⚠️ بررسی دقیق', '🤔 نامطمئن']],
+                  ['استقلال مالی و حقوقی در کشور مقصد چقدر برایتان اولویت دارد؟', ['💯 اولویت مطلق', '👍 زیاد', '🤔 متوسط']]
+              ]
+            },
+            { key: 'serious', emoji: '💍', title: 'رابطه جدی', desc: 'تعهد بلندمدت مبتنی بر برابری و احترام متقابل', cls: '',
+              qs: [
+                  ['آمادگی شما برای گفتگوی شفاف درباره ارزش‌های آینده چقدر است؟', ['💯 کاملاً آماده', '👍 در حال ساختن', '🤔 ترجیح می‌دهم آهسته پیش بروم']],
+                  ['مهم‌ترین ستون رابطه پایدار از نگاه شما؟', ['🤝 احترام، برابری و امنیت روانی', '💬 گفتگوی صادقانه', '🌱 رشد مشترک']]
+              ]
+            },
+            { key: 'intellectual', emoji: '🧠', title: 'اتصال فکری', desc: 'هم‌افزایی علمی، هنری و گفتگوهای عمیق فرهنگی', cls: '',
+              qs: [['چقدر گفتگوهای تحلیلی و کتاب‌خوانی مشترک برایتان جذاب است؟', ['💯 بسیار زیاد', '👍 جذاب است', '🙂 معمولی']]]
+            },
+            { key: 'emotional', emoji: '💝', title: 'اتصال عاطفی', desc: 'همدلی عمیق، امنیت دلبستگی و صمیمیت تدریجی', cls: '',
+              qs: [['چقدر راحت احساسات و مرزهای عاطفی خود را بیان می‌کنید؟', ['✅ شفاف و محترمانه', '🌱 در حال تمرین', '🤔 کمی محتاطم']]]
+            },
+            { key: 'marriage', emoji: '💒', title: 'ازدواج برابر', desc: 'تشکیل زندگی مشترک با حقوق و مسئولیت‌های برابر', cls: '',
+              qs: [['دیدگاه شما درباره برابری حقوق و تصمیم‌گیری در ازدواج چیست؟', ['💯 برابری کامل و توافق مکتوب', '👍 مشارکت متوازن', '🤔 در حال بررسی']]]
+            },
+            { key: 'casual', emoji: '🌸', title: 'آشنایی دوستانه', desc: 'قرارهای امن و محترمانه بدون فشار تعهد فوری', cls: '',
+              qs: [['آیا انتظارات خود را از همان ابتدا شفاف بیان می‌کنید؟', ['✅ کاملاً شفاف', '👍 معمولاً', '🤔 گاهی']]]
+            },
+            { key: 'friendship', emoji: '👥', title: 'دوستی و شبکه‌سازی', desc: 'دوستی افلاطونی امن و جامعه حمایتی زنان', cls: '',
+              qs: [['چه نوع فعالیتی را برای دوستی ترجیح می‌دهید؟', ['☕ کافه و رویداد فرهنگی', '🎨 کارگاه و ورزش', '💬 گفتگوی آنلاین']]]
+            },
+            { key: 'open', emoji: '🌈', title: 'رابطه باز اخلاقی', desc: 'شفافیت کامل، توافق آگاهانه و مرزهای روشن', cls: '',
+              qs: [['شفافیت و رضایت آگاهانه همه طرف‌ها چقدر برایتان حیاتی است؟', ['💯 شرط مطلق', '👍 بسیار مهم', '🤔 در حال یادگیری']]]
+            },
+            { key: 'one_night', emoji: '🔥', title: 'قرار کوتاه‌مدت امن', desc: 'همراه با رعایت کامل پروتکل‌های ایمنی و رضایت FRIES', cls: '',
+              qs: [['آیا مکان عمومی اولیه و فعال بودن دوست مخفی را رعایت می‌کنید؟', ['✅ همیشه بدون استثنا', '👍 بله', '⚠️ نیاز به برنامه دارم']]]
+            }
+        ];
+
+        let selectedMode = 'startup';
+        let modeAnswers = {};
+
+        const MBTI_QS = [
+            { dim: 'EI', q: '۱. در جمع‌های دوستانه چگونه انرژی می‌گیرید؟', a: ['E', '🗣️ گفتگو با افراد جدید و تبادل ایده'], b: ['I', '📖 گفتگوی عمیق و آرام با یک یا دو نفر'] },
+            { dim: 'SN', q: '۲. در شناخت آدم‌ها به چه چیزی بیشتر توجه می‌کنید؟', a: ['S', '🔍 رفتارهای عینی، ثبات و جزئیات واقعی'], b: ['N', '💡 ارزش‌های کلان، چشم‌انداز آینده و الگوها'] },
+            { dim: 'TF', q: '۳. هنگام تصمیم‌گیری مهم در رابطه:', a: ['T', '🧠 تحلیل منطقی، اصول و عدالت'], b: ['F', '❤️ همدلی، احساسات و تاثیر انسانی'] },
+            { dim: 'JP', q: '۴. برای برنامه‌ریزی قرار و زندگی:', a: ['J', '📋 برنامه‌ریزی مشخص و قابل پیش‌بینی'], b: ['P', '🎲 انعطاف‌پذیری و کشف لحظه‌ای'] },
+            { dim: 'LL', q: '۵. کدام زبان عشق بیشتر به شما حس ارزشمندی می‌دهد؟', a: ['time', '⏰ وقت باکیفیت و توجه عمیق'], b: ['words', '💬 کلام محبت‌آمیز و تحسین صادقانه'] },
+            { dim: 'AT', q: '۶. وقتی پارتنرتان چند ساعت دیر پاسخ می‌دهد:', a: ['secure', '😊 آرامم؛ می‌دانم مشغول کار است و به هم اعتماد داریم'], b: ['anxious', '😟 کمی نگران می‌شوم و نیاز به اطمینان خاطر دارم'] }
+        ];
+        let mbtiPicks = {};
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('btn-' + tab).classList.add('active');
+            document.getElementById('panel-' + tab).classList.add('active');
+            if (tab === 'discover') loadProfiles();
+        }
+
+        function quickAsk(text) {
+            if (/[a-zA-Z]{4,}/.test(text) && !/[\u0600-\u06FF]/.test(text)) {
+                document.getElementById('chatLang').value = text.includes('ğ') || text.includes('İ') ? 'tr' : 'en';
+            }
+            document.getElementById('chatInput').value = text;
+            document.getElementById('chatInput').form.requestSubmit();
+        }
+
+        async function sendChat(e) {
+            e.preventDefault();
+            const inp = document.getElementById('chatInput');
+            const text = inp.value.trim();
+            if (!text) return;
+            const lang = document.getElementById('chatLang').value;
+            const box = document.getElementById('chatMessages');
+            const cur = window.authService.getCurrentUser();
+
+            box.innerHTML += `<div class="msg user">${text.replace(/</g, '&lt;')}</div>`;
+            inp.value = '';
+            const loadingId = 'ld_' + Date.now();
+            box.innerHTML += `<div class="msg bot" id="${loadingId}"><i class="fas fa-spinner fa-spin"></i> در حال بازیابی مقالات علمی و تولید پاسخ...</div>`;
+            box.scrollTop = box.scrollHeight;
+
+            try {
+                const resp = await fetch(`${API_BASE}/api/ai/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: text,
+                        language: lang,
+                        user_id: cur ? cur.id : null
+                    })
+                });
+                const data = await resp.json();
+                const el = document.getElementById(loadingId);
+                if (el) {
+                    const srcs = (data.sources || []).slice(0, 2).join(' | ');
+                    el.innerHTML = `${(data.reply || 'پاسخی دریافت نشد').replace(/</g, '&lt;')}` +
+                        (srcs ? `<div class="src">📚 منابع علمی RAG: ${srcs}</div>` : '');
+                }
+            } catch (err) {
+                const el = document.getElementById(loadingId);
+                if (el) el.textContent = '⚠️ خطا در ارتباط با سرور هوش مصنوعی. لطفاً مجدداً تلاش کنید.';
+            }
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function renderModes() {
+            const grid = document.getElementById('modesGrid');
+            grid.innerHTML = MODES.map(m => `
+                <div class="mode-box ${m.cls} ${m.key === selectedMode ? 'selected' : ''}" onclick="selectMode('${m.key}')">
+                    <div style="font-size:32px;">${m.emoji}</div>
+                    <h4 style="margin:6px 0;">${m.title}</h4>
+                    <p style="font-size:13px;color:#555;">${m.desc}</p>
+                </div>
+            `).join('');
+            const cur = MODES.find(m => m.key === selectedMode) || MODES[0];
+            document.getElementById('modeQuizTitle').textContent = `🧪 تست سازگاری: ${cur.emoji} ${cur.title}`;
+            modeAnswers = {};
+            document.getElementById('modeResultBanner').style.display = 'none';
+            document.getElementById('modeQuestions').innerHTML = cur.qs.map((q, qi) => `
+                <div class="q-block">
+                    <strong>${qi + 1}. ${q[0]}</strong>
+                    <div class="q-opts">
+                        ${q[1].map((opt, oi) => `<button type="button" class="q-opt" id="mq_${qi}_${oi}" onclick="pickModeOpt(${qi}, ${oi}, '${opt.replace(/'/g, '')}')">${opt}</button>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function selectMode(k) {
+            selectedMode = k;
+            renderModes();
+        }
+
+        function pickModeOpt(qi, oi, val) {
+            modeAnswers[qi] = { oi, val };
+            document.querySelectorAll(`[id^="mq_${qi}_"]`).forEach(b => b.classList.remove('picked'));
+            document.getElementById(`mq_${qi}_${oi}`).classList.add('picked');
+        }
+
+        async function submitModeQuiz() {
+            const cur = MODES.find(m => m.key === selectedMode);
+            const answered = Object.values(modeAnswers);
+            const score = answered.length
+                ? Math.round((answered.reduce((acc, a) => acc + (a.oi === 0 ? 100 : a.oi === 1 ? 82 : 65), 0)) / answered.length)
+                : 88;
+
+            const btn = document.getElementById('modeSubmitBtn');
+            btn.disabled = true;
+            btn.textContent = '⏳ در حال تحلیل با هوش مصنوعی...';
+
+            const user = window.authService.getCurrentUser();
+            try {
+                const resp = await fetch(`${API_BASE}/api/tests/submit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: user ? user.id : 1,
+                        test_type: 'compatibility',
+                        mode: selectedMode,
+                        score,
+                        answers: answered.map(a => a.val),
+                        language: 'fa'
+                    })
+                });
+                const data = await resp.json();
+                const banner = document.getElementById('modeResultBanner');
+                banner.style.display = 'block';
+                banner.innerHTML = `
+                    <h3>🎉 امتیاز آمادگی و سازگاری شما در «${cur.title}»: ${score}%</h3>
+                    <p style="margin-top:10px;white-space:pre-line;">${data.test?.ai_analysis || ''}</p>
+                `;
+            } catch (e) {}
+            btn.disabled = false;
+            btn.textContent = 'دریافت امتیاز و تحلیل هوش مصنوعی';
+        }
+
+        function renderMbti() {
+            document.getElementById('mbtiQuestions').innerHTML = MBTI_QS.map((item, i) => `
+                <div class="q-block">
+                    <strong>${item.q}</strong>
+                    <div class="q-opts">
+                        <button type="button" class="q-opt" id="mb_${i}_a" onclick="pickMbti(${i}, '${item.a[0]}', 'a')">${item.a[1]}</button>
+                        <button type="button" class="q-opt" id="mb_${i}_b" onclick="pickMbti(${i}, '${item.b[0]}', 'b')">${item.b[1]}</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function pickMbti(i, code, side) {
+            mbtiPicks[i] = code;
+            document.getElementById(`mb_${i}_a`).classList.remove('picked');
+            document.getElementById(`mb_${i}_b`).classList.remove('picked');
+            document.getElementById(`mb_${i}_${side}`).classList.add('picked');
+        }
+
+        async function submitMbtiQuiz() {
+            const mbti = (mbtiPicks[0] || 'I') + (mbtiPicks[1] || 'N') + (mbtiPicks[2] || 'F') + (mbtiPicks[3] || 'J');
+            const loveLang = mbtiPicks[4] || 'time';
+            const attachment = mbtiPicks[5] || 'secure';
+            const btn = document.getElementById('mbtiSubmitBtn');
+            btn.disabled = true;
+            btn.textContent = '⏳ در حال تحلیل شخصیت و ثبت در پروفایل...';
+
+            const user = window.authService.getCurrentUser();
+            try {
+                const resp = await fetch(`${API_BASE}/api/tests/submit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: user ? user.id : 1,
+                        test_type: 'personality',
+                        mbti_type: mbti,
+                        love_language: loveLang,
+                        attachment_style: attachment,
+                        score: 94,
+                        language: 'fa'
+                    })
+                });
+                const data = await resp.json();
+                if (user) {
+                    window.authService.saveCurrentUser({ ...user, mbti_type: mbti, love_language: loveLang, attachment_style: attachment });
+                }
+                const banner = document.getElementById('mbtiResultBanner');
+                banner.style.display = 'block';
+                banner.innerHTML = `
+                    <h3>🌟 نتیجه شخصیت‌شناسی شما: ${mbti} | دلبستگی: ${attachment === 'secure' ? 'ایمن (Secure)' : 'حساس (Anxious)'}</h3>
+                    <p style="margin-top:10px;white-space:pre-line;">${data.test?.ai_analysis || ''}</p>
+                `;
+            } catch (e) {}
+            btn.disabled = false;
+            btn.textContent = 'محاسبه تیپ شخصیتی و تحلیل RAG';
+        }
+
+        async function loadProfiles() {
+            const mode = document.getElementById('discoverFilter').value;
+            const grid = document.getElementById('profilesGrid');
+            grid.innerHTML = '<p>در حال بارگذاری پروفایل‌های تاییدشده...</p>';
+            try {
+                const resp = await fetch(`${API_BASE}/api/profiles?mode=${encodeURIComponent(mode)}`);
+                const data = await resp.json();
+                const profiles = data.profiles || [];
+                grid.innerHTML = profiles.map(p => `
+                    <div class="prof-card">
+                        <div>
+                            <div class="prof-head">
+                                <div class="prof-avatar">${(p.name || 'U').charAt(0)}</div>
+                                <div>
+                                    <h4>${p.name}, ${p.age} ${p.is_verified ? '✅' : ''}</h4>
+                                    <p style="font-size:13px;color:#666;">📍 ${p.city} ${p.country ? '· ' + p.country : ''}</p>
+                                </div>
+                            </div>
+                            <div style="margin-bottom:10px;">
+                                <span class="pill">🎯 ${p.relationship_mode}</span>
+                                <span class="pill">🧠 ${p.mbti_type || 'INFJ'}</span>
+                                <span class="pill">🛡️ ایمنی ${p.safety_score}%</span>
+                            </div>
+                            <p style="font-size:14px;color:#333;">${p.bio || ''}</p>
+                            <div class="opening-box">
+                                <strong>💬 آغازگر گفتگو (Opening Move):</strong><br>
+                                ${p.opening_move || 'چه ارزشی در یک رابطه برای تو از همه مهم‌تره؟'}
+                            </div>
+                        </div>
+                        <button class="send-btn" style="padding:11px;width:100%;margin-top:8px;" onclick="likeProfile(this, '${p.name}')">
+                            💛 پسندیدن و ارسال پاسخ آغازین
+                        </button>
+                    </div>
+                `).join('') || '<p>پروفایلی در این فیلتر یافت نشد.</p>';
+            } catch (e) {
+                grid.innerHTML = '<p>خطا در دریافت پروفایل‌ها.</p>';
+            }
+        }
+
+        async function likeProfile(btn, name) {
+            btn.disabled = true;
+            const resp = await fetch(`${API_BASE}/api/swipe`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ is_like: true })
+            }).then(r => r.json()).catch(() => ({ matched: true }));
+            btn.style.background = '#15803d';
+            btn.textContent = resp.matched ? `🎉 تطابق دوطرفه (Match) با ${name} ثبت شد!` : `💛 علاقه شما برای ${name} ارسال شد`;
+        }
+
+        // Handle URL query params (?tab=modes&mode=startup)
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('mode')) selectedMode = params.get('mode');
+        renderModes();
+        renderMbti();
+        if (params.get('tab')) switchTab(params.get('tab'));
+        else if (params.get('mode')) switchTab('modes');
+    </script>
+</body>
+</html>

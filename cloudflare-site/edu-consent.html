@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رضایت و اجازه - فمینیسم دوستیابی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #FF6B6B; --secondary: #FF8E53; --dark: #1a1a1a; --light: #ffffff; --gray: #666; --light-gray: #f8f9fa; --gradient: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%); }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--light-gray); color: var(--dark); direction: rtl; line-height: 1.8; }
+        .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+        .hamburger span { width: 25px; height: 3px; background: var(--dark); transition: all 0.3s; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+        header { background: white; padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .header-content { display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+        .logo { font-size: 24px; font-weight: bold; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 10px; }
+        nav ul { display: flex; list-style: none; gap: 20px; }
+        nav a { text-decoration: none; color: var(--dark); font-weight: 500; transition: all 0.3s; }
+        nav a:hover { color: var(--primary); }
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            nav { position: fixed; top: 70px; right: -100%; width: 100%; height: calc(100vh - 70px); background: white; transition: right 0.3s; box-shadow: -2px 0 10px rgba(0,0,0,0.1); overflow-y: auto; }
+            nav.active { right: 0; }
+            nav ul { flex-direction: column; padding: 20px; gap: 15px; }
+        }
+        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+        .article-header { background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%); color: white; padding: 50px 30px; border-radius: 15px; margin-bottom: 30px; text-align: center; }
+        .article-header h1 { font-size: 36px; margin-bottom: 15px; }
+        .article-meta { display: flex; justify-content: center; gap: 20px; font-size: 14px; opacity: 0.9; }
+        .article-content { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 30px; }
+        .consent-card { background: #e0f7fa; border-right: 4px solid #00bcd4; padding: 25px; border-radius: 12px; margin-bottom: 20px; }
+        .consent-card h3 { color: #006064; font-size: 20px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .consent-card p { color: #006064; line-height: 1.8; }
+        .important-box { background: #b2ebf2; border-right: 4px solid #00bcd4; padding: 20px; border-radius: 12px; margin: 20px 0; }
+        .important-box h4 { color: #006064; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .nav-buttons { display: flex; justify-content: space-between; gap: 15px; }
+        .nav-btn { flex: 1; padding: 15px; background: white; border: 2px solid var(--primary); border-radius: 10px; text-align: center; text-decoration: none; color: var(--primary); font-weight: 600; transition: all 0.3s; }
+        .nav-btn:hover { background: var(--primary); color: white; }
+        @media (max-width: 768px) { .article-header h1 { font-size: 28px; } .article-content { padding: 20px; } .nav-buttons { flex-direction: column; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo"><i class="fas fa-heart"></i><span>آموزش</span></div>
+            <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+            <nav id="navMenu">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> صفحه اصلی</a></li>
+                    <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> داشبورد</a></li>
+                    <li><a href="admin.html"><i class="fas fa-user-shield"></i> ادمین</a></li>
+                    <li><a href="education.html"><i class="fas fa-graduation-cap"></i> آموزش</a></li>
+                    <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> خروج</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="article-header">
+            <h1><i class="fas fa-handshake"></i> رضایت و اجازه</h1>
+            <div class="article-meta">
+                <span><i class="fas fa-clock"></i> ۷ دقیقه مطالعه</span>
+                <span><i class="fas fa-signal"></i> سطح: مبتدی</span>
+            </div>
+        </div>
+
+        <div class="article-content">
+            <p style="font-size: 18px; margin-bottom: 30px; color: var(--gray);">
+                رضایت اساس هر رابطه سالم است. یاد بگیرید معنای واقعی آن چیست.
+            </p>
+
+            <div class="consent-card">
+                <h3><i class="fas fa-check-circle"></i> رضایت چیست؟</h3>
+                <p>رضایت یعنی توافق آزادانه، آگاهانه و قابل بازگشت برای انجام هر کاری. رضایت باید روشن، مشتاقانه و بدون فشار باشد.</p>
+            </div>
+
+            <div class="consent-card">
+                <h3><i class="fas fa-redo"></i> رضایت قابل بازگشت است</h3>
+                <p>حتی اگر قبلاً بله گفته‌اید، می‌توانید هر زمان که بخواهید نظر خود را تغییر دهید. "نه" همیشه یک گزینه است.</p>
+            </div>
+
+            <div class="consent-card">
+                <h3><i class="fas fa-times-circle"></i> چه چیزی رضایت نیست؟</h3>
+                <p>سکوت رضایت نیست. مقاومت رضایت نیست. ترس رضایت نیست. مستی یا بیهوشی رضایت نیست. فشار و اجبار رضایت نیست.</p>
+            </div>
+
+            <div class="consent-card">
+                <h3><i class="fas fa-comments"></i> چگونه رضایت بخواهیم؟</h3>
+                <p>سوال کنید: "آیا این کار را می‌خواهی؟" یا "آیا با این راحت هستی؟" منتظر پاسخ روشن بله بمانید.</p>
+            </div>
+
+            <div class="consent-card">
+                <h3><i class="fas fa-sync"></i> رضایت مداوم</h3>
+                <p>رضایت برای هر فعالیت جدید لازم است. رضایت برای یک کار به معنای رضایت برای کارهای دیگر نیست.</p>
+            </div>
+
+            <div class="important-box">
+                <h4><i class="fas fa-exclamation-circle"></i> مهم</h4>
+                <p>اگر کسی تحت تأثیر الکل، مواد مخدر، خواب یا ترس است، نمی‌تواند رضایت بدهد. هرگونه فعالیت در این شرایط تجاوز محسوب می‌شود.</p>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="edu-boundaries.html" class="nav-btn"><i class="fas fa-arrow-right"></i> مقاله قبلی</a>
+            <a href="edu-self-esteem.html" class="nav-btn">مقاله بعدی <i class="fas fa-arrow-left"></i></a>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() { document.getElementById('navMenu').classList.toggle('active'); document.querySelector('.hamburger').classList.toggle('active'); }
+        function logout() { localStorage.removeItem('user'); window.location.href = 'login.html'; }
+    </script>
+</body>
+</html>

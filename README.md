@@ -1,147 +1,89 @@
-# 🌹 AI Dating Telegram Bot
+# 🌹 Feminism AI Dating & Safety Platform
 
-A multi-language AI-powered dating bot for Telegram with profile creation, matching, swiping, and an AI dating assistant.
+**Multilingual Feminist AI Dating Platform, 13-Layer Safety Center, Academic RAG Coach & Telegram Bot** — inspired by Bumble, HER, Hinge, and UN Women digital safety research.
 
-## ✨ Features
+---
 
-### 🌐 Multi-Language Support (9 languages)
-- **Farsi** (فارسی) - Default language
-- **English**
-- **Swedish** (Svenska)
-- **German** (Deutsch)
-- **Turkish** (Türkçe)
-- **Arabic** (العربية)
-- **French** (Français)
-- **Spanish** (Español)
-- **Kurdish** (کوردی)
+## 🌐 Live Deployments
 
-Language is auto-detected from the user's text or can be manually selected.
+| Platform | Live URL | Role |
+|----------|----------|------|
+| **Cloudflare Pages (Web Platform)** | [https://feminism-dating-bot.pages.dev](https://feminism-dating-bot.pages.dev) | Trilingual Web Platform (`FA` / `EN` / `TR`), AI Studio (`app.html`), 13 Safety Tools (`safety.html`), User Dashboard, 10 Education Modules, Admin Panel |
+| **HuggingFace Space** | [https://huggingface.co/spaces/Sosa654321/feminism-dating-bot](https://huggingface.co/spaces/Sosa654321/feminism-dating-bot) | Interactive Static Space (`https://sosa654321-feminism-dating-bot.hf.space`) — 24/7 `RUNNING` |
+| **Cloudflare Edge RAG API & Webhook** | [https://feminism-dating-api.elasa2next.workers.dev/api/health](https://feminism-dating-api.elasa2next.workers.dev/api/health) | Serverless REST API (`KV` persistence + Cloudflare Workers AI `@cf/mistralai/mistral-small-3.1-24b-instruct` + `/webhook/telegram`) |
+| **GitHub Repository** | [https://github.com/Websites-by-AI/feminism-dating-bot](https://github.com/Websites-by-AI/feminism-dating-bot) | Full Source Code (`cloudflare-site/`, `cloudflare-worker/`, and Python Telegram Bot) |
 
-### 👤 Profile System
-- Name, age, gender, bio, city
-- Photo upload
-- Looking-for preferences
-- Profile editing
+---
 
-### 💕 Matching & Swiping
-- Browse profiles based on preferences
-- Like/Pass swiping
-- Mutual match notifications
-- Age range and distance filters
+## ✨ Key Features
 
-### 🤖 AI Dating Assistant
-- Conversation tips
-- Date ideas
-- Profile improvement suggestions
-- Confidence building
-- Context-aware (knows user profile)
+### 🛡️ 13 Research-Backed Feminist Safety Features
+Grounded in peer-reviewed literature (*Gillett 2023*, *Amirkhani et al. 2024*, *Bicharanlou 2017*, *Thompson 2018*, *ACM CSCW 2024*):
+1. **Secret Friend System** — Share date plans and live safety alerts with a trusted contact
+2. **Mutual Safety Buddy** — Women-helping-women community check-ins
+3. **Auto Check-In Timer** — 30-minute date countdown with automated SOS escalation
+4. **One-Tap SOS Button** — Instant emergency logging & trusted contact alert
+5. **Silent Safe Word** — Everyday phrase that covertly triggers SOS in chat
+6. **Photo Verification** — Anti-catfish verification badge
+7. **Privacy Controls** — Anonymous mode, city-only location, photo blur until mutual trust
+8. **FRIES Consent Quiz** — Interactive *Freely given, Reversible, Informed, Enthusiastic, Specific* consent module
+9. **Hidden Words Filter** — Hinge-style pre-emptive harassment & spam word blocker
+10. **Anti-Sextortion / Body-Scam Shield** — Automatic protection against intimate image coercion
+11. **Public Date Safety Planner** — First-date public venue checklist
+12. **Emergency Exit Protocol** — Independent transport & exit call scripts
+13. **Screenshot & Copy Protection** — Deterrence and boundary warnings
 
-### 🔄 AI Backend Fallback Chain
-1. **HuggingFace** (DialoGPT) - First choice
-2. **OpenRouter** (GPT-3.5) - Second choice
-3. **Google Gemini** - Third choice
+### 🎯 10 Specialized Relationship Modes
+- 🚀 **Startup Co-founder Partner (`startup`)** — Compatibility quiz on equity/vesting, work-love boundaries, and anti-exploitation red flags
+- 🌍 **International & Cross-Cultural (`abroad`)** — Long-distance communication rhythm, legal/financial autonomy, and romance-scam protection
+- 💍 **Serious Relationship (`serious`)** · 💒 **Egalitarian Marriage (`marriage`)** · 🧠 **Intellectual (`intellectual`)** · 💝 **Emotional (`emotional`)** · 🌸 **Casual (`casual`)** · 👥 **Friendship (`friendship`)** · 🌈 **Ethical Open (`open`)** · 🔥 **Safe Short-Term (`one_night`)**
 
-If one fails, it automatically falls back to the next.
+### 🧠 Psychology & Academic RAG AI Coach (9 Languages)
+- **MBTI + Primary Love Language + Attachment Style** assessment with tailored AI compatibility insights
+- **9 Supported Languages**: Farsi (`fa`), English (`en`), Turkish (`tr`), Swedish (`sv`), German (`de`), Arabic (`ar`), French (`fr`), Spanish (`es`), Kurdish (`ku`)
+- **Multi-Tier RAG Engine**: Cloudflare Workers AI (`Mistral-Small-3.1-24B` & `Llama-3.3-70B`) → HuggingFace Inference Router (`v1/chat/completions`) → OpenRouter → Gemini → Local Academic Knowledge Synthesis
 
-## 🚀 Setup
+---
 
-### 1. Install Dependencies
+## 🏗️ Repository Structure
+
+```text
+feminism-dating-bot/
+├── cloudflare-site/           # Complete 26-file Web Platform (Cloudflare Pages & HF Space)
+│   ├── index.html             # Persian landing page (Bumble/HER inspired)
+│   ├── en.html / tr.html      # English & Turkish landing pages
+│   ├── app.html               # Interactive AI RAG Coach, 10 Modes Quiz, MBTI & Discovery
+│   ├── safety.html            # Interactive 13 Feminist Safety Features & SOS Center
+│   ├── login.html / register.html / dashboard.html / unified-dashboard.html
+│   ├── admin.html             # Live Cloud Analytics, User Search & 1-Click Telegram Webhook
+│   ├── education.html         # Feminist Relationship Academy + 10 edu-*.html modules
+│   └── js/auth.js             # Cloud KV Auth + Offline localStorage Fallback
+├── cloudflare-worker/         # Serverless Backend API + Serverless Telegram Bot Webhook
+│   ├── worker.js              # Cloudflare Worker (Workers AI + KV bindings)
+│   └── wrangler.toml          # Worker configuration
+├── handlers/                  # Python Telegram Bot handlers (start, safety, personality, modes...)
+├── main.py                    # Python Telegram Bot entry point (polling mode)
+├── database.py                # 24 SQLAlchemy 2.0 models (Users, Safety, Modes, RAG KB)
+├── huggingface_rag.py         # Academic RAG retrieval + Edge AI / HF Router client
+├── ai_service.py              # Multi-backend conversational AI service
+├── initialize_knowledge_base.py
+└── requirements.txt
+```
+
+---
+
+## 🚀 Running the Telegram Bot (2 Options)
+
+### Option A: Zero-Server Cloud Webhook (Recommended — 24/7 Free on Cloudflare)
+1. Create a bot via [@BotFather](https://t.me/BotFather) and copy your token.
+2. Open [`/admin.html`](https://feminism-dating-bot.pages.dev/admin.html) (Admin login: `admin@feminism-dating.com` / `Admin@123456`).
+3. Paste your `@BotFather` token in **Serverless Telegram Bot Webhook** and click **Connect**. Your bot runs 24/7 on Cloudflare's edge with KV state and Workers AI!
+
+### Option B: Local / VPS Python Polling Bot
 ```bash
 pip install -r requirements.txt
-```
-
-### 2. Get Your Bot Token
-1. Open Telegram and message [@BotFather](https://t.me/BotFather)
-2. Send `/newbot` and follow the instructions
-3. Copy the bot token
-
-### 3. Configure Environment
-Create a `.env` file (copy from `.env.example`):
-```bash
 cp .env.example .env
-```
-
-Edit `.env` and add your bot token:
-```
-BOT_TOKEN=1234567890:ABCdefGHIjklMNOpqrsTUVwxyz
-```
-
-### 4. (Optional) Add AI API Keys
-For the AI assistant, add at least one:
-- `HUGGINGFACE_API_KEY` - from [huggingface.co](https://huggingface.co/settings/tokens)
-- `OPENROUTER_API_KEY` - from [openrouter.ai](https://openrouter.ai/keys)
-- `GEMINI_API_KEY` - from [Google AI Studio](https://makersuite.google.com/app/apikey)
-
-### 5. Run the Bot
-```bash
+# Edit .env and set BOT_TOKEN=<your_telegram_bot_token>
+python initialize_knowledge_base.py
 python main.py
 ```
-
-## 📱 Bot Commands
-
-| Command | Description |
-|---------|-------------|
-| `/start` | Start the bot & create profile |
-| `/menu` | Show main menu |
-| `/help` | Show help |
-| `/cancel` | Cancel current action |
-
-## 🏗️ Project Structure
-
-```
-├── main.py              # Bot entry point
-├── config.py            # Configuration & settings
-├── database.py          # Database models (SQLAlchemy)
-├── languages.py         # Translations for 9 languages
-├── ai_service.py        # AI backend (HF/OpenRouter/Gemini)
-├── handlers/
-│   ├── start.py         # /start, language selection, profile creation
-│   ├── matching.py      # Browse profiles, swiping, matching
-│   ├── chat.py          # AI chat assistant
-│   └── settings.py      # User preferences & settings
-├── requirements.txt     # Python dependencies
-├── .env.example         # Environment variables template
-└── README.md            # This file
-```
-
-## 🗄️ Database
-
-Uses SQLite by default. Tables:
-- `users` - User profiles and preferences
-- `likes` - Like/pass records
-- `matches` - Mutual matches
-- `chats` - Chat rooms
-- `messages` - Chat messages
-- `ai_conversations` - AI assistant history
-
-## 🔒 Privacy Notes
-- User data is stored locally in SQLite
-- AI conversations can be reviewed/deleted
-- No external data sharing
-- Users can deactivate their accounts
-
-## 🛠️ Customization
-
-### Change Default Language
-Edit `config.py`:
-```python
-DEFAULT_LANGUAGE = 'en'  # Change from 'fa' to any supported language
-```
-
-### Add More Languages
-1. Add to `SUPPORTED_LANGUAGES` in `config.py`
-2. Add translations in `languages.py`
-3. Add AI system prompt in `ai_service.py`
-
-### Change AI Model
-Edit `ai_service.py`:
-```python
-# OpenRouter - change model
-"model": "anthropic/claude-3-sonnet"  # or any OpenRouter model
-
-# HuggingFace - change model
-"url = .../models/YOUR_MODEL_NAME"
-```
-
-## 📝 License
-MIT License - feel free to use and modify.

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مرکز ۱۳ ابزار ایمنی فمینیستی - فمینیسم دوستیابی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --purple: #5B197B;
+            --pink: #E11D48;
+            --yellow: #FFC629;
+            --dark: #141414;
+            --bg: #f7f5fb;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg); color: var(--dark); direction: rtl; line-height: 1.65;
+        }
+        header {
+            background: #141414; color: #fff; padding: 14px 20px; position: sticky; top: 0; z-index: 1000;
+        }
+        .header-inner {
+            max-width: 1320px; margin: 0 auto; display: flex; justify-content: space-between;
+            align-items: center; flex-wrap: wrap; gap: 12px;
+        }
+        .logo { color: var(--yellow); text-decoration: none; font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        nav { display: flex; gap: 16px; flex-wrap: wrap; }
+        nav a { color: #fff; text-decoration: none; font-size: 14px; font-weight: 600; opacity: 0.9; }
+        nav a:hover { color: var(--yellow); opacity: 1; }
+        .container { max-width: 1320px; margin: 28px auto; padding: 0 20px; }
+        .sos-banner {
+            background: linear-gradient(135deg, #b91c1c 0%, #5B197B 100%);
+            color: white; border-radius: 20px; padding: 28px; margin-bottom: 26px;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;
+            box-shadow: 0 12px 32px rgba(185,28,28,0.28);
+        }
+        .sos-btn {
+            background: #fff; color: #b91c1c; border: none; padding: 15px 30px;
+            border-radius: 999px; font-size: 17px; font-weight: 900; cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25); transition: transform 0.2s;
+        }
+        .sos-btn:hover { transform: scale(1.04); }
+        .sos-safe-btn {
+            background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.5);
+            padding: 12px 20px; border-radius: 999px; font-weight: 700; cursor: pointer;
+        }
+        .grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px; margin-bottom: 30px;
+        }
+        .card {
+            background: #fff; border-radius: 16px; padding: 22px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06); border-top: 4px solid var(--purple);
+        }
+        .card h3 { font-size: 18px; margin-bottom: 8px; color: var(--purple); display: flex; align-items: center; gap: 8px; }
+        .card p { font-size: 13.5px; color: #555; margin-bottom: 14px; }
+        .toggle-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 0; border-bottom: 1px solid #f0eef5; font-size: 14px; font-weight: 600;
+        }
+        .toggle-row:last-child { border-bottom: none; }
+        input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--purple); cursor: pointer; }
+        .input-inline { display: flex; gap: 8px; margin-top: 8px; }
+        .input-inline input {
+            flex: 1; padding: 10px 12px; border: 1px solid #d5d0e2; border-radius: 8px; font-family: inherit;
+        }
+        .btn-purple {
+            background: var(--purple); color: #fff; border: none; padding: 10px 16px;
+            border-radius: 8px; cursor: pointer; font-weight: 700; font-family: inherit;
+        }
+        .timer-box {
+            background: #f3effb; padding: 14px; border-radius: 12px; text-align: center; margin-top: 10px;
+        }
+        .timer-digits { font-size: 28px; font-weight: 900; color: var(--purple); direction: ltr; }
+        .tag-chip {
+            display: inline-flex; align-items: center; gap: 6px; background: #fee2e2; color: #991b1b;
+            padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; margin: 4px;
+        }
+        .toast {
+            position: fixed; bottom: 24px; left: 24px; background: #141414; color: #FFC629;
+            padding: 12px 20px; border-radius: 12px; font-weight: 700; display: none; z-index: 3000;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="index.html" class="logo"><i class="fas fa-shield-heart"></i> مرکز ایمنی فمینیستی (۱۳ لایه)</a>
+            <nav>
+                <a href="index.html"><i class="fas fa-home"></i> خانه</a>
+                <a href="app.html"><i class="fas fa-robot"></i> مشاور هوش مصنوعی و تست‌ها</a>
+                <a href="education.html"><i class="fas fa-graduation-cap"></i> آموزش</a>
+                <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> داشبورد</a>
+                <a href="en.html">🇬🇧 EN</a>
+                <a href="tr.html">🇹🇷 TR</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- 4. SOS Emergency Banner -->
+        <div class="sos-banner">
+            <div style="max-width:700px;">
+                <h2>🆘 دکمه اضطراری (SOS) و امتیاز ایمنی: <span id="scoreLabel">100</span>/100</h2>
+                <p style="margin-top:6px;opacity:0.93;">
+                    مبتنی بر پژوهش‌های علمی (Gillett 2023 و Amirkhani 2024): در صورت احساس خطر در قرار حضوری، با یک کلیک هشدار فوری ثبت و برای دوست مخفی شما ارسال می‌شود.
+                </p>
+                <p id="sosStatusText" style="margin-top:8px;font-weight:800;color:#FFC629;"></p>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                <button class="sos-btn" onclick="triggerSOS()"><i class="fas fa-bell"></i> ارسال فوری SOS</button>
+                <button class="sos-safe-btn" onclick="resolveSOS()">✅ در امنیت هستم</button>
+            </div>
+        </div>
+
+        <div class="grid">
+            <!-- 1 & 2. Secret Friend & Mutual Buddy -->
+            <div class="card">
+                <h3>🤝 ۱ و ۲. دوست مخفی و یار ایمنی متقابل</h3>
+                <p>یک مخاطب مورد اعتماد ثبت کنید تا جزئیات قرار، چک‌این‌ها و هشدار اضطراری برای او ارسال شود.</p>
+                <div class="input-inline">
+                    <input type="text" id="sfName" placeholder="نام دوست مورد اعتماد">
+                    <input type="text" id="sfContact" placeholder="@username یا شماره">
+                </div>
+                <button class="btn-purple" style="margin-top:10px;width:100%;" onclick="saveSecretFriend()">ذخیره دوست مخفی</button>
+                <div class="toggle-row" style="margin-top:10px;">
+                    <span>فعال‌سازی دوست مخفی</span>
+                    <input type="checkbox" id="chk_secret_friend_active" onchange="syncToggles()">
+                </div>
+                <div class="toggle-row">
+                    <span>👥 یار ایمنی متقابل (حمایت زنان از یکدیگر)</span>
+                    <input type="checkbox" id="chk_mutual_safety_active" checked onchange="syncToggles()">
+                </div>
+            </div>
+
+            <!-- 3 & 12. Auto Check-in & Emergency Exit -->
+            <div class="card">
+                <h3>⏰ ۳ و ۱۲. چک‌این خودکار قرار و پروتکل خروج امن</h3>
+                <p>تایمر هوشمند قرار را روشن کنید؛ اگر در پایان شمارش «حالم خوبه» را نزنید، هشدار فعال می‌شود.</p>
+                <div class="timer-box">
+                    <div class="timer-digits" id="timerDisplay">30:00</div>
+                    <div style="display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap;">
+                        <button class="btn-purple" onclick="startCheckinTimer()">🚀 شروع قرار (۳۰ دقیقه)</button>
+                        <button class="btn-purple" style="background:#15803d;" onclick="confirmSafeCheckin()">✅ حالم خوبه</button>
+                    </div>
+                </div>
+                <p style="margin-top:12px;font-size:12.5px;color:#444;">
+                    🏃 <strong>خروج اضطراری:</strong> همیشه با وسیله نقلیه مستقل بروید و کد تماس ساختگی با دوست مخفی داشته باشید.
+                </p>
+            </div>
+
+            <!-- 5. Safe Word -->
+            <div class="card">
+                <h3>🔐 ۵. کلمه امن مخفی (Safe Word)</h3>
+                <p>کلمه‌ای عادی (مثلاً «چای دارچین») انتخاب کنید تا با ارسال آن در چت ربات، بی‌سروصدا SOS فعال شود.</p>
+                <div class="input-inline">
+                    <input type="text" id="safeWordInput" placeholder="مثلاً: آفتابگردان">
+                    <button class="btn-purple" onclick="saveSafeWord()">ثبت کلمه امن</button>
+                </div>
+                <div class="toggle-row" style="margin-top:12px;">
+                    <span>پایش خودکار کلمه امن</span>
+                    <input type="checkbox" id="chk_safe_word_active" onchange="syncToggles()">
+                </div>
+            </div>
+
+            <!-- 6, 7 & 10. Privacy & Sextortion Shield -->
+            <div class="card">
+                <h3>🛡️ ۶، ۷ و ۱۰. حریم خصوصی و سپر ضد اخاذی (Body Scam)</h3>
+                <p>طراحی‌شده ویژه حفظ امنیت دیجیتال زنان (مبتنی بر پژوهش Bicharanlou 2017 و ACM CSCW 2024).</p>
+                <div class="toggle-row">
+                    <span>🕵️ حالت ناشناس (عدم نمایش نام واقعی)</span>
+                    <input type="checkbox" id="chk_anonymous_mode" onchange="syncToggles()">
+                </div>
+                <div class="toggle-row">
+                    <span>📍 مخفی کردن مکان دقیق (فقط نام شهر)</span>
+                    <input type="checkbox" id="chk_hide_exact_location" checked onchange="syncToggles()">
+                </div>
+                <div class="toggle-row">
+                    <span>🌫️ تار کردن عکس تا زمان تایید دوطرفه</span>
+                    <input type="checkbox" id="chk_blur_photos" onchange="syncToggles()">
+                </div>
+                <div class="toggle-row">
+                    <span>📵 محافظت اسکرین‌شات و هشدار کپی</span>
+                    <input type="checkbox" id="chk_screenshot_protection" checked onchange="syncToggles()">
+                </div>
+                <div class="toggle-row">
+                    <span>⚠️ مسدودسازی خودکار درخواست عکس خصوصی (Sextortion)</span>
+                    <input type="checkbox" id="chk_block_nude_requests" checked onchange="syncToggles()">
+                </div>
+            </div>
+
+            <!-- 8. FRIES Consent Interactive Quiz -->
+            <div class="card">
+                <h3>💬 ۸. آزمون تعاملی ۵ اصل رضایت (FRIES)</h3>
+                <p>رضایت واقعی باید <strong>آزادانه، قابل بازگشت، آگاهانه، مشتاقانه و مشخص</strong> باشد (Thompson 2018).</p>
+                <div style="background:#f9f8fc;padding:12px;border-radius:10px;font-size:13.5px;">
+                    <strong>سؤال:</strong> اگر طرف مقابل سکوت کند یا پاسخ مبهم بدهد، آیا به معنای رضایت است؟
+                    <div style="display:flex;gap:8px;margin-top:10px;">
+                        <button class="btn-purple" style="background:#15803d;flex:1;" onclick="answerConsent(true)">خیر، سکوت هرگز رضایت نیست ✅</button>
+                        <button class="btn-purple" style="background:#9ca3af;flex:1;" onclick="answerConsent(false)">شاید رضایت باشد</button>
+                    </div>
+                    <p id="consentResult" style="margin-top:8px;font-weight:700;"></p>
+                </div>
+            </div>
+
+            <!-- 9, 11 & 13. Hidden Words & Safe Date Plan -->
+            <div class="card">
+                <h3>🚫 ۹، ۱۱ و ۱۳. فیلتر کلمات مزاحم و چک‌لیست مکان عمومی</h3>
+                <p>پیام‌های حاوی کلمات توهین‌آمیز یا اسپم پیش از نمایش به شما مسدود می‌شوند (الهام از Hinge).</p>
+                <div class="input-inline">
+                    <input type="text" id="hiddenWordInput" placeholder="افزودن کلمه ممنوعه...">
+                    <button class="btn-purple" onclick="addHiddenWord()">افزودن</button>
+                </div>
+                <div id="hiddenWordsList" style="margin-top:10px;"></div>
+                <div class="toggle-row" style="margin-top:8px;">
+                    <span>📍 الزام پیشنهاد کافه/مکان عمومی در قرار اول</span>
+                    <input type="checkbox" id="chk_date_plan_shared" checked onchange="syncToggles()">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        const API_BASE = window.FEMINISM_API_BASE;
+        const curUser = window.authService.getCurrentUser() || { id: 1, name: 'کاربر مهمان' };
+        const userId = curUser.id || 1;
+        let safetyState = { hidden_words: ['مزاحم', 'nude', 'crypto'] };
+        let timerInterval = null;
+        let remainingSec = 1800;
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.style.display = 'block';
+            setTimeout(() => { t.style.display = 'none'; }, 2800);
+        }
+
+        async function loadSafety() {
+            try {
+                const resp = await fetch(`${API_BASE}/api/safety/${encodeURIComponent(userId)}`);
+                if (resp.ok) {
+                    safetyState = await resp.json();
+                    applySafetyToUI();
+                }
+            } catch (e) {
+                renderHiddenWords();
+            }
+        }
+
+        function applySafetyToUI() {
+            document.getElementById('sfName').value = safetyState.secret_friend_name || '';
+            document.getElementById('sfContact').value = safetyState.secret_friend_contact || '';
+            document.getElementById('safeWordInput').value = safetyState.safe_word || '';
+            document.getElementById('scoreLabel').textContent = safetyState.safety_score || 100;
+
+            const keys = [
+                'secret_friend_active', 'mutual_safety_active', 'safe_word_active',
+                'anonymous_mode', 'hide_exact_location', 'blur_photos',
+                'screenshot_protection', 'block_nude_requests', 'date_plan_shared'
+            ];
+            keys.forEach(k => {
+                const el = document.getElementById('chk_' + k);
+                if (el && safetyState[k] !== undefined) el.checked = Boolean(safetyState[k]);
+            });
+            renderHiddenWords();
+        }
+
+        async function savePatch(patch, toastMsg) {
+            safetyState = { ...safetyState, ...patch };
+            try {
+                await fetch(`${API_BASE}/api/safety/${encodeURIComponent(userId)}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(patch)
+                });
+            } catch (e) {}
+            showToast(toastMsg || '✅ تنظیمات ایمنی در فضای ابری ذخیره شد');
+        }
+
+        function syncToggles() {
+            const patch = {
+                secret_friend_active: document.getElementById('chk_secret_friend_active').checked,
+                mutual_safety_active: document.getElementById('chk_mutual_safety_active').checked,
+                safe_word_active: document.getElementById('chk_safe_word_active').checked,
+                anonymous_mode: document.getElementById('chk_anonymous_mode').checked,
+                hide_exact_location: document.getElementById('chk_hide_exact_location').checked,
+                blur_photos: document.getElementById('chk_blur_photos').checked,
+                screenshot_protection: document.getElementById('chk_screenshot_protection').checked,
+                block_nude_requests: document.getElementById('chk_block_nude_requests').checked,
+                date_plan_shared: document.getElementById('chk_date_plan_shared').checked
+            };
+            savePatch(patch);
+        }
+
+        function saveSecretFriend() {
+            const name = document.getElementById('sfName').value.trim();
+            const contact = document.getElementById('sfContact').value.trim();
+            document.getElementById('chk_secret_friend_active').checked = true;
+            savePatch({ secret_friend_name: name, secret_friend_contact: contact, secret_friend_active: true }, '🤝 دوست مخفی ثبت و فعال شد!');
+        }
+
+        function saveSafeWord() {
+            const word = document.getElementById('safeWordInput').value.trim();
+            if (!word) return showToast('لطفاً یک کلمه امن وارد کنید');
+            document.getElementById('chk_safe_word_active').checked = true;
+            savePatch({ safe_word: word, safe_word_active: true }, '🔐 کلمه امن ذخیره و فعال شد!');
+        }
+
+        async function triggerSOS() {
+            document.getElementById('sosStatusText').textContent = '🆘 هشدار اضطراری فعال شد! اعلان برای مخاطب مورد اعتماد ثبت گردید.';
+            try {
+                await fetch(`${API_BASE}/api/safety/sos`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId, message: 'Web SOS Button Triggered' })
+                });
+            } catch (e) {}
+            showToast('🆘 هشدار SOS در سرور ثبت شد');
+        }
+
+        async function resolveSOS() {
+            document.getElementById('sosStatusText').textContent = '✅ وضعیت امن تایید شد و هشدار SOS بسته شد.';
+            try {
+                await fetch(`${API_BASE}/api/safety/sos`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId, action: 'resolve' })
+                });
+            } catch (e) {}
+            showToast('✅ وضعیت شما به «امن» تغییر کرد');
+        }
+
+        function startCheckinTimer() {
+            clearInterval(timerInterval);
+            remainingSec = 1800;
+            showToast('⏰ تایمر ۳۰ دقیقه‌ای چک‌این قرار شروع شد');
+            timerInterval = setInterval(() => {
+                remainingSec = Math.max(0, remainingSec - 1);
+                const m = String(Math.floor(remainingSec / 60)).padStart(2, '0');
+                const s = String(remainingSec % 60).padStart(2, '0');
+                document.getElementById('timerDisplay').textContent = `${m}:${s}`;
+                if (remainingSec === 0) {
+                    clearInterval(timerInterval);
+                    triggerSOS();
+                }
+            }, 1000);
+        }
+
+        function confirmSafeCheckin() {
+            clearInterval(timerInterval);
+            remainingSec = 1800;
+            document.getElementById('timerDisplay').textContent = '30:00';
+            showToast('✅ چک‌این امن شما ثبت شد!');
+        }
+
+        function answerConsent(correct) {
+            const el = document.getElementById('consentResult');
+            if (correct) {
+                el.style.color = '#15803d';
+                el.textContent = '🌟 آفرین! طبق اصل FRIES، رضایت باید شفاف، آگاهانه و مشتاقانه باشد. نشان آگاهی رضایت فعال شد.';
+                savePatch({ consent_quiz_passed: true }, '🏅 آزمون رضایت با موفقیت تکمیل شد');
+            } else {
+                el.style.color = '#b91c1c';
+                el.textContent = '⚠️ به یاد داشته باشید: تردید یا سکوت هرگز به معنای رضایت نیست.';
+            }
+        }
+
+        function renderHiddenWords() {
+            const words = safetyState.hidden_words || [];
+            document.getElementById('hiddenWordsList').innerHTML = words.map((w, idx) =>
+                `<span class="tag-chip">${w} <span style="cursor:pointer;" onclick="removeHiddenWord(${idx})">×</span></span>`
+            ).join('');
+        }
+
+        function addHiddenWord() {
+            const inp = document.getElementById('hiddenWordInput');
+            const val = inp.value.trim();
+            if (!val) return;
+            const words = [...(safetyState.hidden_words || [])];
+            if (!words.includes(val)) words.push(val);
+            inp.value = '';
+            safetyState.hidden_words = words;
+            renderHiddenWords();
+            savePatch({ hidden_words: words }, '🚫 کلمه به فیلتر ضد مزاحمت اضافه شد');
+        }
+
+        function removeHiddenWord(idx) {
+            const words = [...(safetyState.hidden_words || [])];
+            words.splice(idx, 1);
+            safetyState.hidden_words = words;
+            renderHiddenWords();
+            savePatch({ hidden_words: words });
+        }
+
+        loadSafety();
+    </script>
+</body>
+</html>

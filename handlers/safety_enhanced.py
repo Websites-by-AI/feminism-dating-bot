@@ -139,3 +139,19 @@ async def handle_hidden_word_input(update: Update, context: ContextTypes.DEFAULT
         
     finally:
         db.close()
+
+
+async def clear_hidden_words(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Clear all hidden word filters for the user"""
+    query = update.callback_query
+    await query.answer()
+    db = get_session()
+    try:
+        user = db.query(User).filter_by(telegram_id=query.from_user.id).first()
+        if user:
+            db.query(ContentFilter).filter_by(user_id=user.id).delete()
+            db.commit()
+    finally:
+        db.close()
+    await setup_hidden_words(update, context)
+

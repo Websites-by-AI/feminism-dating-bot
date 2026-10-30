@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feminist Tanışma - Kadınları Tanışmaya Güçlendirme 🚀💪</title>
+    <meta name="description" content="Bumble, HER ve güvenilir feminist sitelerinden ilham alan en güvenli feminist tanışma platformu 🌟👫">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ============================================================
+        تم فمینیستی - الهام‌گرفته از سایت‌های دوستیابی فمینیستی
+        
+        منابع تحقیق:
+        - Bumble 2024: زرد #FFC629 + سیاه، تم زنبوری (زنان قدرت)
+        - HER: بنفش گرادیانت، مدرن و پریمیوم
+        - Feminist Sites: بنفش #5B197B، سبز امید #00BBBA
+        - Trending: ترکیب بنفش + زرد، گوشه‌های گرد بزرگ
+        ============================================================ */
+        
+        :root {
+            /* Bumble Brand Colors - Authentic 2024 */
+            --bumble-yellow: #FFC629;
+            --bumble-black: #000000;
+            --bumble-dark: #1A1A1A;
+            
+            /* Feminist Colors */
+            --feminist-purple: #5B197B;
+            --feminist-purple-light: #8B5CF6;
+            --feminist-pink: #EC4899;
+            --hope-green: #00BBBA;
+            
+            /* Neutral Colors */
+            --white: #FFFFFF;
+            --light-bg: #FFF9E6;
+            --light-purple-bg: #F3E8FF;
+            --gray: #6B7280;
+            --dark-text: #1A1A2E;
+            
+            /* Gradients - Authentic to Bumble + Feminist */
+            --gradient-bumble: linear-gradient(135deg, #FFC629 0%, #FFB000 100%);
+            --gradient-feminist: linear-gradient(135deg, #5B197B 0%, #8B5CF6 100%);
+            --gradient-hero: linear-gradient(135deg, #FFC629 0%, #5B197B 50%, #8B5CF6 100%);
+            --gradient-hero-dark: linear-gradient(135deg, #1A1A1A 0%, #5B197B 100%);
+            --gradient-hope: linear-gradient(135deg, #00BBBA 0%, #5B197B 100%);
+            
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(255, 198, 41, 0.15);
+            --shadow-md: 0 4px 16px rgba(255, 198, 41, 0.2);
+            --shadow-lg: 0 8px 32px rgba(255, 198, 41, 0.25);
+            --shadow-purple: 0 8px 32px rgba(91, 25, 123, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--white);
+            color: var(--dark-text);
+            line-height: 1.7;
+            direction: ltr;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ============================================================
+        Header - Bumble Style (Black + Yellow)
+        ============================================================ */
+        header {
+            background: var(--bumble-black);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid var(--bumble-yellow);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--bumble-yellow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 28px;
+            color: var(--bumble-yellow);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--white);
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--bumble-yellow);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 0;
+            height: 3px;
+            background: var(--bumble-yellow);
+            transition: width 0.3s;
+            border-radius: 2px;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* ============================================================
+        Hero Section - Bumble Empowerment + Feminist Purple
+        ============================================================ */
+        .hero {
+            background: var(--gradient-hero);
+            padding: 140px 0 120px;
+            text-align: center;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hexagonal Bee Pattern (Bumble Brand Element) */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 15V45L30 60L0 45V15L30 0z' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1'/%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .empowerment-badge {
+            display: inline-block;
+            background: var(--bumble-yellow);
+            color: var(--bumble-black);
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(255, 198, 41, 0.4);
+        }
+
+        .hero h1 {
+            font-size: 58px;
+            margin-bottom: 25px;
+            font-weight: 800;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            line-height: 1.3;
+        }
+
+        .hero p {
+            font-size: 22px;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bumble-yellow);
+            color: var(--bumble-black);
+            padding: 18px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            transition: all 0.3s;
+            box-shadow: 0 8px 24px rgba(255, 198, 41, 0.4);
+            border: 3px solid transparent;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 36px rgba(255, 198, 41, 0.5);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: var(--white);
+            border: 3px solid var(--white);
+        }
+
+        /* ============================================================
+        Feminist Dating Sites Section
+        ============================================================ */
+        .feminist-sites {
+            background: var(--light-bg);
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 44px;
+            margin-bottom: 15px;
+            color: var(--feminist-purple);
+            font-weight: 800;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: var(--gray);
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .sites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .site-card {
+            background: var(--white);
+            padding: 35px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s;
+            text-align: center;
+            border: 3px solid transparent;
+        }
+
+        .site-card:hover {
+            transform: translateY(-12px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--bumble-yellow);
+        }
+
+        .site-icon {
+            font-size: 56px;
+            background: var(--gradient-feminist);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .site-card h3 {
+            color: var(--dark-text);
+            margin-bottom: 15px;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .site-card p {
+            color: var(--gray);
+            margin-bottom: 25px;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .site-link {
+            display: inline-block;
+            color: var(--feminist-purple);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            padding: 8px 20px;
+            border-radius: 20px;
+            background: var(--light-purple-bg);
+        }
+
+        .site-link:hover {
+            background: var(--feminist-purple);
+            color: var(--white);
+            transform: translateX(-5px);
+        }
+
+        /* ============================================================
+        Stats Section - Bumble Style
+        ============================================================ */
+        .stats {
+            background: var(--bumble-black);
+            padding: 100px 0;
+            color: var(--white);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 35px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--bumble-yellow);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-icon {
+            font-size: 56px;
+            color: var(--bumble-yellow);
+            margin-bottom: 20px;
+        }
+
+        .stat-number {
+            font-size: 64px;
+            font-weight: 800;
+            color: var(--bumble-yellow);
+            margin-bottom: 15px;
+        }
+
+        .stat-label {
+            font-size: 18px;
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        /* ============================================================
+        Features Section
+        ============================================================ */
+        .features {
+            background: var(--white);
+            padding: 120px 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 35px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background: var(--light-bg);
+            padding: 45px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s;
+            border: 3px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--bumble-yellow);
+        }
+
+        .feature-icon {
+            font-size: 64px;
+            color: var(--feminist-purple);
+            margin-bottom: 25px;
+        }
+
+        .feature-card h3 {
+            color: var(--dark-text);
+            margin-bottom: 20px;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        /* ============================================================
+        Quotes Section - HER Style (Purple Gradient)
+        ============================================================ */
+        .quotes {
+            background: var(--gradient-feminist);
+            padding: 120px 0;
+            color: var(--white);
+        }
+
+        .quotes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            margin-top: 60px;
+        }
+
+        .quote-card {
+            background: rgba(255,255,255,0.1);
+            padding: 45px;
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .quote-card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-10px);
+            border-color: var(--bumble-yellow);
+        }
+
+        .quote-text {
+            font-size: 19px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .quote-author {
+            font-size: 17px;
+            font-weight: 600;
+            text-align: left;
+            color: var(--bumble-yellow);
+        }
+
+        /* ============================================================
+        CTA Section - Bumble Yellow
+        ============================================================ */
+        .cta-section {
+            background: var(--bumble-yellow);
+            padding: 140px 0;
+            text-align: center;
+            color: var(--bumble-black);
+        }
+
+        .cta-section h2 {
+            font-size: 52px;
+            margin-bottom: 25px;
+            font-weight: 800;
+            color: var(--bumble-black);
+        }
+
+        .cta-section p {
+            font-size: 22px;
+            margin-bottom: 50px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--bumble-black);
+        }
+
+        /* ============================================================
+        Footer
+        ============================================================ */
+        footer {
+            background: var(--bumble-black);
+            color: var(--white);
+            padding: 100px 0 40px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .footer-section h3 {
+            color: var(--bumble-yellow);
+            margin-bottom: 25px;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 15px;
+        }
+
+        .footer-section a {
+            color: var(--white);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-section a:hover {
+            color: var(--bumble-yellow);
+            transform: translateX(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 50px;
+            border-top: 2px solid rgba(255,255,255,0.1);
+            color: var(--gray);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--bumble-yellow);
+            color: var(--bumble-black);
+            transform: translateY(-5px);
+        }
+
+        /* ============================================================
+        Responsive Design
+        ============================================================ */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            nav ul {
+                gap: 15px;
+            }
+
+            .features-grid,
+            .quotes-grid,
+            .sites-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 34px;
+            }
+
+            .stat-number {
+                font-size: 48px;
+            }
+
+            .cta-section h2 {
+                font-size: 38px;
+            }
+        }
+
+        /* ============================================================
+        Animations
+        ============================================================ */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .site-card,
+        .feature-card,
+        .quote-card,
+        .stat-item {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* ============================================================
+           NEW MODES Section – Startup Co-founder & International
+           ============================================================ */
+        .new-modes {
+            background: var(--dark-text);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .new-modes::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(circle at 15% 20%, rgba(255,198,41,.18), transparent 40%),
+                        radial-gradient(circle at 85% 80%, rgba(139,92,246,.25), transparent 45%);
+        }
+        .new-modes .container { position: relative; z-index: 1; }
+        .new-badge {
+            display: inline-block; background: var(--bumble-yellow); color: var(--bumble-black);
+            font-weight: 800; padding: 8px 20px; border-radius: 999px; font-size: 14px; letter-spacing: .5px;
+            margin-bottom: 16px; box-shadow: var(--shadow-md);
+        }
+        .new-modes .section-title { color: var(--white); }
+        .new-modes .section-subtitle { color: rgba(255,255,255,.75); }
+        .modes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; margin-top: 48px; }
+        .mode-card {
+            border-radius: 28px; padding: 40px 36px; color: var(--white); position: relative;
+            transition: transform .3s, box-shadow .3s; overflow: hidden;
+        }
+        .mode-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(0,0,0,.35); }
+        .mode-card.startup { background: linear-gradient(135deg, #2563EB 0%, #5B197B 100%); }
+        .mode-card.abroad  { background: linear-gradient(135deg, #00BBBA 0%, #059669 100%); }
+        .mode-card .mode-emoji { font-size: 56px; line-height: 1; margin-bottom: 18px; }
+        .mode-card h3 { font-size: 28px; margin-bottom: 12px; font-weight: 800; }
+        .mode-card p { opacity: .92; font-size: 16px; line-height: 1.9; margin-bottom: 20px; }
+        .mode-card ul { list-style: none; padding: 0; margin: 0 0 28px; }
+        .mode-card li { padding: 6px 0; font-size: 15px; }
+        .mode-card li::before { content: '✔ '; color: var(--bumble-yellow); font-weight: 800; }
+        .mode-btn {
+            display: inline-block; background: var(--bumble-yellow); color: var(--bumble-black);
+            padding: 14px 30px; border-radius: 999px; font-weight: 800; text-decoration: none; transition: all .3s;
+        }
+        .mode-btn:hover { background: var(--white); transform: scale(1.04); }
+        .mode-card .ribbon {
+            position: absolute; top: 18px; left: -40px; transform: rotate(-35deg);
+            background: var(--bumble-yellow); color: var(--bumble-black); font-weight: 800; font-size: 12px;
+            padding: 6px 50px; letter-spacing: 1px;
+        }
+        @media (max-width: 768px) { .mode-card { padding: 30px 24px; } .mode-card h3 { font-size: 22px; } }
+    </style>
+</head>
+<body>
+    <!-- Header - Bumble Style (Black + Yellow) -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="tr.html" class="logo">
+                    <i class="fas fa-heart"></i>
+                    <span>Feminist arkadaşlık 🤝</span>
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="app.html" style="color: var(--bumble-yellow); font-weight:800;"><i class="fas fa-robot"></i> AI Web Uygulaması</a></li>
+                        <li><a href="safety.html"><i class="fas fa-shield-alt"></i> 13 Güvenlik Aracı</a></li>
+                        <li><a href="#new-modes"><i class="fas fa-rocket"></i> Yeni Modlar</a></li>
+                        <li><a href="education.html"><i class="fas fa-graduation-cap"></i> Eğitim</a></li>
+                        <li><a href="login.html"><i class="fas fa-user-circle"></i> Giriş / Panel</a></li>
+                        <li class="lang-switch"><a href="index.html">🇮🇷 FA</a> · <a href="en.html">🇬🇧 EN</a> · <a href="tr.html" style="font-weight:800;color:var(--bumble-yellow)">🇹🇷 TR</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section - Bumble Empowerment + Feminist Purple -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="empowerment-badge">
+                    <i class="fas fa-bolt"></i>Kadınlar güç sahiptir - ilk adım seninle başlar 💪</div>
+                <h1><i class="fas fa-heart"></i>En güvenli feminist arkadaşlık platformu 💕 - HER, Bumble gibi</h1>
+                <p>Bumble, HER ve diğer güvenilir feminist sitelerden ilham alınarak - Kadınları güçlendirmek için 13 feminist güvenlik özelliği</p>
+                <div class="cta-buttons">
+                    <a href="app.html" class="cta-button">
+                        <i class="fas fa-robot"></i> AI Koçu ve Testleri Başlat</a>
+                    <a href="https://t.me/femenism_ai_dating_bot" class="cta-button secondary" target="_blank">
+                        <i class="fab fa-telegram"></i> Telegram Botu</a>
+                    <a href="safety.html" class="cta-button secondary">
+                        <i class="fas fa-shield-alt"></i> Güvenlik & SOS Merkezi</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feminist Dating Sites Section -->
+    <section id="feminist-sites" class="feminist-sites">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-globe"></i>Güvenilir feminist arkadaşlık siteleri 🌟</h2>
+            <p class="section-subtitle">Dünyanın en iyi feminist arkadaşlık sitelerinden esinlenerek 🌟</p>
+            
+            <div class="sites-grid">
+                <div class="site-card">
+                    <div class="site-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>Bumble</h3>
+                    <p>En ünlü feminist arkadaşlık uygulaması - kadınlar ilk mesajı gönderir 💬</p>
+                    <a href="https://bumble.com" class="site-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>Ziyaret et 🚀</a>
+                </div>
+                
+                <div class="site-card">
+                    <div class="site-icon"><i class="fas fa-heart"></i></div>
+                    <h3>HER</h3>
+                    <p>LGBTQ+ kadınlar için kapsayıcı ve kapsamlı arkadaşlık uygulaması 🌈 - Bumble, HER gibi</p>
+                    <a href="https://weareher.com" class="site-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>Ziyaret et 🚀</a>
+                </div>
+                
+                <div class="site-card">
+                    <div class="site-icon"><i class="fas fa-question-circle"></i></div>
+                    <h3>OkCupid</h3>
+                    <p>Feminist değerlerle arkadaşlık - derin sorular için eşleşme 💕</p>
+                    <a href="https://okcupid.com" class="site-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>Ziyaret et 🚀</a>
+                </div>
+                
+                <div class="site-card">
+                    <div class="site-icon"><i class="fas fa-link"></i></div>
+                    <h3>Hinge</h3>
+                    <p>'Silinmeye diseñificado' - ciddi ilişkiler odaklı 💌</p>
+                    <a href="https://hinge.co" class="site-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>Ziyaret et 🚀</a>
+                </div>
+                
+                <div class="site-card">
+                    <div class="site-icon"><i class="fas fa-coffee"></i></div>
+                    <h3>Coffee Meets Bagel</h3>
+                    <p>Kaliteli arkadaşlık - nicelikten çok nitelik 🌈</p>
+                    <a href="https://coffeemeetsbagel.com" class="site-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>Ziyaret et 🚀</a>
+                </div>
+                
+                <div class="site-card">
+                    <div class="site-icon"><i class="fas fa-trophy"></i></div>
+                    <h3>The League</h3>
+                    <p>Profesyonel arkadaşlık - başarılı ve eğitimli kişiler için 💼</p>
+                    <a href="https://theleague.com" class="site-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>Ziyaret et 🚀</a>
+                </div>
+                
+                <div class="site-card">
+                    <div class="site-icon"><i class="fas fa-globe"></i></div>
+                    <h3>UN Women</h3>
+                    <p>BM kadın erkek eşitliği için 🌎</p>
+                    <a href="https://www.unwomen.org" class="site-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>Ziyaret et 🚀</a>
+                </div>
+                
+                <div class="site-card">
+                    <div class="site-icon"><i class="fas fa-fist-raised"></i></div>
+                    <h3>NOW</h3>
+                    <p>Amerika'nın en büyük feminist örgütü 🇺🇸</p>
+                    <a href="https://now.org" class="site-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>Ziyaret et 🚀</a>
+                </div>
+                
+                <div class="site-card">
+                    <div class="site-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h3>Malala Fund</h3>
+                    <p>Kız eğitim fonu - ilham verici 📚</p>
+                    <a href="https://malala.org" class="site-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>Ziyaret et 🚀</a>
+                </div>
+                
+                <div class="site-card">
+                    <div class="site-icon"><i class="fas fa-book"></i></div>
+                    <h3>Everyday Feminism</h3>
+                    <p>Günlük feminizm - eğitici ve uygulamalı 📚</p>
+                    <a href="https://everydayfeminism.com" class="site-link" target="_blank">
+                        <i class="fas fa-external-link-alt"></i>Ziyaret et 🚀</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section - Bumble Style (Black + Yellow) -->
+    <section id="stats" class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="stat-number">13</div>
+                    <div class="stat-label">Feminist Güvenlik Özellikleri</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-heart"></i></div>
+                    <div class="stat-number">10</div>
+                    <div class="stat-label">İlişki kategorileri</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-globe"></i></div>
+                    <div class="stat-number">10</div>
+                    <div class="stat-label">Güvenilir Feminist Site</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-robot"></i></div>
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Yapay Zeka Asistanı</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <!-- ============================================================
+         NEW MODES – Startup Co-founder & International (highlighted)
+         ============================================================ -->
+    <section id="new-modes" class="new-modes">
+        <div class="container">
+            <span class="new-badge">🆕 Robotumuzda yeni</span>
+            <h2 class="section-title">İki Yeni İlişki Modu</h2>
+            <p class="section-subtitle">Klasik arkadaşlık uygulamalarının ötesinde - inşa etmek veya sınırları aşmak için bir ortak 🌈</p>
+
+            <div class="modes-grid">
+                <div class="mode-card startup">
+                    <div class="ribbon">NEW</div>
+                    <div class="mode-emoji">🚀</div>
+                    <h3>İnovatif iş ortağı 🚀</h3>
+                    <p>Hem yaşam hem de iş ortağınız olacak bir ortak veya kurucu bulun.</p>
+                    <ul>
+                        <li>7 soruluk uyumluluk testi: beceri, zaman, risk, hisse 🤝</li>
+                        <li>AI koçu: ortaklık sözleşmesi, hisse paylaşımı, anlaşmazlık çözümü 📝</li>
+                        <li>Kırmızı bayraklar: ücretsiz iş, kontrol, şeffaflık eksikliği 🚩</li>
+                    </ul>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <a href="app.html?mode=startup" class="mode-btn">Online Girişim Testi ←</a>
+                        <a href="https://t.me/femenism_ai_dating_bot?start=startup" class="mode-btn" target="_blank" style="background:#fff;">Telegram</a>
+                    </div>
+                </div>
+
+                <div class="mode-card abroad">
+                    <div class="ribbon">NEW</div>
+                    <div class="mode-emoji">🌍</div>
+                    <h3>Uluslararası Tanışma</h3>
+                    <p>Yabancı ülkelerde tanışmak, uzaktan ilişki, göç ve çok kültürlü yaşam - Güvenle ve bilinçli olarak.</p>
+                    <ul>
+                        <li>Hazırlık testi: dil, uzaklık, kültürel fark, hedef bölge 🌍</li>
+                        <li>AI koçu: vize ve gerçek beklentiler, iletişim ritmi ve seyahat 🗺️ - UN Women gibi</li>
+                        <li>Uluslararası 'ilişki' dolandırıcılıklarına karşı koruma 🚫</li>
+                    </ul>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <a href="app.html?mode=abroad" class="mode-btn">Online Uluslararası Test ←</a>
+                        <a href="https://t.me/femenism_ai_dating_bot?start=abroad" class="mode-btn" target="_blank" style="background:#fff;">Telegram</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-star"></i>Özel özellikler 🌟 UN Women gibi</h2>
+            <p class="section-subtitle">Dünyanın en iyi feminist arkadaşlık sitelerinden esinlenerek 🌟</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>13 güvenlik özelliği</h3>
+                    <p>Equality Now ve UN Women'den esinlenerek, kadınları korumak için 13 güvenlik özelliği 🚀</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>İlk adım seninle</h3>
+                    <p>Bumble'dan esinlenerek, kadınlar ilk adımı atar - güç senin elinde 🙋‍♀️</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-heart"></i></div>
+                    <h3>10 ilişki modu + 2 yeni mod 🚀 Bumble, HER gibi</h3>
+                    <p>Ciddi bir ilişkiye kadar 🚀 startup ortağı ve 🌍 uluslararası tanışma - Kendi tarzınızı seçin</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-robot"></i></div>
+                    <h3>İleri Düzey Yapay Zeka</h3>
+                    <p>Ms. Magazine araştırmasından esinlenerek, yapay zeka arkadaşlık danışmanlığı 🤖</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-users"></i></div>
+                    <h3>Güçlü kadınlar topluluğu 🌟</h3>
+                    <p>Global Fund for Women'den esinlenerek, güçlü ve ilham verici kadın topluluğu 🌎</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-tv"></i></div>
+                    <h3>Medya analizi 📰</h3>
+                    <p>Feminist Frequency ve Bitch Media'den esinlenerek, feminist medya analizi 📊</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quotes Section - HER Style (Purple Gradient) -->
+    <section id="quotes" class="quotes">
+        <div class="container">
+            <h2 class="section-title" style="color: var(--white);"><i class="fas fa-quote-right"></i>İlham Verici Alıntılar 🤩</h2>
+            <p class="section-subtitle" style="color: var(--bumble-yellow);">Tarihi değiştiren güçlü kadınlar 💪</p>
+            
+            <div class="quotes-grid">
+                <div class="quote-card">
+                    <div class="quote-text">Kadınların cennete girmek için izin almalarına gerek yok, yere hükmetmek için güce ihtiyaçları var</div>
+                    <div class="quote-author">👸 Rani Ranwalona</div>
+                </div>
+                
+                <div class="quote-card">
+                    <div class="quote-text">Kendimi kurban olarak görmüyorum, çünkü kendi hikayemi yazabilirim</div>
+                    <div class="quote-author">🌟 - Maya Angelou</div>
+                </div>
+                
+                <div class="quote-card">
+                    <div class="quote-text">Özgürlük size verilen bir şey değildir, özgürlük kendiniz için aldığınız bir şeydir</div>
+                    <div class="quote-author">🌟 - Angela Davis</div>
+                </div>
+                
+                <div class="quote-card">
+                    <div class="quote-text">Yapabileceğiniz en güçlü şey sesinizi yükseltmektir</div>
+                    <div class="quote-author">👑 Malala Yusufzai</div>
+                </div>
+                
+                <div class="quote-card">
+                    <div class="quote-text">Bir çocuk, bir öğretmen, bir kitap ve bir kalem dünyayı değiştirebilir</div>
+                    <div class="quote-author">👑 Malala Yusufzai</div>
+                </div>
+                
+                <div class="quote-card">
+                    <div class="quote-text">Bilmiyorum bu sözü kim söylemeli ama ben söylüyorum: Hepimiz feminist olmalıyız</div>
+                    <div class="quote-author">- Chimamanda Ngozi Adichie</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section - Bumble Yellow -->
+    <section class="cta-section">
+        <div class="container">
+            <h2><i class="fas fa-rocket"></i>Şimdi Başlayın! 🚀</h2>
+            <p>Binlerce güçlü kadına katılın ve en güvenli ve ilham verici arkadaşlık platformunu kullanın</p>
+            <a href="https://t.me/femenism_ai_dating_bot" class="cta-button" target="_blank" style="background: var(--feminist-purple); color: var(--white);">
+                <i class="fab fa-telegram"></i>Telegram'da bot açma 🤖</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-heart"></i>Çıkma Feminizmi</h3>
+                    <p style="color: var(--white); line-height: 1.8; margin-bottom: 20px;">Bumble, HER, OkCupid, Hinge ve daha birçok feminist arkadaşlık sitesi tarafından ilham alınmıştır.</p>
+                    <div class="social-links">
+                        <a href="https://t.me/femenism_ai_dating_bot"><i class="fab fa-telegram"></i></a>
+                        <a href="https://t.me/Femenism_Dating_AI"><i class="fas fa-bullhorn"></i></a>
+                        <a href="https://github.com/Websites-by-AI/feminism-dating-bot"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3><i class="fas fa-globe"></i>Feminist arkadaşlık siteleri 🌐</h3>
+                    <ul>
+                        <li><a href="https://bumble.com" target="_blank"><i class="fas fa-external-link-alt"></i> Bumble</a></li>
+                        <li><a href="https://weareher.com" target="_blank"><i class="fas fa-external-link-alt"></i> HER</a></li>
+                        <li><a href="https://okcupid.com" target="_blank"><i class="fas fa-external-link-alt"></i> OkCupid</a></li>
+                        <li><a href="https://hinge.co" target="_blank"><i class="fas fa-external-link-alt"></i> Hinge</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3><i class="fas fa-link"></i>Faydalı bağlantılar</h3>
+                    <ul>
+                        <li><a href="https://t.me/femenism_ai_dating_bot"><i class="fab fa-telegram"></i>Telegram Botu</a></li>
+                        <li><a href="https://t.me/Femenism_Dating_AI"><i class="fas fa-bullhorn"></i>Haber Kanalı</a></li>
+                        <li><a href="#feminist-sites"><i class="fas fa-globe"></i>Feminist Siteler</a></li>
+                        <li><a href="#features"><i class="fas fa-star"></i>Özellikler</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2024 Feminist Arkadaşlık. Tüm hakları saklıdır.</p>
+                <p style="margin-top: 15px; font-size: 15px;">
+                    <i class="fas fa-heart" style="color: var(--bumble-yellow);"></i>Dünyanın güçlü kadınlarından esinlenerek 💪</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

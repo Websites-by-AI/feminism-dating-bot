@@ -127,7 +127,7 @@ pip install -r requirements.txt
 ```
 
 ### 2. Verify .env
-Token is already configured: `BOT_TOKEN=8944962741:AAHJXca_OjSCdciyfW4bfNsQUn_iHmsxKeo`
+Token is already configured: `BOT_TOKEN=<YOUR_TELEGRAM_BOT_TOKEN>`
 
 ### 3. Set Bot Profile Picture
 ```

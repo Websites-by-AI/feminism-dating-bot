@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل مدیریت - فمینیسم دوستیابی</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #FF8E53;
+            --purple: #5B197B;
+            --dark: #1a1a1a;
+            --gray: #666;
+            --light-gray: #f8f9fa;
+            --gradient: linear-gradient(135deg, #5B197B 0%, #FF6B6B 100%);
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-gray); color: var(--dark); direction: rtl;
+        }
+        header {
+            background: white; padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .header-content {
+            display: flex; justify-content: space-between; align-items: center;
+            max-width: 1400px; margin: 0 auto;
+        }
+        .logo {
+            font-size: 22px; font-weight: bold; background: var(--gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            display: flex; align-items: center; gap: 10px; text-decoration: none;
+        }
+        nav ul { display: flex; list-style: none; gap: 18px; flex-wrap: wrap; }
+        nav a { text-decoration: none; color: var(--dark); font-weight: 600; font-size: 14px; }
+        nav a:hover { color: var(--primary); }
+        .container { max-width: 1400px; margin: 28px auto; padding: 0 20px; }
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px; margin-bottom: 26px;
+        }
+        .stat-card {
+            background: white; padding: 22px; border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+        .stat-icon {
+            font-size: 34px; background: var(--gradient);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px;
+        }
+        .stat-value { font-size: 32px; font-weight: bold; margin-bottom: 4px; }
+        .stat-label { color: var(--gray); font-size: 13px; }
+        .webhook-card {
+            background: white; padding: 24px; border-radius: 15px; margin-bottom: 26px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-right: 5px solid var(--purple);
+        }
+        .webhook-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+        .webhook-row input {
+            flex: 1; min-width: 260px; padding: 11px 14px; border: 1px solid #ccc; border-radius: 8px;
+            direction: ltr; font-family: monospace;
+        }
+        .webhook-btn {
+            background: var(--purple); color: white; border: none; padding: 11px 22px;
+            border-radius: 8px; cursor: pointer; font-weight: 700;
+        }
+        .charts-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 20px; margin-bottom: 26px;
+        }
+        .chart-card {
+            background: white; padding: 24px; border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+        .chart-title { font-size: 18px; font-weight: bold; margin-bottom: 18px; }
+        .chart-bar { margin-bottom: 12px; }
+        .chart-bar-label { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 13px; }
+        .chart-bar-fill { height: 16px; background: var(--light-gray); border-radius: 8px; overflow: hidden; }
+        .chart-bar-progress { height: 100%; background: var(--gradient); border-radius: 8px; transition: width 0.5s; }
+        .users-section {
+            background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); overflow: hidden;
+        }
+        .section-header {
+            padding: 18px 24px; border-bottom: 1px solid var(--light-gray);
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+        }
+        .search-box { display: flex; gap: 10px; align-items: center; }
+        .search-input { padding: 9px 14px; border: 1px solid #ddd; border-radius: 8px; min-width: 220px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: var(--light-gray); padding: 12px 15px; text-align: right; font-size: 13px; }
+        td { padding: 12px 15px; border-bottom: 1px solid var(--light-gray); font-size: 14px; }
+        .badge { padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .badge-success { background: #d4edda; color: #155724; }
+        .badge-danger { background: #f8d7da; color: #721c24; }
+        .pagination { display: flex; justify-content: center; gap: 8px; padding: 18px; }
+        .pagination button {
+            padding: 7px 14px; border: 1px solid #ddd; background: white; border-radius: 8px; cursor: pointer;
+        }
+        .pagination button.active { background: var(--purple); color: white; border-color: var(--purple); }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <i class="fas fa-user-shield"></i>
+                <span>پنل مدیریت سیستم</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> صفحه اصلی</a></li>
+                    <li><a href="app.html"><i class="fas fa-robot"></i> وب‌اپ AI</a></li>
+                    <li><a href="safety.html"><i class="fas fa-shield-alt"></i> ایمنی</a></li>
+                    <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> داشبورد</a></li>
+                    <li><a href="education.html"><i class="fas fa-graduation-cap"></i> آموزش</a></li>
+                    <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> خروج</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-users stat-icon"></i>
+                <div class="stat-value" id="totalUsers">-</div>
+                <div class="stat-label">کل کاربران</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-user-check stat-icon"></i>
+                <div class="stat-value" id="activeUsers">-</div>
+                <div class="stat-label">کاربران فعال</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-crown stat-icon"></i>
+                <div class="stat-value" id="premiumUsers">-</div>
+                <div class="stat-label">کاربران ویژه</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-heart stat-icon"></i>
+                <div class="stat-value" id="totalMatches">-</div>
+                <div class="stat-label">تطابق‌ها</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-flask stat-icon"></i>
+                <div class="stat-value" id="totalTests">-</div>
+                <div class="stat-label">تست‌های ثبت‌شده</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-bell stat-icon"></i>
+                <div class="stat-value" id="sosAlerts">0</div>
+                <div class="stat-label">هشدارهای SOS فعال</div>
+            </div>
+        </div>
+
+        <!-- Telegram Bot Serverless Webhook Connector -->
+        <div class="webhook-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+                <div>
+                    <h3><i class="fab fa-telegram" style="color:#0088cc;"></i> اتصال وب‌هوک ابری ربات تلگرام (Cloudflare Workers 24/7)</h3>
+                    <p style="color:#555;font-size:14px;margin-top:4px;">
+                        در صورت تعویض توکن در <code>@BotFather</code>، توکن جدید را وارد کنید تا بدون نیاز به سرور مجازی، ۲۴ ساعته روی Cloudflare Workers فعال شود.
+                    </p>
+                </div>
+                <span class="badge badge-success" id="botStatusBadge">آماده اتصال</span>
+            </div>
+            <div class="webhook-row">
+                <input type="password" id="botTokenInput" placeholder="1234567890:AAH... (BotFather Token)">
+                <button class="webhook-btn" onclick="connectTelegramWebhook()">
+                    <i class="fas fa-plug"></i> ثبت و فعال‌سازی Webhook
+                </button>
+            </div>
+            <p id="webhookMsg" style="margin-top:10px;font-size:13px;color:#444;"></p>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-title"><i class="fas fa-globe"></i> توزیع زبان‌های کاربران</div>
+                <div id="languageChart"></div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title"><i class="fas fa-compass"></i> توزیع ۱۰ حالت رابطه</div>
+                <div id="relationshipChart"></div>
+            </div>
+        </div>
+
+        <div class="users-section">
+            <div class="section-header">
+                <div style="font-size:19px;font-weight:bold;"><i class="fas fa-users"></i> لیست کاربران سیستم</div>
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="جستجوی نام، شهر، حالت..." id="searchInput" oninput="searchUsers()">
+                    <button onclick="loadUsers(1)" style="padding:9px 16px;background:var(--purple);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:600;">
+                        <i class="fas fa-sync"></i> بروزرسانی
+                    </button>
+                </div>
+            </div>
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>نام</th>
+                            <th>سن</th>
+                            <th>شهر</th>
+                            <th>حالت رابطه</th>
+                            <th>MBTI</th>
+                            <th>زبان</th>
+                            <th>ایمنی</th>
+                            <th>وضعیت</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTable">
+                        <tr><td colspan="8" style="text-align:center;padding:30px;">در حال بارگذاری...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        const API_BASE = window.FEMINISM_API_BASE;
+        let currentPage = 1;
+        let totalPages = 1;
+        let searchTimer = null;
+
+        const langNames = {
+            fa: '🇮🇷 فارسی', en: '🇬🇧 English', tr: '🇹🇷 Türkçe', sv: '🇸🇪 Svenska',
+            de: '🇩🇪 Deutsch', ar: '🇸🇦 العربية', fr: '🇫🇷 Français', es: '🇪🇸 Español', ku: '☀️ کوردی'
+        };
+        const modeNames = {
+            serious: '💍 جدی', casual: '🌸 دوستانه', marriage: '💒 ازدواج',
+            friendship: '👥 دوستی', open: '🌈 باز', emotional: '💝 عاطفی',
+            intellectual: '🧠 فکری', one_night: '🔥 کوتاه‌مدت',
+            startup: '🚀 شریک استارتاپی', abroad: '🌍 بین‌المللی'
+        };
+
+        async function loadStats() {
+            try {
+                const resp = await fetch(`${API_BASE}/api/admin/stats`);
+                const data = await resp.json();
+                document.getElementById('totalUsers').textContent = data.total_users ?? 0;
+                document.getElementById('activeUsers').textContent = data.active_users ?? 0;
+                document.getElementById('premiumUsers').textContent = data.premium_users ?? 0;
+                document.getElementById('totalMatches').textContent = data.total_matches ?? 0;
+                document.getElementById('totalTests').textContent = data.total_tests ?? 0;
+                document.getElementById('sosAlerts').textContent = data.active_sos_alerts ?? 0;
+
+                if (data.telegram_bot) {
+                    const badge = document.getElementById('botStatusBadge');
+                    if (data.telegram_bot.connected) {
+                        badge.textContent = `متصل: ${data.telegram_bot.username}`;
+                        badge.className = 'badge badge-success';
+                    } else {
+                        badge.textContent = `نیازمند توکن جدید (${data.telegram_bot.username})`;
+                        badge.className = 'badge badge-danger';
+                    }
+                }
+
+                renderBarChart('languageChart', data.language_distribution || {}, langNames);
+                renderBarChart('relationshipChart', data.relationship_modes || {}, modeNames);
+            } catch (err) {
+                console.error('Stats error:', err);
+            }
+        }
+
+        function renderBarChart(id, dist, labels) {
+            const el = document.getElementById(id);
+            const entries = Object.entries(dist);
+            if (!entries.length) {
+                el.innerHTML = '<p style="color:#888;text-align:center;">داده‌ای ثبت نشده است</p>';
+                return;
+            }
+            const max = Math.max(...entries.map(e => e[1]), 1);
+            el.innerHTML = entries.map(([k, count]) => `
+                <div class="chart-bar">
+                    <div class="chart-bar-label">
+                        <span>${labels[k] || k}</span>
+                        <strong>${count}</strong>
+                    </div>
+                    <div class="chart-bar-fill">
+                        <div class="chart-bar-progress" style="width:${(count / max) * 100}%"></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function loadUsers(page = 1) {
+            try {
+                const q = document.getElementById('searchInput').value.trim();
+                const resp = await fetch(`${API_BASE}/api/admin/users?page=${page}&per_page=20&search=${encodeURIComponent(q)}`);
+                const data = await resp.json();
+                currentPage = data.page || 1;
+                totalPages = data.total_pages || 1;
+
+                const tbody = document.getElementById('usersTable');
+                if (!data.users || !data.users.length) {
+                    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:24px;">کاربری مطابق جستجو یافت نشد</td></tr>';
+                } else {
+                    tbody.innerHTML = data.users.map(u => `
+                        <tr>
+                            <td><strong>${u.name || u.username}</strong></td>
+                            <td>${u.age || '-'}</td>
+                            <td>${u.city || '-'}</td>
+                            <td>${modeNames[u.relationship_mode] || u.relationship_mode || '-'}</td>
+                            <td>${u.mbti_type || '-'}</td>
+                            <td>${langNames[u.language] || u.language || '-'}</td>
+                            <td>🛡️ ${u.safety_score ?? 100}%</td>
+                            <td>${u.is_active ? '<span class="badge badge-success">فعال</span>' : '<span class="badge badge-danger">غیرفعال</span>'}</td>
+                        </tr>
+                    `).join('');
+                }
+                renderPagination();
+            } catch (err) {
+                document.getElementById('usersTable').innerHTML =
+                    '<tr><td colspan="8" style="text-align:center;padding:20px;color:#e53935;">خطا در ارتباط با سرور</td></tr>';
+            }
+        }
+
+        function renderPagination() {
+            const container = document.getElementById('pagination');
+            let html = '';
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button onclick="loadUsers(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+            }
+            container.innerHTML = html;
+        }
+
+        function searchUsers() {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(() => loadUsers(1), 220);
+        }
+
+        async function connectTelegramWebhook() {
+            const token = document.getElementById('botTokenInput').value.trim();
+            const msg = document.getElementById('webhookMsg');
+            if (!token) {
+                msg.textContent = '⚠️ لطفاً توکن دریافتی از @BotFather را وارد کنید.';
+                return;
+            }
+            msg.textContent = '⏳ در حال بررسی توکن و ثبت Webhook در تلگرام...';
+            try {
+                const resp = await fetch(`${API_BASE}/api/admin/telegram-webhook`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ bot_token: token })
+                });
+                const data = await resp.json();
+                if (data.success) {
+                    msg.style.color = '#155724';
+                    msg.textContent = `✅ وب‌هوک با موفقیت برای ${data.bot_username} فعال شد! (${data.webhook_url})`;
+                    document.getElementById('botTokenInput').value = '';
+                    loadStats();
+                } else {
+                    msg.style.color = '#c62828';
+                    msg.textContent = `❌ ${data.message || 'خطا در اتصال توکن'}`;
+                }
+            } catch (err) {
+                msg.style.color = '#c62828';
+                msg.textContent = '❌ خطا در برقراری ارتباط با سرور ابری';
+            }
+        }
+
+        function logout() {
+            window.authService.logout();
+            window.location.href = 'login.html';
+        }
+
+        loadStats();
+        loadUsers(1);
+    </script>
+</body>
+</html>

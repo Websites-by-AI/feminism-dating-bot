@@ -3,202 +3,679 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌹 Feminism AI Dating Bot - 13 Safety Features</title>
-    <meta name="description" content="The first AI dating bot with 13 feminism-focused safety features based on academic research">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌹</text></svg>">
+    <title>Feminism Dating - The Safest AI Dating Platform</title>
+    <meta name="description" content="The safest dating bot with 13 feminist safety features, MBTI personality test, and advanced AI powered by academic research">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #333; line-height: 1.6; background: #f8f9ff; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.6;
+            direction: ltr;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
         /* Header */
-        header { background: rgba(255,255,255,0.95); padding: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
-        .header-content { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 24px; font-weight: bold; color: #667eea; }
-        nav ul { display: flex; list-style: none; gap: 30px; }
-        nav a { text-decoration: none; color: #333; font-weight: 500; transition: color 0.3s; }
-        nav a:hover { color: #667eea; }
-        
-        /* Hero */
-        .hero { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 100px 0; text-align: center; color: white; }
-        .hero h1 { font-size: 52px; margin-bottom: 20px; font-weight: 800; }
-        .hero p { font-size: 22px; margin-bottom: 40px; max-width: 700px; margin-left: auto; margin-right: auto; opacity: 0.95; }
-        .cta-group { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
-        .cta-button { display: inline-block; background: white; color: #667eea; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 18px; transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .cta-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
-        .cta-button.outline { background: transparent; border: 2px solid white; color: white; }
-        
-        /* Stats */
-        .stats { background: white; padding: 60px 0; }
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; text-align: center; }
-        .stat-number { font-size: 48px; font-weight: 800; color: #667eea; }
-        .stat-label { font-size: 16px; color: #666; margin-top: 5px; }
-        
-        /* Features */
-        .features { background: white; padding: 80px 0; }
-        .section-title { text-align: center; font-size: 40px; margin-bottom: 20px; color: #2d3748; }
-        .section-subtitle { text-align: center; font-size: 18px; color: #666; margin-bottom: 60px; max-width: 600px; margin-left: auto; margin-right: auto; }
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .feature-card { background: #f8f9ff; padding: 35px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: transform 0.3s; border: 1px solid #e2e8f0; }
-        .feature-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(102,126,234,0.15); }
-        .feature-icon { font-size: 48px; margin-bottom: 15px; }
-        .feature-card h3 { color: #667eea; margin-bottom: 10px; font-size: 20px; }
-        .feature-card p { color: #4a5568; }
-        
-        /* Safety */
-        .safety { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 80px 0; color: white; }
-        .safety .section-title { color: white; }
-        .safety .section-subtitle { color: rgba(255,255,255,0.9); }
-        .safety-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .safety-item { background: rgba(255,255,255,0.15); padding: 25px; border-radius: 12px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); transition: transform 0.3s; }
-        .safety-item:hover { transform: translateY(-3px); background: rgba(255,255,255,0.2); }
-        .safety-item h4 { margin-bottom: 8px; font-size: 18px; }
-        .safety-item p { font-size: 14px; opacity: 0.9; }
-        
-        /* Languages */
-        .languages { background: #f8f9ff; padding: 80px 0; text-align: center; }
-        .language-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 40px; }
-        .language-badge { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 12px 24px; border-radius: 50px; font-weight: 500; font-size: 16px; }
-        
-        /* Academic */
-        .academic { background: white; padding: 80px 0; }
-        .academic-list { max-width: 800px; margin: 40px auto 0; }
-        .academic-item { background: #f8f9ff; padding: 25px; margin-bottom: 15px; border-radius: 10px; border-left: 4px solid #667eea; }
-        .academic-item h4 { color: #667eea; margin-bottom: 8px; }
-        .academic-item p { color: #666; font-size: 14px; }
-        
-        /* CTA */
-        .cta-section { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 100px 0; text-align: center; color: white; }
-        .cta-section h2 { font-size: 40px; margin-bottom: 20px; }
-        .cta-section p { font-size: 20px; margin-bottom: 40px; opacity: 0.9; }
-        
+        header {
+            background: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #1a1a1a;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #FF6B6B;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            padding: 100px 0;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="rgba(255,255,255,0.1)"></path></svg>');
+            background-size: cover;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero p {
+            font-size: 22px;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #FF6B6B;
+            padding: 16px 45px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: white;
+            padding: 60px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Features Section */
+        .features {
+            background: #fafafa;
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border: 1px solid #f0f0f0;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(255,107,107,0.15);
+            border-color: #FF6B6B;
+        }
+
+        .feature-icon {
+            font-size: 56px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            background: white;
+            padding: 100px 0;
+        }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .step-card {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0 auto 25px;
+            box-shadow: 0 4px 20px rgba(255,107,107,0.3);
+        }
+
+        .step-card h3 {
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .step-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Safety Section */
+        .safety {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 100px 0;
+            color: white;
+        }
+
+        .safety .section-title {
+            color: white;
+        }
+
+        .safety-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .safety-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .safety-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+        }
+
+        .safety-item h4 {
+            margin-bottom: 12px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .safety-item p {
+            font-size: 15px;
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+
+        /* Languages Section */
+        .languages {
+            background: #fafafa;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .language-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 50px;
+        }
+
+        .language-badge {
+            background: white;
+            color: #1a1a1a;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 500;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s;
+        }
+
+        .language-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            padding: 100px 0;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .cta-section p {
+            font-size: 20px;
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.95;
+        }
+
         /* Footer */
-        footer { background: #1a202c; color: white; padding: 40px 0; text-align: center; }
-        footer a { color: #667eea; text-decoration: none; }
-        footer a:hover { text-decoration: underline; }
-        
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            color: #FF6B6B;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #FF6B6B;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #333;
+            color: #999;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 32px; }
-            .hero p { font-size: 16px; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            nav ul { gap: 15px; }
-            .section-title { font-size: 28px; }
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            nav ul {
+                gap: 20px;
+            }
+
+            .features-grid,
+            .safety-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .stat-number {
+                font-size: 36px;
+            }
         }
-        
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .feature-card, .safety-item { animation: fadeInUp 0.6s ease-out; }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feature-card,
+        .safety-item,
+        .step-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <header>
         <div class="container">
             <div class="header-content">
-                <div class="logo">🌹 Feminism AI Dating</div>
+                <div class="logo">🌹 Feminism Dating</div>
                 <nav>
                     <ul>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#safety">Safety</a></li>
-                        <li><a href="#academic">Research</a></li>
+                        <li><a href="app.html" style="font-weight:800;color:#5B197B;">🤖 AI Web App</a></li>
+                        <li><a href="safety.html">🛡️ 13 Safety Tools</a></li>
+                        <li><a href="#new-modes">🚀 New Modes</a></li>
+                        <li><a href="education.html">🎓 Academy</a></li>
+                        <li><a href="login.html">👤 Login / Dashboard</a></li>
+                        <li><a href="index.html">🇮🇷 FA</a> · <a href="en.html" style="font-weight:800;">🇬🇧 EN</a> · <a href="tr.html">🇹🇷 TR</a></li>
                     </ul>
                 </nav>
             </div>
         </div>
     </header>
 
+    <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>🌹 The Safer Way to Date</h1>
-            <p>The first AI dating bot with 13 feminism-focused safety features, backed by peer-reviewed academic research</p>
-            <div class="cta-group">
-                <a href="https://t.me/femenism_ai_dating_bot" class="cta-button" target="_blank">🚀 Try the Bot</a>
-                <a href="#safety" class="cta-button outline">🛡️ See Safety Features</a>
+            <div class="hero-content">
+                <h1>🌹 The Safest AI Dating Platform</h1>
+                <p>The first dating bot with 13 feminist safety features, MBTI personality test, and advanced AI powered by academic research</p>
+                <div class="cta-buttons">
+                    <a href="app.html" class="cta-button">
+                        🤖 Launch AI Coach & Tests
+                    </a>
+                    <a href="https://t.me/femenism_ai_dating_bot" class="cta-button secondary" target="_blank">
+                        🚀 Telegram Bot
+                    </a>
+                    <a href="safety.html" class="cta-button secondary">
+                        🛡️ Safety & SOS Center
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- Stats Section -->
     <section class="stats">
         <div class="container">
             <div class="stats-grid">
-                <div><div class="stat-number">13</div><div class="stat-label">Safety Features</div></div>
-                <div><div class="stat-number">9</div><div class="stat-label">Languages</div></div>
-                <div><div class="stat-number">6</div><div class="stat-label">Research Papers</div></div>
-                <div><div class="stat-number">🤖</div><div class="stat-label">HuggingFace RAG AI</div></div>
+                <div class="stat-item">
+                    <div class="stat-number">13</div>
+                    <div class="stat-label">Feminist Safety Features</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10</div>
+                    <div class="stat-label">Relationship Modes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">9</div>
+                    <div class="stat-label">Supported Languages</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">RAG AI Assistant</div>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- New Modes: Startup Co-founder & International -->
+    <section id="new-modes" style="padding:70px 0;background:#141414;color:#fff;">
+        <div class="container">
+            <h2 style="text-align:center;font-size:36px;color:#FFC629;margin-bottom:12px;">🆕 Two New Relationship Modes</h2>
+            <p style="text-align:center;color:#ddd;margin-bottom:38px;">Beyond classic dating — find a co-builder for your startup or navigate safe cross-border love</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:26px;">
+                <div style="background:linear-gradient(135deg,#2563EB 0%,#5B197B 100%);padding:34px;border-radius:20px;">
+                    <div style="font-size:46px;margin-bottom:10px;">🚀</div>
+                    <h3 style="font-size:24px;margin-bottom:10px;">Startup Co-founder Partner</h3>
+                    <p style="opacity:0.92;margin-bottom:16px;">Meet a partner or co-founder who shares both your egalitarian life values and entrepreneurial ambition.</p>
+                    <ul style="list-style:none;margin-bottom:22px;line-height:1.9;">
+                        <li>✔ Compatibility quiz: equity, vesting, risk & roles</li>
+                        <li>✔ AI Coach: written founder agreements & conflict resolution</li>
+                        <li>✔ Red-flag shield against unpaid "sweat equity" exploitation</li>
+                    </ul>
+                    <a href="app.html?mode=startup" style="display:inline-block;background:#FFC629;color:#141414;padding:12px 24px;border-radius:999px;font-weight:800;text-decoration:none;">Take Startup Mode Test →</a>
+                </div>
+                <div style="background:linear-gradient(135deg,#00BBBA 0%,#059669 100%);padding:34px;border-radius:20px;">
+                    <div style="font-size:46px;margin-bottom:10px;">🌍</div>
+                    <h3 style="font-size:24px;margin-bottom:10px;">International & Cross-Cultural</h3>
+                    <p style="opacity:0.92;margin-bottom:16px;">Connect across borders with research-backed long-distance communication and relocation safety protocols.</p>
+                    <ul style="list-style:none;margin-bottom:22px;line-height:1.9;">
+                        <li>✔ Readiness quiz: language, culture, distance & legal autonomy</li>
+                        <li>✔ AI Coach: realistic visa/relocation planning & video check-ins</li>
+                        <li>✔ Protection against cross-border romance & financial scams</li>
+                    </ul>
+                    <a href="app.html?mode=abroad" style="display:inline-block;background:#FFC629;color:#141414;padding:12px 24px;border-radius:999px;font-weight:800;text-decoration:none;">Take International Test →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
     <section id="features" class="features">
         <div class="container">
-            <h2 class="section-title">✨ Core Features</h2>
-            <p class="section-subtitle">Everything you need for a safe and meaningful dating experience</p>
+            <h2 class="section-title">✨ Unique Features</h2>
+            <p class="section-subtitle">Advanced dating features with AI and complete safety</p>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">🤖</div>
-                    <h3>AI Dating Assistant</h3>
-                    <p>Get advice on conversations, date ideas, and profile tips powered by HuggingFace RAG</p>
+                    <h3>AI Assistant</h3>
+                    <p>Dating advice powered by advanced HuggingFace RAG AI based on academic research</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>MBTI Personality Test</h3>
+                    <p>Professional personality test with 16 personality types and smart compatibility matching</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">💕</div>
-                    <h3>Smart Matching</h3>
-                    <p>Intelligent matching based on your interests, values, and preferences</p>
+                    <h3>8 Relationship Modes</h3>
+                    <p>Choose your relationship mode: Serious, Casual, Marriage, Emotional, Intellectual, and more with custom compatibility tests</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>13 Safety Features</h3>
-                    <p>The most comprehensive safety system in any dating platform</p>
+                    <div class="feature-icon">🎓</div>
+                    <h3>AI Mode Coaching</h3>
+                    <p>Personalized guidance for each relationship mode - from chatting tips to date location selection</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🌍</div>
-                    <h3>9 Languages</h3>
-                    <p>Full support in Farsi, English, Swedish, German, Turkish, Arabic, French, Spanish, Kurdish</p>
+                    <div class="feature-icon">📅</div>
+                    <h3>Date History</h3>
+                    <p>Track and intelligently analyze your dates with improvement suggestions and behavioral pattern identification</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">📸</div>
-                    <h3>Photo Verification</h3>
-                    <p>Prevent catfishing and scams with AI-powered photo verification</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔐</div>
-                    <h3>Privacy First</h3>
-                    <p>Anonymous mode, location hiding, screenshot protection and more</p>
+                    <h3>Identity Verification</h3>
+                    <p>Advanced photo verification system to prevent fake profiles and scams</p>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">🎯 How It Works?</h2>
+            <p class="section-subtitle">Start your safe and smart dating experience in 4 simple steps</p>
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Create Profile</h3>
+                    <p>Build your profile and complete the MBTI personality test</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Choose Relationship Mode</h3>
+                    <p>Select from 8 different relationship modes your preferred mode</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Compatibility Test</h3>
+                    <p>Complete the custom compatibility test for your selected mode</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Start Dating</h3>
+                    <p>Experience safe and smart dating with AI coaching</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Safety Section -->
     <section id="safety" class="safety">
         <div class="container">
-            <h2 class="section-title">🛡️ 13 Safety Features</h2>
-            <p class="section-subtitle">Based on peer-reviewed research from top universities</p>
+            <h2 class="section-title">🛡️ 13 Feminist Safety Features</h2>
+            <p class="section-subtitle" style="color: rgba(255,255,255,0.9);">Based on academic research for your complete safety</p>
             <div class="safety-grid">
                 <div class="safety-item">
                     <h4>🤝 Secret Friend</h4>
-                    <p>A trusted contact who monitors your safety during dates</p>
+                    <p>A trusted person who is always aware of your status</p>
                 </div>
                 <div class="safety-item">
                     <h4>👥 Mutual Safety Buddy</h4>
-                    <p>Women protect each other with mutual safety activation</p>
+                    <p>Women protect each other</p>
                 </div>
                 <div class="safety-item">
                     <h4>⏰ Auto Check-in</h4>
-                    <p>System checks your status automatically during dates</p>
+                    <p>System automatically checks your status during dates</p>
                 </div>
                 <div class="safety-item">
-                    <h4>🆘 SOS Button</h4>
-                    <p>One-tap emergency alert to all trusted contacts</p>
+                    <h4>🆘 Emergency Button</h4>
+                    <p>Emergency alert with one click</p>
                 </div>
                 <div class="safety-item">
                     <h4>🔐 Safe Word</h4>
-                    <p>Secret word that triggers emergency response</p>
+                    <p>Secret word that means danger</p>
                 </div>
                 <div class="safety-item">
                     <h4>📸 Photo Verification</h4>
-                    <p>Prevent catfishing and body scams</p>
+                    <p>Prevent catfishing and scams</p>
                 </div>
                 <div class="safety-item">
                     <h4>🛡️ Privacy Protection</h4>
-                    <p>Anonymous mode, hide location, blur photos</p>
+                    <p>Anonymous mode, hide location, screenshot protection</p>
                 </div>
                 <div class="safety-item">
                     <h4>💬 Consent Education</h4>
@@ -206,32 +683,33 @@
                 </div>
                 <div class="safety-item">
                     <h4>🚫 Block & Report</h4>
-                    <p>Instant reporting of harassment and abuse</p>
+                    <p>Immediate reporting of inappropriate behavior</p>
                 </div>
                 <div class="safety-item">
                     <h4>⚠️ Sextortion Protection</h4>
-                    <p>Awareness and protection against body scams</p>
+                    <p>Awareness of body scams</p>
                 </div>
                 <div class="safety-item">
-                    <h4>📍 Date Safety Planning</h4>
-                    <p>Plan safe dates with shared location tracking</p>
+                    <h4>📍 Safe Date Planning</h4>
+                    <p>Complete planning before every date</p>
                 </div>
                 <div class="safety-item">
-                    <h4>🏃 Emergency Exit</h4>
-                    <p>Pre-planned exit strategies for every date</p>
+                    <h4>🏃 Emergency Exit Strategy</h4>
+                    <p>Pre-planned exit strategy</p>
                 </div>
                 <div class="safety-item">
                     <h4>🏆 Safety Score</h4>
-                    <p>Community-based safety scoring system</p>
+                    <p>Scoring system for safe behavior</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="languages">
+    <!-- Languages Section -->
+    <section id="languages" class="languages">
         <div class="container">
-            <h2 class="section-title">🌐 9 Languages Supported</h2>
-            <p class="section-subtitle">Auto-detected from your location or manually selected</p>
+            <h2 class="section-title">🌐 9 Supported Languages</h2>
+            <p class="section-subtitle">The bot automatically detects your language</p>
             <div class="language-grid">
                 <span class="language-badge">🇮🇷 Farsi</span>
                 <span class="language-badge">🇬🇧 English</span>
@@ -246,57 +724,46 @@
         </div>
     </section>
 
-    <section id="academic" class="academic">
-        <div class="container">
-            <h2 class="section-title">📚 Backed by Academic Research</h2>
-            <p class="section-subtitle">Every safety feature is based on peer-reviewed studies</p>
-            <div class="academic-list">
-                <div class="academic-item">
-                    <h4>Gillett (2023) — Feminist Media Studies</h4>
-                    <p>"This is not a nice safe space": investigating women's safety work on Tinder</p>
-                </div>
-                <div class="academic-item">
-                    <h4>Doria (2023) — Dalhousie University PhD Thesis</h4>
-                    <p>A New Platform for Sexualized Violence: A Feminist Analysis of Women's Dating App Experiences</p>
-                </div>
-                <div class="academic-item">
-                    <h4>Amirkhani et al. (2024) — ACM CSCW</h4>
-                    <p>Beyond Dollars: Unveiling the Deeper Layers of Online Romance Scams Introducing "Body Scam"</p>
-                </div>
-                <div class="academic-item">
-                    <h4>Thompson (2018) — Feminist Media Studies</h4>
-                    <p>The "Missing Discourse of Consent" on Dating Apps</p>
-                </div>
-                <div class="academic-item">
-                    <h4>Bicharanlou & Siasirad (2017)</h4>
-                    <p>Online Privacy Literacy for Young Iranian Female Instagram Users</p>
-                </div>
-                <div class="academic-item">
-                    <h4>Amirkhani et al. (2025) — ACM HCI</h4>
-                    <p>"Society Encourages the Killing of Girls Like Me": Layers of Victimization in Online Dating in Iran</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    <!-- CTA Section -->
     <section class="cta-section">
         <div class="container">
-            <h2>Start Dating Safely Today</h2>
-            <p>Join thousands of women using the safest AI dating platform</p>
-            <a href="https://t.me/femenism_ai_dating_bot" class="cta-button" target="_blank">🚀 Open Bot on Telegram</a>
+            <h2>Start Now!</h2>
+            <p>Join thousands of users who use the safest and smartest dating platform</p>
+            <a href="https://t.me/femenism_ai_dating_bot" class="cta-button" target="_blank">
+                🚀 Open Bot on Telegram
+            </a>
         </div>
     </section>
 
+    <!-- Footer -->
     <footer>
         <div class="container">
-            <p>🌹 Feminism AI Dating Bot — Made with ❤️ for women's safety</p>
-            <p style="margin-top: 20px;">
-                <a href="https://t.me/femenism_ai_dating_bot">Telegram Bot</a> | 
-                <a href="https://t.me/+jUAfCVzrrDgxMzdh">News Channel (Farsi)</a>
-            </p>
-            <p style="margin-top: 20px; font-size: 14px; color: #666;">
-                © 2024 Feminism AI Dating. All rights reserved.
-            </p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>🌹 Feminism Dating</h3>
+                    <p style="color: #ccc; line-height: 1.8;">The safest and smartest dating platform with advanced AI</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Useful Links</h3>
+                    <ul>
+                        <li><a href="https://t.me/femenism_ai_dating_bot">Telegram Bot</a></li>
+                        <li><a href="https://t.me/+jUAfCVzrrDgxMzdh">News Channel</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#safety">Safety</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><a href="https://github.com/Websites-by-AI/feminism-dating-bot">GitHub</a></li>
+                        <li><a href="mailto:support@feminism-dating.com">Support Email</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Feminism Dating. All rights reserved.</p>
+                <p style="margin-top: 10px; font-size: 14px;">Made with ❤️ for women's safety</p>
+            </div>
         </div>
     </footer>
 </body>

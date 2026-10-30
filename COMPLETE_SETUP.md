@@ -46,7 +46,7 @@
 
 ```env
 # Telegram Bot Token
-BOT_TOKEN=8944962741:AAHJXca_OjSCdciyfW4bfNsQUn_iHmsxKeo
+BOT_TOKEN=<YOUR_TELEGRAM_BOT_TOKEN>
 
 # HuggingFace API Key (اصلی)
 HUGGINGFACE_API_KEY=hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxx

@@ -14,7 +14,7 @@
 
 ### ✅ Telegram Bot Token
 ```
-8944962741:AAHJXca_OjSCdciyfW4bfNsQUn_iHmsxKeo
+<YOUR_TELEGRAM_BOT_TOKEN>
 ```
 Status: ✅ Working (connected)
 

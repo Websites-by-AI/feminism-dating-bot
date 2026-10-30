@@ -1,7 +1,6 @@
 """Database models and setup for the dating bot"""
-from sqlalchemy import create_engine, Column, Integer, String, Boolean, Float, Text, DateTime, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy import create_engine, Column, Integer, BigInteger, String, Boolean, Float, Text, DateTime, ForeignKey
+from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 from datetime import datetime
 from config import DATABASE_URL
 
@@ -14,7 +13,7 @@ class User(Base):
     __tablename__ = 'users'
     
     id = Column(Integer, primary_key=True)
-    telegram_id = Column(Integer, unique=True, nullable=False, index=True)
+    telegram_id = Column(BigInteger, unique=True, nullable=False, index=True)
     username = Column(String(255), nullable=True)
     first_name = Column(String(255), nullable=True)
     language = Column(String(5), default='fa')
@@ -123,7 +122,7 @@ class SafetySettings(Base):
     
     # Secret Friend / Trusted Contact System
     # Based on: women need someone to know their location (Gillett 2023)
-    secret_friend_telegram_id = Column(Integer, nullable=True)  # Trusted contact
+    secret_friend_telegram_id = Column(BigInteger, nullable=True)  # Trusted contact
     secret_friend_name = Column(String(255), nullable=True)
     secret_friend_active = Column(Boolean, default=False)
     share_location_with_friend = Column(Boolean, default=False)
