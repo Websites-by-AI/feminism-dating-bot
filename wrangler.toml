@@ -1,3 +1,10 @@
 name = "feminism-dating-bot"
 compatibility_date = "2026-10-30"
 pages_build_output_dir = "cloudflare-site"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "505433931b70401a85f9e438d880c1ff"
+
+[ai]
+binding = "AI"
