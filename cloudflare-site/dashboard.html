@@ -313,8 +313,8 @@
             try {
                 const uid = current.id || current.telegram_id || current.username;
                 const [profResp, relResp] = await Promise.all([
-                    fetch(`${API_BASE}/api/user/${encodeURIComponent(uid)}`),
-                    fetch(`${API_BASE}/api/user/${encodeURIComponent(uid)}/relationship`)
+                    window.feminismApiFetch(`/api/user/${encodeURIComponent(uid)}`),
+                    window.feminismApiFetch(`/api/user/${encodeURIComponent(uid)}/relationship`)
                 ]);
                 if (profResp.ok) {
                     const prof = await profResp.json();

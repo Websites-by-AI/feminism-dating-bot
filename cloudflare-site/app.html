@@ -336,7 +336,7 @@
             box.scrollTop = box.scrollHeight;
 
             try {
-                const resp = await fetch(`${API_BASE}/api/ai/chat`, {
+                const resp = await window.feminismApiFetch(`/api/ai/chat`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -406,7 +406,7 @@
 
             const user = window.authService.getCurrentUser();
             try {
-                const resp = await fetch(`${API_BASE}/api/tests/submit`, {
+                const resp = await window.feminismApiFetch(`/api/tests/submit`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -459,7 +459,7 @@
 
             const user = window.authService.getCurrentUser();
             try {
-                const resp = await fetch(`${API_BASE}/api/tests/submit`, {
+                const resp = await window.feminismApiFetch(`/api/tests/submit`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -492,7 +492,7 @@
             const grid = document.getElementById('profilesGrid');
             grid.innerHTML = '<p>در حال بارگذاری پروفایل‌های تاییدشده...</p>';
             try {
-                const resp = await fetch(`${API_BASE}/api/profiles?mode=${encodeURIComponent(mode)}`);
+                const resp = await window.feminismApiFetch(`/api/profiles?mode=${encodeURIComponent(mode)}`);
                 const data = await resp.json();
                 const profiles = data.profiles || [];
                 grid.innerHTML = profiles.map(p => `
@@ -528,7 +528,7 @@
 
         async function likeProfile(btn, name) {
             btn.disabled = true;
-            const resp = await fetch(`${API_BASE}/api/swipe`, {
+            const resp = await window.feminismApiFetch(`/api/swipe`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ is_like: true })

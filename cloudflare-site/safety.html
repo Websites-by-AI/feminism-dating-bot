@@ -242,7 +242,7 @@
 
         async function loadSafety() {
             try {
-                const resp = await fetch(`${API_BASE}/api/safety/${encodeURIComponent(userId)}`);
+                const resp = await window.feminismApiFetch(`/api/safety/${encodeURIComponent(userId)}`);
                 if (resp.ok) {
                     safetyState = await resp.json();
                     applySafetyToUI();
@@ -273,7 +273,7 @@
         async function savePatch(patch, toastMsg) {
             safetyState = { ...safetyState, ...patch };
             try {
-                await fetch(`${API_BASE}/api/safety/${encodeURIComponent(userId)}`, {
+                await window.feminismApiFetch(`/api/safety/${encodeURIComponent(userId)}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(patch)
@@ -314,7 +314,7 @@
         async function triggerSOS() {
             document.getElementById('sosStatusText').textContent = '🆘 هشدار اضطراری فعال شد! اعلان برای مخاطب مورد اعتماد ثبت گردید.';
             try {
-                await fetch(`${API_BASE}/api/safety/sos`, {
+                await window.feminismApiFetch(`/api/safety/sos`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: userId, message: 'Web SOS Button Triggered' })
@@ -326,7 +326,7 @@
         async function resolveSOS() {
             document.getElementById('sosStatusText').textContent = '✅ وضعیت امن تایید شد و هشدار SOS بسته شد.';
             try {
-                await fetch(`${API_BASE}/api/safety/sos`, {
+                await window.feminismApiFetch(`/api/safety/sos`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: userId, action: 'resolve' })

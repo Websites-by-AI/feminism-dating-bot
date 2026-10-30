@@ -1,7 +1,46 @@
-// Unified Authentication, API & Theme System
-// سیستم یکپارچه احراز هویت و اتصال به سرور ابری Cloudflare
+// Unified Authentication, Safe Storage & Multi-Edge API System
+// سیستم یکپارچه احراز هویت با پشتیبانی از دامنه اختصاصی ضد فیلتر + پشتیبان ابری
 
-window.FEMINISM_API_BASE = "https://feminism-dating-api.elasa2next.workers.dev";
+(function () {
+    const memStore = {};
+    window.safeStorage = {
+        getItem(k) {
+            try { return localStorage.getItem(k); } catch (e) { return Object.prototype.hasOwnProperty.call(memStore, k) ? memStore[k] : null; }
+        },
+        setItem(k, v) {
+            memStore[k] = String(v);
+            try { localStorage.setItem(k, String(v)); } catch (e) {}
+        },
+        removeItem(k) {
+            delete memStore[k];
+            try { localStorage.removeItem(k); } catch (e) {}
+        }
+    };
+
+    const host = (typeof window !== 'undefined' && window.location && window.location.hostname) || '';
+    const isPagesOrCustom = host === 'dating.atikova.org' || host.endsWith('.pages.dev');
+    // Same-origin first on Cloudflare Pages / dating.atikova.org (never blocked by workers.dev filters!)
+    window.FEMINISM_API_BASE = isPagesOrCustom ? '' : 'https://dating.atikova.org';
+    window.FEMINISM_API_ENDPOINTS = isPagesOrCustom
+        ? ['', 'https://dating.atikova.org', 'https://feminism-dating-api.elasa2next.workers.dev']
+        : ['https://dating.atikova.org', 'https://feminism-dating-api.elasa2next.workers.dev'];
+
+    window.feminismApiFetch = async function (path, options) {
+        let lastErr = null;
+        for (const base of window.FEMINISM_API_ENDPOINTS) {
+            try {
+                const resp = await fetch(base + path, options);
+                if (resp.ok || resp.status === 400 || resp.status === 401 || resp.status === 409) {
+                    return resp;
+                }
+            } catch (e) {
+                lastErr = e;
+            }
+        }
+        if (lastErr) throw lastErr;
+        return fetch(window.FEMINISM_API_BASE + path, options);
+    };
+})();
 
 class AuthService {
     constructor() {
@@ -29,7 +68,7 @@ class AuthService {
 
     loadUsers() {
         try {
-            const raw = localStorage.getItem('feminism_dating_users');
+            const raw = window.safeStorage.getItem('feminism_dating_users');
             if (raw) return JSON.parse(raw);
         } catch (e) {}
 
@@ -88,17 +127,17 @@ class AuthService {
                 createdAt: new Date().toISOString()
             }
         ];
-        localStorage.setItem('feminism_dating_users', JSON.stringify(demoUsers));
+        window.safeStorage.setItem('feminism_dating_users', JSON.stringify(demoUsers));
         return demoUsers;
     }
 
     saveUsers() {
-        localStorage.setItem('feminism_dating_users', JSON.stringify(this.users));
+        window.safeStorage.setItem('feminism_dating_users', JSON.stringify(this.users));
     }
 
     loadCurrentUser() {
         try {
-            const raw = localStorage.getItem('feminism_dating_current_user') || localStorage.getItem('user');
+            const raw = window.safeStorage.getItem('feminism_dating_current_user') || window.safeStorage.getItem('user');
             if (!raw) return null;
             return this.normalizeUser(JSON.parse(raw));
         } catch (e) {
@@ -110,12 +149,12 @@ class AuthService {
         if (user) {
             const norm = this.normalizeUser(user);
             const str = JSON.stringify(norm);
-            localStorage.setItem('feminism_dating_current_user', str);
-            localStorage.setItem('user', str);
+            window.safeStorage.setItem('feminism_dating_current_user', str);
+            window.safeStorage.setItem('user', str);
             this.currentUser = norm;
         } else {
-            localStorage.removeItem('feminism_dating_current_user');
-            localStorage.removeItem('user');
+            window.safeStorage.removeItem('feminism_dating_current_user');
+            window.safeStorage.removeItem('user');
             this.currentUser = null;
         }
     }
@@ -151,7 +190,7 @@ class AuthService {
 
     async registerAsync(userData) {
         try {
-            const resp = await fetch(`${this.apiBase}/api/auth/register`, {
+            const resp = await window.feminismApiFetch('/api/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userData)
@@ -191,7 +230,7 @@ class AuthService {
 
     async loginAsync(username, password) {
         try {
-            const resp = await fetch(`${this.apiBase}/api/auth/login`, {
+            const resp = await window.feminismApiFetch('/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
@@ -229,7 +268,7 @@ class AuthService {
 
     async updateProfileAsync(userId, updates) {
         try {
-            const resp = await fetch(`${this.apiBase}/api/user/${encodeURIComponent(userId)}`, {
+            const resp = await window.feminismApiFetch(`/api/user/${encodeURIComponent(userId)}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updates)
@@ -268,7 +307,7 @@ class DatabaseService {
     }
 
     initDatabase() {
-        if (!localStorage.getItem('feminism_dating_initialized')) {
+        if (!window.safeStorage.getItem('feminism_dating_initialized')) {
             const stats = {
                 totalUsers: 7,
                 activeUsers: 7,
@@ -277,21 +316,21 @@ class DatabaseService {
                 todayLogins: 4,
                 avgRating: 4.9
             };
-            localStorage.setItem('feminism_dating_stats', JSON.stringify(stats));
+            window.safeStorage.setItem('feminism_dating_stats', JSON.stringify(stats));
 
             const activities = [
                 { id: 1, user: 'سارا احمدی', action: 'ورود به سیستم و فعال‌سازی دوست مخفی', time: '۵ دقیقه پیش', type: 'login' },
                 { id: 2, user: 'مریم کریمی', action: 'تکمیل تست شریک استارتاپی (۹۵٪)', time: '۱۵ دقیقه پیش', type: 'profile' },
                 { id: 3, user: 'Elif Yılmaz', action: 'تنظیم حالت آشنایی بین‌المللی', time: '۳۰ دقیقه پیش', type: 'match' }
             ];
-            localStorage.setItem('feminism_dating_activities', JSON.stringify(activities));
-            localStorage.setItem('feminism_dating_initialized', 'true');
+            window.safeStorage.setItem('feminism_dating_activities', JSON.stringify(activities));
+            window.safeStorage.setItem('feminism_dating_initialized', 'true');
         }
     }
 
     getStatistics() {
         try {
-            return JSON.parse(localStorage.getItem('feminism_dating_stats') || 'null');
+            return JSON.parse(window.safeStorage.getItem('feminism_dating_stats') || 'null');
         } catch (e) {
             return null;
         }
@@ -299,7 +338,7 @@ class DatabaseService {
 
     getActivities() {
         try {
-            return JSON.parse(localStorage.getItem('feminism_dating_activities') || '[]');
+            return JSON.parse(window.safeStorage.getItem('feminism_dating_activities') || '[]');
         } catch (e) {
             return [];
         }
@@ -309,7 +348,7 @@ class DatabaseService {
         const activities = this.getActivities();
         activity.id = activities.length + 1;
         activities.unshift(activity);
-        localStorage.setItem('feminism_dating_activities', JSON.stringify(activities.slice(0, 30)));
+        window.safeStorage.setItem('feminism_dating_activities', JSON.stringify(activities.slice(0, 30)));
     }
 }
 
@@ -319,13 +358,13 @@ class ThemeManager {
     }
 
     initTheme() {
-        const theme = localStorage.getItem('theme') || 'light';
+        const theme = window.safeStorage.getItem('theme') || 'light';
         this.setTheme(theme);
     }
 
     setTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
+        window.safeStorage.setItem('theme', theme);
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
             themeToggle.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';

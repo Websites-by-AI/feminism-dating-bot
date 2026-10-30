@@ -806,6 +806,11 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname.replace(/\/+$/, "") || "/";
 
+    // When deployed inside Cloudflare Pages (_worker.js), serve static assets directly
+    if (env.ASSETS && !path.startsWith("/api/") && !path.startsWith("/webhook/")) {
+      return env.ASSETS.fetch(request);
+    }
+
     try {
       const users = await ensureSeedData(env);
 
@@ -1209,6 +1214,17 @@ export default {
         });
       }
 
+      if (path === "/api/telegram/status" && request.method === "GET") {
+        const botConf = (await env.KV.get("db:telegram_bot", "json")) || {};
+        return jsonResponse({
+          connected: Boolean(env.BOT_TOKEN || botConf.token),
+          username: botConf.username || "@femenism_ai_dating_bot",
+          first_name: botConf.first_name || "Feminism AI Dating Bot",
+          webhook_url: botConf.webhook_url || `${url.origin}/webhook/telegram`,
+          updated_at: botConf.updated_at || null,
+        });
+      }
+
       if (path === "/api/admin/telegram-webhook" && request.method === "POST") {
         const body = await request.json();
         const botToken = (body.bot_token || "").trim();
@@ -1219,8 +1235,15 @@ export default {
         const meResp = await fetch(`https://api.telegram.org/bot${botToken}/getMe`);
         const meData = await meResp.json();
         if (!meData.ok) {
+          const isRevoked = meResp.status === 401;
           return jsonResponse(
-            { success: false, message: `توکن تلگرام توسط تلگرام رد شد: ${meData.description || "Unauthorized"}` },
+            {
+              success: false,
+              error_code: meData.error_code || meResp.status,
+              message: isRevoked
+                ? "این توکن توسط تلگرام باطل شده است (401 Unauthorized). در @BotFather دستور /token را بزنید، @femenism_ai_dating_bot را انتخاب کنید و توکن جدید را وارد نمایید."
+                : `توکن تلگرام توسط تلگرام رد شد: ${meData.description || "Unauthorized"}`,
+            },
             400
           );
         }
@@ -1232,6 +1255,20 @@ export default {
           body: JSON.stringify({ url: webhookUrl, drop_pending_updates: true }),
         });
         const whData = await whResp.json();
+
+        // Register native Telegram command menu
+        await fetch(`https://api.telegram.org/bot${botToken}/setMyCommands`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            commands: [
+              { command: "start", description: "شروع و منوی اصلی / Start" },
+              { command: "safety", description: "۱۳ ابزار ایمنی و SOS / 13 Safety Tools" },
+              { command: "menu", description: "منوی اصلی / Main Menu" },
+              { command: "help", description: "راهنما و مشاور هوش مصنوعی / AI Help" },
+            ],
+          }),
+        }).catch(() => {});
 
         const botInfo = {
           token: botToken,

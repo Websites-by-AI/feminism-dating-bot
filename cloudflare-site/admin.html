@@ -237,7 +237,7 @@
 
         async function loadStats() {
             try {
-                const resp = await fetch(`${API_BASE}/api/admin/stats`);
+                const resp = await window.feminismApiFetch(`/api/admin/stats`);
                 const data = await resp.json();
                 document.getElementById('totalUsers').textContent = data.total_users ?? 0;
                 document.getElementById('activeUsers').textContent = data.active_users ?? 0;
@@ -288,7 +288,7 @@
         async function loadUsers(page = 1) {
             try {
                 const q = document.getElementById('searchInput').value.trim();
-                const resp = await fetch(`${API_BASE}/api/admin/users?page=${page}&per_page=20&search=${encodeURIComponent(q)}`);
+                const resp = await window.feminismApiFetch(`/api/admin/users?page=${page}&per_page=20&search=${encodeURIComponent(q)}`);
                 const data = await resp.json();
                 currentPage = data.page || 1;
                 totalPages = data.total_pages || 1;
@@ -340,7 +340,7 @@
             }
             msg.textContent = '⏳ در حال بررسی توکن و ثبت Webhook در تلگرام...';
             try {
-                const resp = await fetch(`${API_BASE}/api/admin/telegram-webhook`, {
+                const resp = await window.feminismApiFetch(`/api/admin/telegram-webhook`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ bot_token: token })

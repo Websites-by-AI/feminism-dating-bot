@@ -146,7 +146,7 @@
             document.getElementById('u-avatar').textContent = name.charAt(0) || 'ک';
         }
 
-        fetch(`${window.FEMINISM_API_BASE}/api/admin/stats`)
+        window.feminismApiFetch('/api/admin/stats')
             .then(r => r.json())
             .then(d => {
                 if (d.total_matches !== undefined) document.getElementById('st-matches').textContent = d.total_matches;

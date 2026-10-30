@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فعال‌سازی ۱-کلیکی ربات تلگرام @femenism_ai_dating_bot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #141414 0%, #5B197B 100%);
+            min-height: 100vh; padding: 24px; color: #1f1f1f; direction: rtl; line-height: 1.7;
+        }
+        .card {
+            max-width: 820px; margin: 20px auto; background: #fff; border-radius: 22px;
+            padding: 34px; box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+        .badge-warn {
+            background: #fee2e2; color: #991b1b; padding: 14px 18px; border-radius: 14px;
+            border-right: 5px solid #dc2626; margin: 18px 0; font-size: 14.5px;
+        }
+        .badge-ok {
+            background: #dcfce7; color: #166534; padding: 14px 18px; border-radius: 14px;
+            border-right: 5px solid #16a34a; margin: 18px 0; font-size: 14.5px; display: none;
+        }
+        .steps {
+            background: #f8f6fc; border-radius: 16px; padding: 20px 24px; margin: 18px 0;
+        }
+        .steps li { margin-bottom: 10px; font-weight: 600; }
+        code {
+            background: #ede9fe; color: #5B197B; padding: 2px 8px; border-radius: 6px;
+            direction: ltr; display: inline-block; font-family: monospace; font-weight: 800;
+        }
+        .input-row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+        .input-row input {
+            flex: 1; min-width: 260px; padding: 14px 16px; border: 2px solid #d8b4fe;
+            border-radius: 12px; font-size: 15px; direction: ltr; font-family: monospace;
+        }
+        .btn {
+            background: #5B197B; color: #fff; border: none; padding: 14px 26px;
+            border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; font-family: inherit;
+        }
+        .btn:hover { background: #46125f; }
+        .top-links {
+            max-width: 820px; margin: 0 auto 12px; display: flex; justify-content: space-between;
+            flex-wrap: wrap; gap: 12px;
+        }
+        .top-links a { color: #FFC629; text-decoration: none; font-weight: 700; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="top-links">
+        <a href="index.html"><i class="fas fa-arrow-right"></i> بازگشت به صفحه اصلی</a>
+        <a href="app.html"><i class="fas fa-robot"></i> استفاده از ربات وب (بدون نیاز به تلگرام)</a>
+    </div>
+
+    <div class="card">
+        <h1 style="color:#5B197B;font-size:24px;">🤖 عیب‌یابی و اتصال ۱-کلیکی ربات تلگرام (<code>@femenism_ai_dating_bot</code>)</h1>
+        <p style="color:#555;margin-top:6px;">اتصال مستقیم ۲۴ ساعته به سرور ابری Cloudflare Workers + هوش مصنوعی RAG (بدون نیاز به سرور مجازی)</p>
+
+        <div class="badge-warn" id="diagBox">
+            <strong>⚠️ چرا توکن قبلی (<code>8944962741:AAHJXca_OjSCdciyfW4bfNsQUn_iHmsxKeo</code>) کار نمی‌کند؟</strong><br>
+            آن توکن در سپتامبر داخل فایل‌های متنی گیت‌هاب عمومی قرار گرفته بود. به محض انتشار توکن در GitHub، سیستم امنیتی تلگرام و گیت‌هاب به صورت خودکار آن کلید را <strong>باطل (Revoke - 401 Unauthorized)</strong> کرده‌اند؛ بنابراین تلگرام دیگر به آن کلید قدیمی اجازه اتصال نمی‌دهد.<br>
+            <strong>Why <code>8944962741:AAHJXca...</code> returns <code>401 Unauthorized</code>:</strong> It was previously committed to public GitHub, causing Telegram to automatically revoke that key while keeping <code>@femenism_ai_dating_bot</code> alive.
+        </div>
+
+        <div class="badge-ok" id="connectedBox"></div>
+
+        <div class="steps">
+            <h3 style="color:#5B197B;margin-bottom:10px;">✅ راه‌حل ۳۰ ثانیه‌ای (دریافت کلید جدید برای همان ربات):</h3>
+            <ol style="padding-right:20px;">
+                <li>وارد ربات رسمی <a href="https://t.me/BotFather" target="_blank"><code>@BotFather</code></a> در تلگرام شوید.</li>
+                <li>دستور <code>/mybots</code> (یا <code>/token</code>) را بفرستید و روی <code>@femenism_ai_dating_bot</code> بزنید.</li>
+                <li>روی دکمه <strong>API Token</strong> و سپس <strong>Revoke current token</strong> بزنید تا تلگرام یک توکن تازه به شما بدهد.</li>
+                <li>توکن جدید را در کادر زیر کپی کنید و دکمه <strong>«اتصال فوری ربات»</strong> را بزنید!</li>
+            </ol>
+            <p style="font-size:13px;color:#555;margin-top:8px;">
+                💡 <strong>En:</strong> Open <a href="https://t.me/BotFather" target="_blank">@BotFather</a> → send <code>/mybots</code> → select <code>@femenism_ai_dating_bot</code> → <strong>API Token</strong> → <strong>Revoke current token</strong> → paste the new token below!
+            </p>
+        </div>
+
+        <form onsubmit="activateBot(event)">
+            <label style="font-weight:800;">🔑 توکن جدید @BotFather را اینجا وارد کنید:</label>
+            <div class="input-row">
+                <input type="text" id="tokenInput" placeholder="8944962741:AA..." required>
+                <button type="submit" class="btn" id="connectBtn"><i class="fas fa-bolt"></i> اتصال فوری ربات (Webhook)</button>
+            </div>
+        </form>
+
+        <div id="resultMsg" style="margin-top:16px;font-weight:700;"></div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        async function checkStatus() {
+            try {
+                const resp = await window.feminismApiFetch('/api/telegram/status');
+                const data = await resp.json();
+                if (data && data.connected) {
+                    const box = document.getElementById('connectedBox');
+                    box.style.display = 'block';
+                    box.innerHTML = `✅ ربات <strong>${data.username}</strong> هم‌اکنون به وبهوک ابری متصل و فعال است! (${data.webhook_url})`;
+                }
+            } catch (e) {}
+        }
+
+        async function activateBot(e) {
+            e.preventDefault();
+            const token = document.getElementById('tokenInput').value.trim();
+            const btn = document.getElementById('connectBtn');
+            const out = document.getElementById('resultMsg');
+            btn.disabled = true;
+            btn.textContent = '⏳ در حال بررسی در تلگرام و ثبت Webhook...';
+            out.textContent = '';
+
+            try {
+                const resp = await window.feminismApiFetch('/api/admin/telegram-webhook', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ bot_token: token })
+                });
+                const data = await resp.json();
+                if (data && data.success) {
+                    out.style.color = '#15803d';
+                    out.innerHTML = `🎉 تبریک! ربات <strong>${data.bot_username}</strong> با موفقیت فعال شد! هم‌اکنون در تلگرام پیام <code>/start</code> را برای ربات بفرستید.`;
+                    checkStatus();
+                } else {
+                    out.style.color = '#dc2626';
+                    out.textContent = '❌ ' + (data.message || 'توکن توسط تلگرام تایید نشد.');
+                }
+            } catch (err) {
+                out.style.color = '#dc2626';
+                out.textContent = '❌ خطا در ارتباط با سرور. لطفاً دوباره تلاش کنید.';
+            }
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-bolt"></i> اتصال فوری ربات (Webhook)';
+        }
+
+        checkStatus();
+    </script>
+</body>
+</html>
